@@ -1,51 +1,95 @@
+## SISÄLLYSLUETTELO
+Taustatietoa
+Hakemistot
+Asennusohjeet
+Todo
+Ongelmat
 
-# TAUSTATIETOA
+## TAUSTATIETOA
 
 ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia's web programming (Web-ohjelmointi) course (autumn 2022).
 
 Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Mailtrap](https://mailtrap.io)-palvelua (SMTP) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
 
-# HAKEMISTOT
-Omat moduulit:
+## HAKEMISTOT
+Omatmoduulit: Itsetehdyt moduulit
 Kirjastot: Valmiskirjastot (PHPMailer.php ja SMTP.php ja Exception.php)
 
-# ASENNUSOHJEET
+
+## ASENNUSOHJEET
 Varmista että [XAMPP](https://www.apachefriends.org/) on asennettu ja repositorio on kloonattu XAMPP:N htdocs-kansioon.
 
 Luo repositorion kloonauksen jälkeen seuraavat tiedostot kansioon Omat moduulit: Tietokantayhteys.php ja Sähköpostiyhteys.php
 
-## Sähköpostipalvelun asetus
+### Poisjääneet tiedostot
+Luo credentials.php projektin juuren ulkopuolelle seuraavalla sisällöllä.
 
-### Gmail API
+    $hostdomain='emailserverdomaintähän';
+    $hostusername='emailserverkäyttäjätähän';
+    $hostpassword='emailserversalasanatähän';
+    $databaseusername='tietokantakäyttäjänimitähän';
+    $databasepassword='tietokantasalasanannimitähän';
+
+### Sähköpostipalvelun asetus
+
+#### Gmail API
 
 
 
-### SMTP, sähköpostiviestit ilman 2-vaiheista tunnistautumista
+#### SMTP, sähköpostiviestit ilman 2-vaiheista tunnistautumista
 [Sähköpostin asetusohjeet SMTP:llä 1](https://netcorecloud.com/tutorials/send-an-email-via-gmail-smtp-server-using-php/)
 [Sähköpostin asetusohjeet SMTP:llä 2](https://phppot.com/php/send-email-in-php-using-gmail-smtp/)
 
 HUOM: Muista asettaa 2 vaiheinen tunnistautuminen ja less secure apps
 takaisin päälle jos ratkaisu löytyy Gmail API:lle.
 
-### Sendgrid
+#### Sendgrid (SMTP)
 
-### Mailtrap (SMTP)
+Luo [SendGrid-tili](https://app.sendgrid.com) ja luo tarvittavat tunnukset: Integrate->SMTP Relay
+
+#### Sendgrid (Email API)
+
+Luo [SendGrid-tili](https://app.sendgrid.com) ja luo tarvittavat tunnukset: Integrate->Email API
+
+[Varmista että sendgrid-php:n zip-versio on purettu Kirjastot-kansioon](https://github.com/sendgridsendgrid-php#alternative-install-package-from-zip)
+[SendGrid-kirjaston käyttöohjeet](https://github.com/sendgrid/sendgrid-php#hello-email)
+
+#### Mailtrap (SMTP)
 
 Sandbox->Inboxes->SMTP settings
 
 
-## Tietokantayhteys.php
+### Tietokantayhteys.php
+Käytä credentials.php:n tunnuksia
+### Lähetäsähköposti.php
+Käytä credentials.php:n tunnuksia
 
-## Lähetäsähköposti.php
-
-
-# TODO
+## TODO
 -navigointipalkin modularisointi, indikointi jokaisella sivulla missä päin verkkosivustoa ollaan (breadcrumbs?) (ks. $SERVER['SCRIPT_FILENAME'])
 -TEHTÄVÄNANTO 22.09.2022: sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
+-TEHTÄVÄNANTO 23.09.2022: Kokeile sähköpostin lähetystä myös SendGridilla. Luo kehityshaara projektille. 
+    
 
 
+## ONGELMAT
+Gmail API: 
+Google Cloud->APIs and Services->Credentials->Create Oauth Client Id-> Ei huoli localhostia: Invalid Redirect: must contain a domain. 
 
-# ONGELMAT
-Gmail API: Google Cloud->APIs and Services->Credentials->Create Oauth Client Id-> Ei huoli localhostia: Invalid Redirect: must contain a domain. 
+Gmail SMTP: 
+    Less Secure Apps-vaihtoehto poistettu käytöstä? https://myaccount.google.com/lesssecureapp https://support.google.com/accounts/answer/6010255
 
-Gmail SMTP: Less Secure Apps-vaihtoehto poistettu käytöstä? https://myaccount.google.com/lesssecureapp https://support.google.com/accounts/answer/6010255
+Sendgrid SMTP Relay:
+Seuraava virhe PHPMailer-kirjastolla, [SendGrid-kirjasto](https://docs.sendgrid.com/for-developers/sending-email/quickstart-php) pakollinen? Täysien oikeuksien kytkeminen päälle ei auttanut:
+
+    SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+    2022-09-23 21:59:14 SMTP ERROR: Failed to connect to server: Yhteyden muodostamisyritys epäonnistui, koska vastapuoli ei vastannut oikein määritetyn ajan kuluessa, tai aiemmin muodostettu yhteys epäonnistui, koska palvelin, johon yritettiin muodostaa yhteys, ei vastannut (10060)
+
+Seuraava virhe [SendGrid](https://github.com/sendgrid/sendgrid-php)-kirjastolla kun käytetään SMTP Relayn tunnuksia:
+
+    403 Array ( [0] => HTTP/1.1 403 Forbidden [1] => Server: nginx [2] => Date: Fri, 23 Sep 2022 23:32:45 GMT [3] => Content-Type: application/json [4] => Content-Length: 281 [5] => Connection: keep-alive [6] => Access-Control-Allow-Origin: https://sendgrid.api-docs.io [7] => Access-Control-Allow-Methods: POST [8] => Access-Control-Allow-Headers: Authorization, Content-Type, On-behalf-of, x-sg-elas-acl [9] => Access-Control-Max-Age: 600 [10] => X-No-CORS-Reason: https://sendgrid.com/docs/Classroom/Basics/API/cors.html [11] => Strict-Transport-Security: max-age=600; includeSubDomains [12] => [13] => ) {"errors":[{"message":"The from address does not match a verified Sender Identity. Mail cannot be sent until this error is resolved. Visit https://sendgrid.com/docs/for-developers/sending-email/sender-identity/ to see the Sender Identity requirements","field":"from","help":null}]}
+
+Sendgrid API:
+
+    Sendgrid:n Email API vaatii PHP-version 5.6 tai 7.0 (24.09.2022)?
+
+    

@@ -17,11 +17,11 @@ $mail->IsSMTP();
 $mail->Mailer = "smtp";
 
 $mail->SMTPDebug  = 0;  
-$mail->Host = $hostdomain;
+$mail->Host = $mailtraphostdomain;
 $mail->SMTPAuth = true;
 $mail->Port = 2525;
-$mail->Username = $hostusername;
-$mail->Password = $hostpassword;
+$mail->Username = $mailtraphostusername;
+$mail->Password = $mailhostpassword;
 
 
 
@@ -35,10 +35,10 @@ $content = $feedbackmessage;
 
 $mail->MsgHTML($content); 
 if(!$mail->Send()) {
-  echo "Virhe sähköpostin lähetyksessä.";
+  echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
   var_dump($mail);
 } else {
-  echo "Sähköposti lähetetty onnistuneesti";
+  echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
 }
 
 ?>
