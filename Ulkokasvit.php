@@ -18,26 +18,11 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         
-        <span id="pagelogo"/>
-        <span id="companytitle">Puutarhaliike Neilikka</span>
-
-        <div id="main-nav">
-            <ul>
-              <li><a href="Etusivu.html">Etusivu</a></li>
-              <li><a href="Tuotteet.html">Tuotteet</a>
-                <ul class="submenu">
-                  <li><a href="Sisäkasvit.html">Sisäkasvit</a></li>
-                  <li><a href="Ulkokasvit.html">Ulkokasvit</a></li>
-                  <li><a href="Työkalut.html">Työkalut</a></li>
-                  <li><a href="Kasvien hoito.html">Kasvien hoito</a></li>
-                </ul>	
-              </li>
-              <li><a href="Myymälät.html">Myymälät</a></li>
-              <li><a href="Tietoa meistä.html">Tietoa meistä</a></li>
-              <li><a href="Ota yhteyttä.html">Ota yhteyttä</a></li>
-            </ul>
-          <div style="clear: both;"></div>
-          </div>
+        
+        
+        <?php
+        require('Navigointi.html');
+        ?>
 
         <div id="pagecontent">
           <ul class="pagecontentlist" style="list-style-type:none;">
@@ -130,14 +115,8 @@
               </li>        
           </ul>
         </div>
-        <footer>
-          <p><span>Alatunniste
-            Puutarhaliike Neilikka® 2005-2022</span>
-            <span>
-              <br>Puh.nro: +358123456789
-              <br>Sähköposti: Puutarhaliikeneilikka@gmail.com</span>
-            </p>
-        </footer>
-        <script src="" async defer></script>
+        <?php
+        require('footer.html')
+        ?>
     </body>
 </html>

@@ -7,7 +7,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Kasvien hoito</title>
+        <title>Sisäkasvit</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles.css">
@@ -18,33 +18,17 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         
-        <span id="pagelogo"/>
-        <span id="companytitle">Puutarhaliike Neilikka</span>
-
-        <div id="main-nav">
-            <ul>
-              <li><a href="Etusivu.html">Etusivu</a></li>
-              <li><a href="Tuotteet.html">Tuotteet</a>
-                <ul class="submenu">
-                  <li><a href="Sisäkasvit.html">Sisäkasvit</a></li>
-                  <li><a href="Ulkokasvit.html">Ulkokasvit</a></li>
-                  <li><a href="Työkalut.html">Työkalut</a></li>
-                  <li><a href="Kasvien hoito.html">Kasvien hoito</a></li>
-                </ul>	
-              </li>
-              <li><a href="Myymälät.html">Myymälät</a></li>
-              <li><a href="Tietoa meistä.html">Tietoa meistä</a></li>
-              <li><a href="Ota yhteyttä.html">Ota yhteyttä</a></li>
-            </ul>
-          <div style="clear: both;"></div>
-          </div>
+        
+        <?php
+        require('navigointi.html')
+        ?>
 
         <div id="pagecontent">
           <ul class="pagecontentlist" style="list-style-type:none;">
             <li>
               <table class="productdata">  
                 <th>
-                <p><img class="productdataimage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Forest_fertilizer.JPG/800px-Forest_fertilizer.JPG"/></p>     
+                <p><img class="productdataimage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/MonsteraAdansonii.jpg/800px-MonsteraAdansonii.jpg"/></p>     
                 </th>
                 <tr>
                   <td>
@@ -59,10 +43,10 @@
                 </tr>
                 <tr>
                   <td>
-                    Lannoite
+                    Vehkakasvi
                   </td>
                   <td>
-                    6,00 euroa/kg
+                    24,00 euroa
                   </td>
                   <td>
                     Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus
@@ -73,7 +57,7 @@
               <li>
                 <table class="productdata">  
                   <th>
-                  <p><img class="productdataimage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/FLIT_Spray_Can_1.jpg/800px-FLIT_Spray_Can_1.jpg"/></p>     
+                  <p><img class="productdataimage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Spider_plant_with_plantlets_and_flowers.jpg/800px-Spider_plant_with_plantlets_and_flowers.jpg"/></p>     
                   </th>
                   <tr>
                     <td>
@@ -88,10 +72,10 @@
                   </tr>
                   <tr>
                     <td>
-                      Tuholaistorjuntamyrkky
+                      Kirjorönsylilja
                     </td>
                     <td>
-                      14,00 euroa/kg
+                      28,00 euroa
                     </td>
                     <td>
                       Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus
@@ -102,7 +86,7 @@
                 <li>
                   <table class="productdata">  
                     <th>
-                    <p><img class="productdataimage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/MetalwateringcansDec08.jpg/800px-MetalwateringcansDec08.jpg"/></p>     
+                    <p><img class="productdataimage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/A_40_year_old_jade_plant_%28Crassula_ovata%29.jpg/800px-A_40_year_old_jade_plant_%28Crassula_ovata%29.jpg"/></p>     
                     </th>
                     <tr>
                       <td>
@@ -117,10 +101,10 @@
                     </tr>
                     <tr>
                       <td>
-                        Kastelukannu
+                        Rahapuu
                       </td>
                       <td>
-                        20 e
+                        34 euroa
                       </td>
                       <td>
                         Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus Kuvaus
@@ -131,14 +115,8 @@
             
             </ul>
         </div>
-        <footer>
-          <p><span>Alatunniste
-            Puutarhaliike Neilikka® 2005-2022</span>
-            <span>
-              <br>Puh.nro: +358123456789
-              <br>Sähköposti: Puutarhaliikeneilikka@gmail.com</span>
-            </p>
-        </footer>
-        <script src="" async defer></script>
+        <?php
+        require('footer.html');
+        ?>
     </body>
 </html>

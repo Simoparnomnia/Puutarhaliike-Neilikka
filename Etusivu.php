@@ -17,27 +17,9 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        
-        <span id="pagelogo"/>
-        <span id="companytitle">Puutarhaliike Neilikka</span>
-
-        <div id="main-nav">
-            <ul>
-              <li><a href="Puutarhaliike Neilikka, etusivu.html">Etusivu</a></li>
-              <li><a href="Tuotteet.html">Tuotteet</a>
-                <ul class="submenu">
-                  <li><a href="Sisäkasvit.html">Sisäkasvit</a></li>
-                  <li><a href="Ulkokasvit.html">Ulkokasvit</a></li>
-                  <li><a href="Työkalut.html">Työkalut</a></li>
-                  <li><a href="Kasvien hoito.html">Kasvien hoito</a></li>
-                </ul>	
-              </li>
-              <li><a href="Myymälät.html">Myymälät</a></li>
-              <li><a href="Tietoa meistä.html">Tietoa meistä</a></li>
-              <li><a href="Ota yhteyttä.html">Ota yhteyttä</a></li>
-            </ul>
-          <div style="clear: both;"></div>
-          </div>
+     <?php   
+        require('navigointi.html')
+    ?>
 
         <div id="pagecontent">
           <p>Tervetuloa Puutarhaliike Neilikan kotisivuille! Meiltä löydät sekä sisä- että ulkokasvit ja kaiken tarvitsemasi kasvien hoitoon.</p>
@@ -52,14 +34,8 @@
 
           <p>(lisäksi aiheeseen sopivia kuvia, ei kuitenkaan niin että vievät liikaa huomiota tekstiltä)</p>
         </div>
-        <footer>
-          <p><div>Alatunniste
-            Puutarhaliike Neilikka® 2005-2022</div>
-            <div>
-              <br>Puh.nro: +358123456789
-              <br>Sähköposti: Puutarhaliikeneilikka@gmail.com</div>
-            </p>
-        </footer>
-        <script src="" async defer></script>
+        <?php   
+        require('footer.html')
+    ?>
     </body>
 </html>

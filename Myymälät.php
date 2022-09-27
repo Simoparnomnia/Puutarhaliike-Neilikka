@@ -19,28 +19,11 @@
         <![endif]-->
         
         
-        <span id="pagelogo"/>
-        <span id="companytitle" >Puutarhaliike Neilikka 
-        
-        </span>
+        <?php
 
-        <div id="main-nav">
-            <ul>
-              <li><a href="Etusivu.html">Etusivu</a></li>
-              <li><a href="Tuotteet.html">Tuotteet</a>
-                <ul class="submenu">
-                  <li><a href="Sisäkasvit.html">Sisäkasvit</a></li>
-                  <li><a href="Ulkokasvit.html">Ulkokasvit</a></li>
-                  <li><a href="Työkalut.html">Työkalut</a></li>
-                  <li><a href="Kasvien hoito.html">Kasvien hoito</a></li>
-                </ul>	
-              </li>
-              <li><a href="Myymälät.html">Myymälät</a></li>
-              <li><a href="Tietoa meistä.html">Tietoa meistä</a></li>
-              <li><a href="Ota yhteyttä.html">Ota yhteyttä</a></li>
-            </ul>
-          <div style="clear: both;"></div>
-          </div>
+        require('Navigointi.html')
+
+        ?>
 
         <div id="pagecontent">
           <p>
@@ -71,14 +54,8 @@
             <br><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1985.5901885890244!2d24.64471311550438!3d60.15440795163692!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x468df4a93008a6ed%3A0xa5373e79ac0ddc30!2sKivenlahdentie%2C%20Espoo!5e0!3m2!1sen!2sfi!4v1662468890823!5m2!1sen!2sfi" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </p>
         </div>
-        <footer>
-          <p><span>Alatunniste
-            Puutarhaliike Neilikka® 2005-2022</span>
-            <span>
-              <br>Puh.nro: +358123456789
-              <br>Sähköposti: Puutarhaliikeneilikka@gmail.com</span>
-            </p>
-        </footer>
-        <script src="" async defer></script>
+        <?php
+        require('footer.html');
+        ?>
     </body>
 </html>

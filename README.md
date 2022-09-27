@@ -16,6 +16,7 @@ Omatmoduulit: Itsetehdyt moduulit
 Kirjastot: Valmiskirjastot (PHPMailer.php ja SMTP.php ja Exception.php)
 
 
+
 ## ASENNUSOHJEET
 Varmista että [XAMPP](https://www.apachefriends.org/) on asennettu ja repositorio on kloonattu XAMPP:N htdocs-kansioon.
 
@@ -33,8 +34,6 @@ Luo credentials.php projektin juuren ulkopuolelle seuraavalla sisällöllä.
 ### Sähköpostipalvelun asetus
 
 #### Gmail API
-
-
 
 #### SMTP, sähköpostiviestit ilman 2-vaiheista tunnistautumista
 [Sähköpostin asetusohjeet SMTP:llä 1](https://netcorecloud.com/tutorials/send-an-email-via-gmail-smtp-server-using-php/)
@@ -61,13 +60,55 @@ Sandbox->Inboxes->SMTP settings
 
 ### Tietokantayhteys.php
 Käytä credentials.php:n tunnuksia
+
 ### Lähetäsähköposti.php
 Käytä credentials.php:n tunnuksia
 
+### Käyttöönotto Azuressa
+[Kirjaudu Azureen](https://portal.azure.com/) 
+#### Repositorion asetus
+Dashboard -> App Service -> Deployment Center -> Source: Github -> Authorize
+#### PHP-version konfiguraatio
+App Service -> Settings -> Configuration -> PHP 7.4
+#### Unitilan ehkäisy
+Configuration -> Always on
+#### Tietokannan tuonti
+Avaa Paikallisen projektin PHPMyAdmin -> Vie/Export
+App Service -> MySQL In App -> Manage-komento avaa pilviversion PHPMyAdmin:n selaimeen -> Tuo/Import
+#### Tietokannan konfiguraatio
+mysql\data\MYSQLCONNSTR_localdb.ini:
+    Database=localdb; Data Source=127.0.0.1:portinnumero; User id=azure; Password=password
+#### Tiedostojen muokkaus Azuren App Servicessa
+App Service Editor
+#### Komentorivi Azuressa
+Advanced tools tai Development tools->console
+#### MYSQL-tietokannan konfiguraatio
+Configuration ->
+#### Azure-version PHP-tiedot näkyviin
+https://kayttajanimi.azurewebsites.net
+
+
+
 ## TODO
--navigointipalkin modularisointi, indikointi jokaisella sivulla missä päin verkkosivustoa ollaan (breadcrumbs?) (ks. $SERVER['SCRIPT_FILENAME'])
--TEHTÄVÄNANTO 22.09.2022: sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
--TEHTÄVÄNANTO 23.09.2022: Kokeile sähköpostin lähetystä myös SendGridilla. Luo kehityshaara projektille. 
+### navigointipalkin modularisointi 
+    -header ja footer omiin tiedostoihinsa
+    -jokaisella sivulla missä päin verkkosivustoa ollaan (breadcrumbs?) (ks. $SERVER['SCRIPT_FILENAME'])
+
+### Käyttäjänhallinta
+    -Käyttäjän rekisteröinti
+    -Kirjaudu sisään ja ulos
+    -Salasanat tallennettu hash-muodossa
+    -Unohtunut salasana
+    -Muista minut
+### TEHTÄVÄNANTO 22.09.2022: 
+    sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
+### TEHTÄVÄNANTO 23.09.2022: 
+    Kokeile sähköpostin lähetystä myös SendGridilla. 
+
+### TEHTÄVÄNANTO 26.09.2022:
+    Yhdistä Github:n main-haara Azureen, vie tietokanta Azureen ja hae omassa tiedostossa $_SERVER-supermuuttujalla tunnukset pilvessä
+
+
     
 
 
