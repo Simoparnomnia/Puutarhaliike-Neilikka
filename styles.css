@@ -139,6 +139,27 @@
   }
 
 
+  .errormessage {
+    color:red;
+    background-color:lightgrey; 
+    border-style:solid; 
+    border-color:black; 
+    border-width:0.08em; 
+    position:fixed;
+    font-weight:bold; 
+    padding-left:0.5em; 
+    padding-right:0.5em;
+}
+
+
+.errormessage > a {
+  background-color:lightgray;
+  border-width:0.1em;
+  border-style:none;
+  font-weight:bold;
+  margin-left:0.2em;
+  text-decoration:none;
+}
 
   .submenu
   {
@@ -148,6 +169,27 @@
     white-space:nowrap;
     z-index:1;
   }
+
+  .successmessage {
+    color:green;
+    background-color:lightgrey; 
+    border-style:solid; 
+    border-color:black; 
+    border-width:0.08em; 
+    font-weight:bold; 
+    padding-left:0.5em; 
+    padding-right:0.5em;
+}
+
+
+.successmessage > a {
+  background-color:lightgray;
+  border-width:0.1em;
+  border-style:none;
+  font-weight:bold;
+  margin-left:0.2em;
+  text-decoration:none;
+}
 
 
 

@@ -1,11 +1,11 @@
 <?php
 
-require('../credentials.php');
+require(dirname(__DIR__).'/credentials.php');
 
 $servername = "localhost";
 $username = $databaseusername;
 $password = $databasepassword;
-$db="sakila";
+$db="puutarhaneilikka";
 
 
 

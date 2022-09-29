@@ -12,8 +12,12 @@ ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia'
 Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Mailtrap](https://mailtrap.io)-palvelua (SMTP) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
 
 ## HAKEMISTOT
-Omatmoduulit: Itsetehdyt moduulit
-Kirjastot: Valmiskirjastot (PHPMailer.php ja SMTP.php ja Exception.php)
+### Omatmoduulit
+Itsetehdyt moduulit, tapahtumankäsittelijät (tietokantayhteys/rekisteröinti/kirjautuminen/sähköpostin lähetys)
+### Kirjastot
+Valmiskirjastot (PHPMailer.php ja SMTP.php ja Exception.php)
+### Tietokannanluontilauseet
+Esimerkkimateriaali tietokannan luontia varten
 
 
 
@@ -99,7 +103,7 @@ https://kayttajanimi.azurewebsites.net
     -Kirjaudu sisään ja ulos
     -Salasanat tallennettu hash-muodossa
     -Unohtunut salasana
-    -Muista minut
+    -Muista minut (autentikointi-token)
 ### TEHTÄVÄNANTO 22.09.2022: 
     sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
 ### TEHTÄVÄNANTO 23.09.2022: 

@@ -6,11 +6,11 @@ if(isset($_GET["kirjauduulos"]) == "kylla"){
     $_SESSION["salasana"]=$_POST["salasana"];
     session_destroy();
     //Tarvitaan ilmoitusviestiä varten kirjautumisen jälkeen
-    header('Location: ../kirjautumislomake.php?oikeattunnukset=kylla');
+    header('Location: ./index.php?sivu=kirjautumislomake.php&oikeattunnukset=kylla');
 }
 else{
     //Tarvitaan ilmoitusviestiä varten kirjautumisen jälkeen
-    header('Location: ../kirjautumislomake.php?oikeattunnukset=ei');
+    header('Location: ../index.php?sivu=kirjautumislomake.php&oikeattunnukset=ei');
 }
 
 ?>

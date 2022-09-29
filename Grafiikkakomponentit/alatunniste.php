@@ -1,6 +1,4 @@
 
-    
-
     <footer>
     <p><span>Alatunniste
     Puutarhaliike Neilikka® 2005-2022</span>
@@ -9,5 +7,4 @@
         <br>Sähköposti: Puutarhaliikeneilikka@gmail.com</span>
     </p>
     </footer>
-    <script src="" async defer></script>
-    </body>
+    

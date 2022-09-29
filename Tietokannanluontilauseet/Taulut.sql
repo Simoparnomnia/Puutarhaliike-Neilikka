@@ -55,6 +55,19 @@ CREATE TABLE tuote (
 
 
 
+-- orders
+CREATE TABLE tilaus (
+  tilaus_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  tilattumaaara VARCHAR(50) NOT NULL,
+  tilauspaivamaara DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  luontiaika DATETIME NOT NULL,
+  viimeisin_muutos TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  tuote_id SMALLINT UNSIGNED NOT NULL,
+  PRIMARY KEY (tilaus_id),
+  FOREIGN KEY (tuote_id) REFERENCES tuote (tuote_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 -- person addresses
 -- both customers and staff can each have several addresses and vice versa
 CREATE TABLE henkiloidenosoitteet (
@@ -73,7 +86,7 @@ CREATE TABLE henkiloidenosoitteet (
 -- final profile rights are determined by staff membership status in the persons (henkilo) table
 CREATE TABLE kayttajatili (
   kayttajanimi VARCHAR(45) NOT NULL,
-  salasana VARCHAR(45) NOT NULL,
+  salasanahash VARCHAR(45) NOT NULL,
   luontiaika DATETIME NOT NULL,
   viimeisin_muutos TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   henkilo_id SMALLINT UNSIGNED NOT NULL,
