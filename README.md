@@ -1,9 +1,9 @@
 ## SISÄLLYSLUETTELO
-Taustatietoa
-Hakemistot
-Asennusohjeet
-Todo
-Ongelmat
+### Taustatietoa
+### Hakemistot
+### Asennusohjeet
+### TODO
+### Ongelmat
 
 ## TAUSTATIETOA
 

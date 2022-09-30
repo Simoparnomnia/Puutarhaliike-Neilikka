@@ -1,6 +1,6 @@
 
 /* Definitions are in the following order:
-  1)selectors
+  1)general selectors and pseudo-classes
   2)classes
   3)elements
 */
@@ -108,6 +108,9 @@
     
     
   }
+  
+    
+
   ul
   {
 
@@ -116,9 +119,6 @@
     
 
   }
-
-
-
 
 
   li:hover > .submenu  
@@ -161,6 +161,8 @@
   text-decoration:none;
 }
 
+
+
   .submenu
   {
     display:none;
@@ -182,14 +184,14 @@
 }
 
 
-.successmessage > a {
-  background-color:lightgray;
-  border-width:0.1em;
-  border-style:none;
-  font-weight:bold;
-  margin-left:0.2em;
-  text-decoration:none;
-}
+  .successmessage > a {
+    background-color:lightgray;
+    border-width:0.1em;
+    border-style:none;
+    font-weight:bold;
+    margin-left:0.2em;
+    text-decoration:none;
+  }
 
 
 
@@ -241,6 +243,14 @@
   }
 
 
+  input:focus
+  {
+  display:block;
+  background-color:lightgrey;
+  
+  
+  }
+
 
   #contactinfo
   {
@@ -260,6 +270,15 @@
     margin-right:10%; 
     text-align:center;
     
+  }
+
+  #companytitle > a
+  {
+    background-color:lightseagreen;
+    font-size:125%;
+    font-weight: bold;
+    text-decoration:none;
+    white-space:nowrap;
   }
 
 
@@ -383,6 +402,7 @@
     text-decoration:none;
     white-space:nowrap;
   }
+  
 
 
 
@@ -446,6 +466,8 @@
     
     
   }
+
+  
   ul
   {
 
@@ -477,6 +499,11 @@
   }
 
 
+  
+    
+    
+    
+  
 
   .submenu
   {
@@ -560,6 +587,14 @@
   }
 
 
+  #companytitle > a
+  {
+    color:var(--lightseagreen);
+    font-size:125%;
+    font-weight: bold;
+    text-decoration:none;
+    white-space:nowrap;
+  }
 
 
   #main-nav
@@ -630,4 +665,13 @@
     
   }
 
+
+  input:focus
+  {
+    background-color:lightgrey;
+    display:block;
+    
+    
+    
+  }
 }

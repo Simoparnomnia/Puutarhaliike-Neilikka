@@ -1,7 +1,7 @@
 
 
         <span id="pagelogo"/>
-        <span id="companytitle">Puutarhaliike Neilikka</span>
+        <span id="companytitle"><a href="./index.php?sivu=etusivu">Puutarhaliike Neilikka</a></span>
 
         <div id="main-nav">
             <ul>
@@ -25,7 +25,7 @@
             echo "<li><a href=".("./index.php?sivu=kirjautumislomake").">Kirjaudu sisään</a></li>";
           }
           else{
-            echo "<li><a href=\"käsitteleuloskirjautuminen.php\">Kirjaudu ulos</a></li>";
+            echo "<li><a href=\"Tapahtumankäsittelijät/käsitteleuloskirjautuminen.php\">Kirjaudu ulos</a></li>";
           }
 ?>
             <li><a href="index.php?sivu=rekisteröintilomake">Rekisteröidy</a></li>
