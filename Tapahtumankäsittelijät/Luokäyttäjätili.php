@@ -21,6 +21,8 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
         $annettusalasana=$_POST['salasana'];
         $annettusalasanahash=password_hash($annettusalasana, PASSWORD_DEFAULT);
 
+        $käyttäjäonjoolemassa=false;
+
         $onkotunnusluotukysely="SELECT kayttajanimi, salasanahash FROM kayttajatili WHERE kayttajanimi='$annettukäyttäjänimi' AND salasanahash='$annettusalasanahash'";
 
         if($kyselyntulos=$connection->query($onkotunnusluotukysely)){
@@ -34,51 +36,40 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
                 //Uudelleenohjataan epäonnistumisella jos tunnukset ovat jo olemassa
   
                     header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=käyttäjäonjoolemassa');
+                    $käyttäjäonjoolemassa=true;
                     break;
                 }
             }
-            
-            
-            //Jos tunnuksia ei löytynyt, tarkistetaan annetun henkilön olemassaolo tietokannasta
-            $onkohenkilöolemassakysely="SELECT etunimi, sukunimi, sahkoposti FROM henkilo WHERE etunimi='$annettuetunimi' AND sukunimi='$annettusukunimi' AND sahkoposti='$sähköposti'";
-            if($kyselyntulos=$connection->query($onkohenkilöolemassakysely)){
-                if(mysqli_num_rows($kyselyntulos)==0){
-                    //Jos tunnuksia ja henkilöä ei löytynyt, luodaan käyttäjätili ja uudelleenohjataan onnistumisella
-                    $nykypäivämäärä=(string)(date_format(date_create(), 'Y-m-d H:i:s'));
-                    $luokayttäjäkysely="INSERT INTO kayttajatili VALUES ('$annettukäyttäjänimi', '$annettusalasanahash', '$nykypäivämäärä',NULL,'$henkilö')";
-                    header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=kyllä');
-                }
-                
-                else{
+            if($käyttäjäonjoolemassa==true){
+                //Osoite on luotava ensin koska käyttäjässä on viiteavain osoitetauluun
+                $luoosoitekysely="INSERT INTO osoite VALUES('$annettuosoite','$annettupostinumero','$annettupostitoimipaikka','$annettumaa','$annettumaakunta','$annettuosavaltio')";
+                if($kyselyntulos=$connection->query($luoosoitekysely)){
+                    
+                        //Jos osoitteen luonti onnistui, luodaan käyttäjätili ja uudelleenohjataan onnistumisella
+                        $nykypäivämäärä=(string)(date_format(date_create(), 'Y-m-d H:i:s'));
+                        //TODO: Tarvitaan ehtotarkistukset työntekijän määrittämiseksi, jos uutta käyttäjää yritetään luoda ylläpitäjäksi kirjautuneena
+                        $luokayttäjäkysely="INSERT INTO kayttajatili VALUES ('$annettukäyttäjänimi', '$annettusalasanahash', '$annettuetunimi', '$annettusukunimi','$annettupuhelinnumero','$annettusähköposti',TRUE,FALSE,'$nykypäivämäärä',NULL)";
+                        header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=kyllä');
+                    }
+            }
+              
+            else{
                 //Uudelleenohjataan epäonnistumisella jos henkilö on jo olemassa
-                header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=henkilöonjoolemassa');
-                break;
-                }
-            }
-            }
-        }
+                header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=henkilöonjoolemassa');             
+            }          
+        }       
         else {
             echo "Tietokantavirhe: ".$connection->error;
-            exit();
         }
     }
-
     else {
         //salasanat eivät täsmää
         header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=salasanateivättäsmää');
-        
-
     }
-        
+          
 }
 else{
-    
     header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=ei');
 }
     
-
-
-
-
-
 ?>

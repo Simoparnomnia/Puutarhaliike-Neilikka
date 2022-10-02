@@ -88,6 +88,10 @@ App Service Editor
 Advanced tools tai Development tools->console
 #### MYSQL-tietokannan konfiguraatio
 Configuration ->
+
+Luo testikäyttäjiä lisäämällä ne tiedostoon data.sql seuraavassa muodossa:
+    INSERT INTO kayttajatili VALUES('kayttajatahan','salasanahashtahan','etunimi','sukunimi','puhelinnumero','sähköposti',osoitteenid,onkotiliaktiivinenboolean,onkokayttajahenkilokuntaaboolean,'2022-01-01 12:00:00',NULL)
+
 #### Azure-version PHP-tiedot näkyviin
 https://kayttajanimi.azurewebsites.net
 

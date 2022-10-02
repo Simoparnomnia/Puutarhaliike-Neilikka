@@ -1,5 +1,5 @@
 
--- countries
+-- maat
 INSERT INTO maa VALUES ('Afganistan');
 INSERT INTO maa VALUES ('Alankomaat');
 INSERT INTO maa VALUES ('Albania');
@@ -144,14 +144,15 @@ INSERT INTO maa VALUES ('Zimbabwe');
 
 
 
--- persons
-INSERT INTO henkilo VALUES(1,'Erkki','Esimerkkinen','012345678','erkki.esimerkkinen@gmail.com',FALSE,TRUE,'2006-04-12 12:00:00',NULL);
-INSERT INTO henkilo VALUES(2,'Ulla','Esimerkkinen','02348596','ulla.esimerkkinen@gmail.com',FALSE,TRUE,'2006-04-10 14:00:00',NULL);
-INSERT INTO henkilo VALUES(3,'Akseli','Ollila','09485067','akseli.ollila@gmail.com',FALSE,TRUE,'2008-07-18 18:00:00',NULL);
-INSERT INTO henkilo VALUES(4,'Omistaja','Neilikka','08590649','kauppias.kauppila@gmail.com',TRUE,TRUE,'2005-07-27 07:00:00',NULL);
-INSERT INTO henkilo VALUES(5,'Työntekijä','Neilikka','09580694','tyontekija.neilikka@gmail.com',TRUE,TRUE,'2005-07-31 07:00:00',NULL);
--- addresses
-INSERT INTO osoite VALUES(1,'Esimerkkikatu 8 E','08596784','84958','Keuruu','Keski-Suomi',NULL,'Suomi');
-INSERT INTO osoite VALUES(3,'Ollilakuja 8 H','09485904','38495','Savonlinna','Etelä-Savo',NULL,'Suomi');
-INSERT INTO osoite VALUES(4,'Neilikkakatu 31 E','048590766','30495','Vantaa','Uusimaa',NULL,'Suomi');
-INSERT INTO osoite VALUES(5,'Neilikkakatu 31 E','048590766','30495','Vantaa','Uusimaa',NULL,'Suomi');
+-- henkilöt (ÄLÄ SUORITA NÄITÄ TÄSSÄ VERSIOSSA, nänmä on jätetty esimerkiksi käyttäjätauludatan asetusta varten)
+--INSERT INTO henkilo VALUES(1,'Erkki','Esimerkkinen','012345678','erkki.esimerkkinen@gmail.com',TRUE,FALSE,'2006-04-12 12:00:00',NULL);
+--INSERT INTO henkilo VALUES(2,'Ulla','Esimerkkinen','02348596','ulla.esimerkkinen@gmail.com',TRUE,FALSE,'2006-04-10 14:00:00',NULL);
+--INSERT INTO henkilo VALUES(3,'Akseli','Ollila','09485067','akseli.ollila@gmail.com',TRUE,FALSE,'2008-07-18 18:00:00',NULL);
+--INSERT INTO henkilo VALUES(4,'Omistaja','Neilikka','08590649','kauppias.kauppila@gmail.com',TRUE,TRUE,'2005-07-27 07:00:00',NULL);
+--INSERT INTO henkilo VALUES(5,'Työntekijä','Neilikka','09580694','tyontekija.neilikka@gmail.com',TRUE,TRUE,'2005-07-31 07:00:00',NULL);
+
+-- osoitteet
+INSERT INTO osoite VALUES(1,'Esimerkkikatu 8 E','84958','Keuruu','Suomi','Keski-Suomi',NULL);
+INSERT INTO osoite VALUES(2,'Ullakuja 13 U','19218','Savonlinna','Suomi','Etelä-Savo',NULL);
+INSERT INTO osoite VALUES(3,'Ollilakuja 8 H','38495','Savonlinna','Suomi','Etelä-Savo',NULL);
+INSERT INTO osoite VALUES(4,'Neilikkakatu 31 E','30495','Vantaa','Suomi','Uusimaa',NULL);

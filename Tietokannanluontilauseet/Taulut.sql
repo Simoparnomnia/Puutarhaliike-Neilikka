@@ -1,8 +1,4 @@
--- TODO: Commented lines have not been implemented yet (mostly foreign keys), 
--- uncommenting after deciding the creation order of the tables
-
---  Persons, both customers and staff, true boolean value signifies staff members
--- Separate table for user accounts because we may wish to keep old customer/staff data for a period 
+-- No separate tables for persons and users in this branch
 
 -- countries 
 CREATE TABLE maa (
@@ -24,19 +20,6 @@ CREATE TABLE osoite (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- persons
-CREATE TABLE henkilo (
-  henkilo_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  etunimi VARCHAR(45) NOT NULL,
-  sukunimi VARCHAR(45) NOT NULL,
-  puhelinnumero VARCHAR (45) NOT NULL,
-  sahkoposti VARCHAR(50) NOT NULL,
-  onhenkilokunta BOOLEAN NOT NULL DEFAULT TRUE,
-  aktiivinen BOOLEAN NOT NULL DEFAULT TRUE,
-  luontiaika DATETIME DEFAULT CURRENT_TIMESTAMP,
-  viimeisin_muutos TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY  (henkilo_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- product categories
 CREATE TABLE tuotekategoria (
@@ -74,31 +57,29 @@ CREATE TABLE tilaus (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- person addresses
--- both customers and staff can each have several addresses and vice versa
-CREATE TABLE henkiloidenosoitteet (
-  henkiloidenosoitteet_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  osoite_id SMALLINT UNSIGNED NOT NULL,
-  henkilo_id SMALLINT UNSIGNED NOT NULL,
-  PRIMARY KEY (henkiloidenosoitteet_id),
-  FOREIGN KEY (henkilo_id) REFERENCES henkilo(henkilo_id) ON UPDATE CASCADE, 
-  FOREIGN KEY (osoite_id) REFERENCES osoite(osoite_id) ON UPDATE CASCADE
-
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
 --  user profiles, both customers and staff
--- final profile rights are determined by staff membership status in the persons (henkilo) table
+-- final profile rights are determined by staff membership status in the onhenkilokunta boolean variable
+-- true boolean value signifies staff members
 CREATE TABLE kayttajatili (
   kayttajanimi VARCHAR(45) NOT NULL,
   salasanahash VARCHAR(45) NOT NULL,
+  etunimi VARCHAR(45) NOT NULL,
+  sukunimi VARCHAR(45) NOT NULL,
+  puhelinnumero VARCHAR(45) NOT NULL,
+  sahkoposti VARCHAR(45) NOT NULL,
+  osoite_id SMALLINT UNSIGNED NOT NULL,
+  aktiivinen BOOLEAN NOT NULL DEFAULT TRUE,
+  onhenkilokunta BOOLEAN NOT NULL DEFAULT FALSE,
   luontiaika DATETIME NOT NULL,
   viimeisin_muutos TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  henkilo_id SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY  (kayttajanimi),
-  FOREIGN KEY (henkilo_id) REFERENCES henkilo (henkilo_id) ON UPDATE CASCADE
+  FOREIGN KEY (osoite_id) REFERENCES osoite(osoite_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 
 
 
