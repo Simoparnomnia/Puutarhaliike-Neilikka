@@ -4,6 +4,9 @@
 
 <div id="pagecontent">
 <?php
+  if(isset($_GET["maitaeihaettuvirhe"])){
+    echo "<br><span class=\"errormessage\">tietokantavirhe, maita ei saatu haettua, <a href=\"index.php?sivu=rekisteröintilomake.php\">PÄIVITÄ SIVU</a></span>";
+  }
   if(isset($_GET['rekisteröintionnistui'])){
     if($_GET['rekisteröintionnistui']=="kyllä"){
       echo "<br><span class=\"successmessage\">Käyttäjän luonti onnistui <a href=\"index.php?sivu=rekisteröintilomake\">PÄIVITÄ SIVU</a></span>";
@@ -36,6 +39,9 @@
           echo "<br><option value=\"$maa\">$maa</option>";
       }
 
+      }
+      else{
+        header('Location: index.php?sivu=rekisteröintilomake.php?maitaeihaettuvirhe=true');
       }
 
 ?>

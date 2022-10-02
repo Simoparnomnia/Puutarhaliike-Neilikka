@@ -144,7 +144,8 @@ INSERT INTO maa VALUES ('Zimbabwe');
 
 
 
--- henkilöt (ÄLÄ SUORITA NÄITÄ TÄSSÄ VERSIOSSA, nänmä on jätetty esimerkiksi käyttäjätauludatan asetusta varten)
+-- henkilöt (ÄLÄ SUORITA NÄITÄ TÄSSÄ VERSIOSSA, nämä on jätetty esimerkiksi käyttäjätauludatan asetusta varten)
+-- PHPMyAdmin ei osaa tulkita kommentteja oikein, poista nämä myös siinä tapauksessa ennen suoritusta 
 --INSERT INTO henkilo VALUES(1,'Erkki','Esimerkkinen','012345678','erkki.esimerkkinen@gmail.com',TRUE,FALSE,'2006-04-12 12:00:00',NULL);
 --INSERT INTO henkilo VALUES(2,'Ulla','Esimerkkinen','02348596','ulla.esimerkkinen@gmail.com',TRUE,FALSE,'2006-04-10 14:00:00',NULL);
 --INSERT INTO henkilo VALUES(3,'Akseli','Ollila','09485067','akseli.ollila@gmail.com',TRUE,FALSE,'2008-07-18 18:00:00',NULL);
