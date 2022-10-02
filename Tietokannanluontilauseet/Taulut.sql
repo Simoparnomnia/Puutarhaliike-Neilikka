@@ -4,7 +4,11 @@
 --  Persons, both customers and staff, true boolean value signifies staff members
 -- Separate table for user accounts because we may wish to keep old customer/staff data for a period 
 
-
+-- countries 
+CREATE TABLE maa (
+  nimi VARCHAR(45) NOT NULL,
+  PRIMARY KEY (nimi)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- addresses, both customers and staff
 CREATE TABLE osoite (
@@ -12,10 +16,11 @@ CREATE TABLE osoite (
     osoite VARCHAR(50) NOT NULL,
     postinumero VARCHAR(5) NOT NULL,
     postitoimipaikka VARCHAR(30) NOT NULL,
+    maa VARCHAR(45) NOT NULL,
     maakunta VARCHAR(40) NOT NULL,
     osavaltio VARCHAR(30),
-    maa VARCHAR(30) NOT NULL,
-    PRIMARY KEY(osoite_id)
+    PRIMARY KEY(osoite_id),
+    FOREIGN KEY (maa) REFERENCES maa (nimi)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -24,6 +29,7 @@ CREATE TABLE henkilo (
   henkilo_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   etunimi VARCHAR(45) NOT NULL,
   sukunimi VARCHAR(45) NOT NULL,
+  puhelinnumero VARCHAR (45) NOT NULL,
   sahkoposti VARCHAR(50) NOT NULL,
   onhenkilokunta BOOLEAN NOT NULL DEFAULT TRUE,
   aktiivinen BOOLEAN NOT NULL DEFAULT TRUE,
@@ -93,6 +99,9 @@ CREATE TABLE kayttajatili (
   PRIMARY KEY  (kayttajanimi),
   FOREIGN KEY (henkilo_id) REFERENCES henkilo (henkilo_id) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
 
 
   
