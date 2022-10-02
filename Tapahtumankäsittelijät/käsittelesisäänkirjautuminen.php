@@ -1,6 +1,6 @@
 <?php
 //TODO: katso myös kirjautumislomake.php
-require('Tietokantayhteys.php');
+//require('Tietokantayhteys.php');
 session_start();
 if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"])){
     //$sahkopostiregex="/^.{16,}";
