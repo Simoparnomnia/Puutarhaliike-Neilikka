@@ -4,15 +4,15 @@
   require('../credentials.php');
 
   if($mailservice=="mailtrap"){
-    require_once('../Kirjastot/PHPMailer/PHPMailer.php');
+    require_once('../vendor/PHPMailer/PHPMailer.php');
     $customername=$_POST["customername"];
     $customeremailaddress=$_POST["customeremail"];
     $feedbacktopic=$_POST["feedbacktopic"];
     $feedbackmessage=$_POST["feedbackmessage"];
 
-    require_once('../Kirjastot/PHPMailer/Exception.php');
-    require_once('../Kirjastot/PHPMailer/PHPMailer.php');
-    require_once('../Kirjastot/PHPMailer/SMTP.php');
+    require_once('../vendor/PHPMailer/src/Exception.php');
+    require_once('../vendor/PHPMailer/src/PHPMailer.php');
+    require_once('../vendor/PHPMailer/src/SMTP.php');
 
     $mail = new PHPMailer();
 
@@ -47,7 +47,7 @@
   }
 
   elseif($mailservice=="sendgrid"){
-    require_once('../Kirjastot/SendGrid/sendgrid-php/sendgrid-php.php');
+    require_once('../vendor/sendgrid/sendgrid-php.php');
 
 
     $customername=$_POST["customername"];
