@@ -2,7 +2,7 @@
     "name": "800038769/puutarhaliike-neilikka",
     "description": "web app experiment for Finnish web programming course",
     "type": "project",
-    "license": "GNU lesser general public license",
+    "license": "GNU lesser general   public license",
     "authors": [
         {
             "name": "Simo P."
@@ -10,10 +10,6 @@
     ],
     "require": {
         "phpmailer/phpmailer": "^6.6",
-        "sendgrid/sendgrid": "^8.0",
-        "monolog/monolog": "^3.2"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "sendgrid/sendgrid": "^8.0"
     }
 }

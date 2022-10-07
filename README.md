@@ -1,5 +1,6 @@
 ## SISÄLLYSLUETTELO
 ### Taustatietoa
+### Toimintaperiaate
 ### Hakemistot
 ### Asennusohjeet
 ### TODO
@@ -11,19 +12,21 @@ ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia'
 
 Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Mailtrap](https://mailtrap.io)-palvelua (SMTP) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
 
+## TOIMINTAPERIAATE
+Useammalla käyttäjällä voi olla sama osoite.
 ## HAKEMISTOT
 ### Composer
 [PHP-riippuvuuksienhallintaan](https://getcomposer.org/)
 ### Omat moduulit
-Itsetehdyt moduulit, tapahtumankäsittelijät (tietokantayhteys/rekisteröinti/kirjautuminen/sähköpostin lähetys)
+Itsetehdyt moduulit, grafiikkakomponentit, tapahtumankäsittelijät (tietokantayhteys/rekisteröinti/kirjautuminen/sähköpostin lähetys), tietokannanluontilauseet (tietokannan esimerkkimateriaali)
 ### Vendor
 Valmiskirjastot
-Sähköposti
+#### Sähköposti
     (PHPMailer.php/SMTP.php/Exception.php
     sendgrid-php
-Testaus
+#### Testaus
     phpunit
-Lokitus
+#### Lokitus
     monolog
 ### Tietokannanluontilauseet
 Esimerkkimateriaali tietokannan luontia varten

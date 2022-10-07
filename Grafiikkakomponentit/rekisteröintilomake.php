@@ -20,7 +20,7 @@
       echo "<br><span class=\"errormessage\">Käyttäjän luonti epäonnistui, salasanat eivät täsmää <a href=\"index.php?sivu=rekisteröintilomake\">PÄIVITÄ SIVU</a></span>";
     }
     else{
-      echo "<br><span class=\"errormessage\">Tuntematon virhe käyttäjän luonnissa <a href=\"index.php?sivu=rekisteröintilomake.php\">PÄIVITÄ SIVU</a></span>";
+      echo "<br><span class=\"errormessage\">Tuntematon virhe käyttäjän luonnissa <a href=\"index.php?sivu=rekisteröintilomake\">PÄIVITÄ SIVU</a></span>";
     }
   }
 
