@@ -7,9 +7,8 @@
 <?php
     
     require_once('Tapahtumankäsittelijät/Tietokantayhteys.php');
-    if(isset($_SESSION['käyttäjänimi'])){
-      session_start();
-    }
+    
+    
     
     require_once('Grafiikkakomponentit/header.php');
     //echo '<b>'.$_SERVER['PHP_SELF'].'</b>';
@@ -30,53 +29,145 @@
         case 'etusivu':
             if(isset($_GET['uloskirjautuminenonnistui'])){
                 if($_GET['uloskirjautuminenonnistui']=='kyllä'){
-                    echo "<br><span class=\"successmessage\">Kirjautuminen onnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
                 }
-
+              
                 elseif($_GET['uloskirjautuminenonnistui']=='ei'){
-                    echo "<br><span class=\"errormessage\">Kirjautuminen onnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
                 }
-            }
-            require_once('Grafiikkakomponentit/Etusivu.php');
+              }
+            require_once('Grafiikkakomponentit/Etusivu.php');       
             break;
         case 'tuotteet':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=tuotteet\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=tuotteet\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/Tuotteet.php');
             break;
         case 'sisäkasvit':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=sisäkasvit\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=sisäkasvit\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/Sisäkasvit.php');
             break;
         case 'ulkokasvit':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=ulkokasvit\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=ulkokasvit\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/Ulkokasvit.php');
             break;
         case 'työkalut':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=työkalut\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=työkalut\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/Työkalut.php');
             break;
         case 'kasvienhoito':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=kasvienhoito\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=kasvienhoito\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/Kasvien hoito.php');
             break;
         case 'myymälät':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=myymälät\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=myymälät\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/Myymälät.php');
             break;
         case 'tietoameistä':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=tietoameistä\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=tietoameistä\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/Tietoa meistä.php');
             break;
-        case 'otayhteytta':
+        case 'otayhteyttä':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=otayhteyttä\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=otayhteyttä\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/Ota yhteyttä.php');
             break;
-        case 'kirjautumislomake':
-                echo "<p><b>käyttäjänimi:</b>".$_SESSION['käyttäjänimi']."</p>";
-                    if(isset($_SESSION["käyttäjänimi"])){
-                        if(isset($_SESSION["käyttäjänimi"])){
-                            echo "<br><span class=\"successmessage\">Kirjautuminen onnistui <a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
-                        }
-                        else{
-                            
-                            echo "<br><span class=\"errormessage\">Kirjautuminen epäonnistui, väärä käyttäjänimi tai salasana<a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
-                        }
-                    }
+        case 'kirjautumislomake': 
+            if(isset($_GET["sisäänkirjautuminenonnistui"])){            
+                if($_GET["sisäänkirjautuminenonnistui"]=="kyllä"){
+                    echo "<br><span class=\"successmessage\">Kirjautuminen onnistui <a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
+                }
+                elseif($_GET["sisäänkirjautuminenonnistui"]=="ei"){ 
+                    echo "<br><span class=\"errormessage\">Kirjautuminen epäonnistui, väärä käyttäjänimi tai salasana<a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
+                }
+                elseif($_GET['sisäänkirjautuminenonnistui']=='tuntematonvirhe'){
+                    echo "<br><span class=\"errormessage\">Sisäänkirjautuminen epäonnistui, tuntematon virhe, yritä uudestaan <a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
+                }
+
+            }
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
+                }         
+              }
             require_once('Grafiikkakomponentit/kirjautumislomake.php');
             break;
         case 'rekisteröintilomake':
+            if(isset($_GET['uloskirjautuminenonnistui'])){
+                if($_GET['uloskirjautuminenonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=rekisteröintilomake\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['uloskirjautuminenonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=rekisteröintilomake\">PÄIVITÄ SIVU</a></span>";
+                }
+              }
             require_once('Grafiikkakomponentit/rekisteröintilomake.php');
             break;
         default:

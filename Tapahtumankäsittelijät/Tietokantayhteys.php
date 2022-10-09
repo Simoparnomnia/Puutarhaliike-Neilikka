@@ -7,7 +7,9 @@ $username = $databaseusername;
 $password = $databasepassword;
 $db="puutarhaneilikka";
 
-
+if(!isset($_SESSION)){
+    session_start();
+}
 
 // Luo tietokantayhteys
 $connection = new mysqli($servername, $username, $password, $db);

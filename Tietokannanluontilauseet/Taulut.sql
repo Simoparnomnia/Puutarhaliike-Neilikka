@@ -65,7 +65,7 @@ CREATE TABLE tilaus (
 -- true boolean value signifies staff members
 CREATE TABLE kayttajatili (
   kayttajanimi VARCHAR(45) NOT NULL,
-  salasanahash VARCHAR(45) NOT NULL,
+  salasanahash VARCHAR(100) NOT NULL,
   etunimi VARCHAR(45) NOT NULL,
   sukunimi VARCHAR(45) NOT NULL,
   puhelinnumero VARCHAR(45) NOT NULL,

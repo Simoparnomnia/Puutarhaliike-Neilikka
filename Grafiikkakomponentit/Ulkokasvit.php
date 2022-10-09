@@ -1,6 +1,4 @@
 
-
-
 <div id="pagecontent">
   <ul class="pagecontentlist" style="list-style-type:none;">
   <li>

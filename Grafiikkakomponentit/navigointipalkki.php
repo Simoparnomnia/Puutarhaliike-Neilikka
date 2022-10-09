@@ -1,4 +1,10 @@
+<?php
 
+//if(isset($_SESSION['käyttäjänimi'])){
+//  session_start();
+//}
+
+?>
 
         <span id="pagelogo"/>
         <span id="companytitle"><a href="./index.php?sivu=etusivu">Puutarhaliike Neilikka</a></span>
@@ -21,14 +27,22 @@
           <div style="display:inline-block;">
           <ul>
 <?php
-          if(!isset($_SESSION['kayttajanimi'])){
-            echo "<li><a href=".("./index.php?sivu=kirjautumislomake").">Kirjaudu sisään</a></li>";
+          if(!isset($_SESSION['käyttäjänimi'])){
+            echo "<li class=\"loginandsignupbuttons\"><a href=".("./index.php?sivu=kirjautumislomake").">Kirjaudu sisään</a></li>";
           }
           else{
-            echo "<li><a href=\"Tapahtumankäsittelijät/käsitteleuloskirjautuminen.php\">Kirjaudu ulos</a></li>";
+            echo "<li class=\"loginandsignupbuttons\"><a href=\"Tapahtumankäsittelijät/käsitteleuloskirjautuminen.php?kirjauduulos=kyllä\">Kirjaudu ulos</a></li>";
           }
 ?>
-            <li><a href="index.php?sivu=rekisteröintilomake">Rekisteröidy</a></li>
+            <li class="loginandsignupbuttons"><a href="index.php?sivu=rekisteröintilomake">Rekisteröidy</a></li>
+<?php          
+          if(isset($_SESSION['käyttäjänimi'])){
+            echo "<li class=\"loginandsignupbuttons\">Käyttäjä: ".$_SESSION['käyttäjänimi']."</li>";
+          }
+          else{
+            echo "<li style=\"color:grey; list-style-type:none\">Ei kirjauduttu sisään</li>";
+          }
+?>
           </ul></div>
           </div>
   

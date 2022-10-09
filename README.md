@@ -6,15 +6,15 @@
 ### TODO
 ### Ongelmat
 
-## TAUSTATIETOA
+## Taustatietoa
 
 ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia's web programming (Web-ohjelmointi) course (autumn 2022).
 
 Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Mailtrap](https://mailtrap.io)-palvelua (SMTP) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
 
-## TOIMINTAPERIAATE
+## Toimintaperiaate
 Useammalla käyttäjällä voi olla sama osoite.
-## HAKEMISTOT
+## Hakemistot
 ### Composer
 [PHP-riippuvuuksienhallintaan](https://getcomposer.org/)
 ### Omat moduulit
@@ -30,10 +30,12 @@ Valmiskirjastot
     monolog
 ### Tietokannanluontilauseet
 Esimerkkimateriaali tietokannan luontia varten
+### Tyylit
+CSS-tyylitiedostot
 
 
 
-## ASENNUSOHJEET
+## Asennusohjeet
 Varmista että [XAMPP](https://www.apachefriends.org/) on asennettu ja repositorio on kloonattu XAMPP:N htdocs-kansioon.
 
 Luo repositorion kloonauksen jälkeen seuraavat tiedostot kansioon Omat moduulit: Tietokantayhteys.php ja Sähköpostiyhteys.php
@@ -132,7 +134,7 @@ https://kayttajanimi.azurewebsites.net
     
 
 
-## ONGELMAT
+## Ongelmat
 Gmail API: 
 Google Cloud->APIs and Services->Credentials->Create Oauth Client Id-> Ei huoli localhostia: Invalid Redirect: must contain a domain. 
 

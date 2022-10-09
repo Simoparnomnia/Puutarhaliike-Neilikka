@@ -1,42 +1,52 @@
 <?php
-//TODO: katso myös kirjautumislomake.php
-//require('Tietokantayhteys.php');
-session_start();
-if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"])){
-    //$sahkopostiregex="/^.{16,}";
-    $annettukäyttäjänimi=$_POST["käyttäjänimi"];
-    $annettusalasana=$_POST["salasana"];
-    $annettusalasanahash=md5($annettusalasana);
-    $tunnuskysely="SELECT kayttajanimi, salasanahash FROM kayttajatili WHERE kayttajanimi='$annettukäyttäjänimi' AND salasanahash='$annettusalasanahash'";
-    if ($kyselyntulos=$connection->query($tunnuskysely)){
-        while(list($käyttäjänimi, $salasanahash)=$kyselyntulos->fetch_row()){
-            
+try{
+    //TODO: katso myös kirjautumislomake.php
+    require_once('Tietokantayhteys.php');
+
+    if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"])){
+        //$sahkopostiregex="/^.{16,}";
+        $annettukäyttäjänimi=$_POST["käyttäjänimi"];
+        $annettusalasana=$_POST["salasana"];
         
-            $oikeasalasana=password_verify($_POST["salasana"], $salasanahash);
         
-            
-            if($annettukäyttäjänimi==$käyttäjänimi && $oikeasalasana){
-                $_SESSION['käyttäjänimi']=$käyttäjänimi;
+        
+        $tunnuskysely="SELECT kayttajanimi, salasanahash FROM kayttajatili WHERE kayttajanimi='$annettukäyttäjänimi'";
+        
+            if ($kyselyntulos=$connection->query($tunnuskysely)){
+                while(list($käyttäjänimi, $salasanahash)=$kyselyntulos->fetch_row()){
+                    
                 
-            
+                    $oikeasalasana=password_verify($annettusalasana, $salasanahash);
+                             
+                    
+                    if($annettukäyttäjänimi==$käyttäjänimi && $oikeasalasana==true){
+                        session_start();
+                        $_SESSION['käyttäjänimi']=$käyttäjänimi;
+                        
+                    
 
-                //Uudelleenohjataan jos oikeat tunnukset löytyivät
-            
-                header('Location: ../index.php?sivu=kirjautumislomake');
-                break;
+                        //Uudelleenohjataan jos oikeat tunnukset löytyivät
+                    
+                        header('Location: ../index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=kyllä');
+                        exit();
+                    }
+                }
+                    
             }
-        }
+                    //Jos oikeita tunnuksia ei löytynyt, uudelleenohjataan
+                    header('Location: ../index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=ei');
+                    
             
-            //Jos oikeita tunnuksia ei löytynyt, uudelleenohjataan
-            header('Location: ../index.php?sivu=kirjautumislomake');
-            
-        
-        
     }
+    else{
+        header('Location: ../index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=ei');
+    }
+                
+}catch(Exception $e){
+    //Tietokantavirhe
+    header('Location: ../index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=tuntematonvirhe');
+}
 
-}
-else{
-    header('Location: ../index.php?sivu=kirjautumislomake');
-}
+
 
 ?>

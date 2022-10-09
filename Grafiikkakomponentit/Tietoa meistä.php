@@ -1,3 +1,4 @@
+
 <div id="pagecontent">
   <p>
   Puutarhaliike Neilikka on vuonna 1990 perustettu puutarhanhoitoon ja huonekasveihin erikoistunut myymäläketju. Ensimmäinen myymälämme perustettiin Helsingin Fabianinkadulle, ja toukokuussa 1997 perustimme ketjun toisen myymälän Espooseen.
