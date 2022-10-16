@@ -15,6 +15,9 @@ Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian We
 ## Toimintaperiaate
 Useammalla käyttäjällä voi olla sama osoite.
 ## Hakemistot
+
+### index.php
+Grafiikkakompnenttien ja varoitusviestien generointi
 ### Composer
 [PHP-riippuvuuksienhallintaan](https://getcomposer.org/)
 ### Omat moduulit
@@ -117,11 +120,11 @@ https://kayttajanimi.azurewebsites.net
     -jokaisella sivulla missä päin verkkosivustoa ollaan (breadcrumbs?) (ks. $SERVER['SCRIPT_FILENAME'])
 
 ### Käyttäjänhallinta
-    -Käyttäjän rekisteröinti
-    -Kirjaudu sisään ja ulos
-    -Salasanat tallennettu hash-muodossa
+    -Käyttäjän rekisteröinti -> TEHTY
+    -Kirjaudu sisään ja ulos -> TEHTY
+    -Salasanat tallennettu hash-muodossa -> TEHTY
     -Unohtunut salasana
-    -Muista minut (autentikointi-token)
+    -Muista minut (autentikointi-token/eväste kirjautumisen estämiselle)
 ### TEHTÄVÄNANTO 22.09.2022: 
     sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
 ### TEHTÄVÄNANTO 23.09.2022: 
