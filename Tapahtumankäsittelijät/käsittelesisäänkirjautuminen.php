@@ -22,11 +22,10 @@ try{
                     if($annettukäyttäjänimi==$käyttäjänimi && $oikeasalasana==true){
                         session_start();
                         $_SESSION['käyttäjänimi']=$käyttäjänimi;
-                        
+                        require_once('luoautentikaatiotoken.php');
                     
 
-                        //Uudelleenohjataan jos oikeat tunnukset löytyivät
-                    
+                        //Uudelleenohjataan jos oikeat tunnukset löytyivät           
                         header('Location: ../index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=kyllä');
                         exit();
                     }

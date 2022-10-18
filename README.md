@@ -123,8 +123,8 @@ https://kayttajanimi.azurewebsites.net
     -Käyttäjän rekisteröinti -> TEHTY
     -Kirjaudu sisään ja ulos -> TEHTY
     -Salasanat tallennettu hash-muodossa -> TEHTY
-    -Unohtunut salasana
-    -Muista minut (autentikointi-token/eväste kirjautumisen estämiselle)
+    -Unohtunut salasana -> TEHTY
+    -Muista minut (autentikointi-token/eväste että säilyy kirjautuneena vaikaa selainikkuna suljetaan)
 ### TEHTÄVÄNANTO 22.09.2022: 
     sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
 ### TEHTÄVÄNANTO 23.09.2022: 

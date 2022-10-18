@@ -8,12 +8,17 @@
     
     require_once('Tapahtumankäsittelijät/Tietokantayhteys.php');
     
-    
+    //muista minut- eväste
+    if(isset($_COOKIE["muistaminut"])){
+        require_once('Tapahtumankäsittelijät/tarkistaautentikaatiotoken.php');
+    }
     
     require_once('Grafiikkakomponentit/header.php');
+    
     //echo '<b>'.$_SERVER['PHP_SELF'].'</b>';
-    $currentdate=date_create();
-    echo (string)date_format($currentdate, 'Y-m-d H:i:s');
+    //$currentdate=date_create();
+    //echo (string)date_format($currentdate, 'Y-m-d H:i:s');
+    
 ?>
 
 <body>
@@ -35,6 +40,18 @@
                 elseif($_GET['uloskirjautuminenonnistui']=='ei'){
                     echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
                 }
+            }
+            if(isset($_GET['autentikaatioonnistui'])){
+                if($_GET['autentikaatioonnistui']=='kyllä'){
+                    echo "<br><span class=\"successmessage\">Uloskirjautuminen onnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
+                }
+              
+                elseif($_GET['autentikaatioonnistui']=='ei'){
+                    echo "<br><span class=\"errormessage\">Uloskirjautuminen epäonnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
+                }
+            }
+            if(isset($_GET['tietokantavirhe'])){
+                echo "<br><span class=\"errormessage\">Virhe käyttäjän muistamisen tarkistuksessa <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
             }
             require_once('Grafiikkakomponentit/Etusivu.php');       
             break;

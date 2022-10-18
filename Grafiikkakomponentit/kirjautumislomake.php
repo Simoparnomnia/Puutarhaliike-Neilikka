@@ -5,6 +5,7 @@
         <label><b>Käyttäjänimi</b></label>
         <input type="password" name="salasana" required/>
         <label><b>Salasana</b></label>
+        <input type="checkbox" name="muistaminut" value="muistaminut"/>
         <input type="submit" name="kirjaudusisaan" value="Kirjaudu sisään"/>
         
 

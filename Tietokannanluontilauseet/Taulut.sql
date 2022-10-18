@@ -79,7 +79,15 @@ CREATE TABLE kayttajatili (
   FOREIGN KEY (osoite_id) REFERENCES osoite(osoite_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE kayttajantoken (
 
+  token_id INT AUTO_INCREMENT PRIMARY KEY,
+  selektori VARCHAR(255) NOT NULL,
+  validaattorihash VARCHAR(255) NOT NULL,
+  kayttajanimi VARCHAR(45) NOT NULL,
+  umpeutumisaika DATETIME NOT NULL,
+  FOREIGN KEY (kayttajanimi) REFERENCES kayttajatili (kayttajanimi) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
