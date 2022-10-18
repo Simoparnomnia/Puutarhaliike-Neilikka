@@ -1,5 +1,5 @@
 <?php
-//TODO: keskeneräinen
+
 session_start();
 if(isset($_GET["kirjauduulos"]) == "kyllä"){
     $_SESSION["kayttajanimi"]=$_POST["kayttajanimi"];

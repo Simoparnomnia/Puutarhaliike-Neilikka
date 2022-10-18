@@ -20,12 +20,21 @@
                   <li><a href="./index.php?sivu=kasvienhoito">Kasvien hoito</a></li>
                 </ul>	
               </li>
-              <li><a href="./index.php?sivu=myymalat">Myymälät</a></li>
+              <li><a href="./index.php?sivu=myymälät">Myymälät</a></li>
               <li><a href="./index.php?sivu=tietoameistä">Tietoa meistä</a></li>
               <li><a href="./index.php?sivu=otayhteyttä">Ota yhteyttä</a></li>
             </ul>
           <div style="display:inline-block;">
           <ul>
+
+          <?php          
+          if(isset($_SESSION['käyttäjänimi'])){
+            echo "<li class=\"loginandsignupbuttons\">Käyttäjä: ".$_SESSION['käyttäjänimi']."</li>";
+          }
+          else{
+            echo "<li style=\"color:grey; list-style-type:none\">Ei kirjauduttu sisään</li>";
+          }
+?>
 <?php
           if(!isset($_SESSION['käyttäjänimi'])){
             echo "<li class=\"loginandsignupbuttons\"><a href=".("./index.php?sivu=kirjautumislomake").">Kirjaudu sisään</a></li>";
@@ -35,13 +44,11 @@
           }
 ?>
             <li class="loginandsignupbuttons"><a href="index.php?sivu=rekisteröintilomake">Rekisteröidy</a></li>
-<?php          
-          if(isset($_SESSION['käyttäjänimi'])){
-            echo "<li class=\"loginandsignupbuttons\">Käyttäjä: ".$_SESSION['käyttäjänimi']."</li>";
-          }
-          else{
-            echo "<li style=\"color:grey; list-style-type:none\">Ei kirjauduttu sisään</li>";
-          }
+
+<?php
+if(!isset($_SESSION['käyttäjänimi'])){
+  echo "<li class=\"loginandsignupbuttons\"><a href=\"./index.php?sivu=unohtunutsalasanalomake\"><b>Oletko unohtanut salasanasi?</b></a></li>";
+}
 ?>
           </ul></div>
           </div>

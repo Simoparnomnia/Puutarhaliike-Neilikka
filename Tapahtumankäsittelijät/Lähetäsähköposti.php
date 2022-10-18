@@ -19,7 +19,7 @@
   if(isset($_POST["palauteviesti"])){
   $feedbackmessage=$_POST["palauteviesti"];
   }
-
+//TODO: ei testattu
   if($lomake=="Lähetä palaute"){
     //credentials.php-tiedostosta:
     if($mailservice=="mailtrap"){
@@ -64,7 +64,7 @@
       }
 
     }
-
+//TODO: ei testattu
     elseif($mailservice=="sendgrid"){
       require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
 
@@ -151,7 +151,7 @@
       $mail->AddReplyTo($mailtraphostdomain, "Puutarhaliike Neilikka");
       $mail->AddCC($mailtraphostdomain, "Puutarhaliike Neilikka");
       $mail->Subject = "Unohtuneen salasanan palautus";
-      $content = "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake?salasananlähetysonnistui=kyllä&sähköposti=$codedcustomeremailaddress&käyttäjänimi=$codedcustomerusername";
+      $content = "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&sähköposti=$codedcustomeremailaddress&käyttäjänimi=$codedcustomerusername";
       
 
       $mail->MsgHTML($content); 
@@ -160,12 +160,13 @@
         //echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
         //var_dump($mail);
       } else {
-        header("Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=kyllä");
+        header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä');
         //echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
       }
 
     }
 
+  //TODO: ei testattu, vertaa mailtrapin salasanan vaihto
     elseif($mailservice=="sendgrid"){
       require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
 
@@ -201,7 +202,7 @@
       $email->setFrom($customeremailaddress, $haettuetunimi.' '.$haettusukunimi);
       $email->setSubject('Puutarhaliike Neilikka, käyttäjätilin salasanan uusintalinkki');
       $email->addTo("Simo.Parnanen@edu-omnia.fi", "Simo P");
-      $email->addContent("text/plain", "Tälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake?salasananlähetysonnistui=kylla&sähköposti=".$codedcustomeremailaddress."&käyttäjänimi=".$codedcustomerusername);
+      $email->addContent("text/plain", "Tälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&salasananlähetysonnistui=kylla&sähköposti=".$codedcustomeremailaddress."&käyttäjänimi=".$codedcustomerusername);
 
       $sendgrid = new \SendGrid($sendgridhostpassword);
 
@@ -214,6 +215,7 @@
           
       } catch (Exception $e) {
         header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
+        exit();
         //echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
       }
     }
