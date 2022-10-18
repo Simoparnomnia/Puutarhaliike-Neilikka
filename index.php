@@ -227,7 +227,7 @@
                         require_once('Tapahtumankäsittelijät/käsittelevaihtolinkinavaus.php');
                     }
                     if(isset($_SESSION['vaihtolinkinavausonnistui'])){
-                        //session_start();
+                        
                         if($_SESSION['vaihtolinkinavausonnistui']==true){
                             if(isset($_SESSION["vaihdettavansalasanansähköposti"])){
                                 echo "<br><span class=\"successmessage\">Salasanan vaihtolinkin avaus onnistui, avauslinkkisivu kannattaa poistaa salasanan asetuksen jälkeen sivuhistoriasta</span>";
@@ -236,6 +236,7 @@
                             }
                         }
                         elseif($_SESSION['vaihtolinkinavausonnistui']==false){
+                            
                             if(!isset($_GET['tietokantavirhe'])){
                                 echo "<br><span class=\"errormessage\">Salasanan vaihtolinkin avaus epäonnistui, käyttäjää ei löydetty linkin perusteella <a href=\"./index.php?sivu=unohtunutsalasanalomake\">PÄIVITÄ SIVU</a></span>";
                                 session_destroy();
@@ -284,7 +285,7 @@
                     echo "<h1>Asetauusisalasanalomake, SESSION-muuttujat:</h1>";
                     foreach($_SESSION as $avain => $arvo){
                         echo "<br><h2>$avain : $arvo</h2>";
-                    }*/
+                    }*/ 
                     unset($_SESSION['vaihtolinkinavausonnistui']);
                 }
                 else{

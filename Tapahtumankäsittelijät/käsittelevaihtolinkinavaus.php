@@ -1,6 +1,6 @@
 <?php
 
-//Tätä ei tarvita koska tietokantayhteys muodostetaan jo index.php:ssä?
+
 
 
 if(isset($_GET['sähköposti'])){
@@ -15,7 +15,8 @@ if(isset($_GET['käyttäjänimi'])){
 $onkosähköpostiolemassakysely="SELECT sahkoposti, kayttajanimi FROM kayttajatili";
 
 if($kyselyntulos=$connection->query($onkosähköpostiolemassakysely)){
-    session_start();
+    //TODO: Session already started, varoitusta ei tule ilman tätä virheellisellä linkillä ja oikean linkin avaus toimii, ei siis tarvita täällä?
+    //session_start();
     while(list($sähköposti, $käyttäjänimi)=$kyselyntulos->fetch_row()){
     
         if(password_verify($sähköposti,$linkinsähköpostihash) && password_verify($käyttäjänimi, $linkinkäyttäjänimihash)){

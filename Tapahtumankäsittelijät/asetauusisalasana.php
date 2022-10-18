@@ -1,6 +1,7 @@
 <?php
 require_once('Tietokantayhteys.php');
-session_start();
+//TODO: Session already started- varoitus, ei tarvita täällä?
+//session_start();
 $vanhasalasana=$_POST["vanhasalasana"];
 $uusisalasana=$_POST["uusisalasana"];
 $vahvistauusisalasana=$_POST["vahvistauusisalasana"];
@@ -14,7 +15,7 @@ try{
             if(password_verify($vanhasalasana, $salasanahash)){
                 if($uusisalasana == $vahvistauusisalasana){
                     $salasanahash=password_hash($uusisalasana, PASSWORD_DEFAULT);
-                    $päivitäsalasanakysely="'UPDATE kayttajatili SET salasanahash='".$salasanahash."' WHERE LCSE(TRIM(sahkoposti))='".strtolower(trim($sähköposti));
+                    $päivitäsalasanakysely="UPDATE kayttajatili SET salasanahash='$salasanahash' WHERE LCASE(TRIM(sahkoposti))='".strtolower(trim($sähköposti))."'";
                     if($kyselyntulos=$connection->query($päivitäsalasanakysely)){
                         header('Location: ../index.php?sivu=asetauusisalasanalomake&salasananvaihtoonnistui=kyllä&oikeavanhasalasana=kyllä');
                         exit();
