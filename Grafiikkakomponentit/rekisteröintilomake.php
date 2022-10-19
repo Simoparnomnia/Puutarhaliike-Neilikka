@@ -26,7 +26,7 @@
 
 ?>
    <p>
-      <form method="post" action="./Tapahtumankäsittelijät/Luokäyttäjätili.php">
+      <form method="post" action="./Tapahtumankäsittelijät/Käyttäjänhallinta/Luokäyttäjätili.php">
       <br><b>Etunimi (vähintään 2 kirjainta)</b><input type="text" name="etunimi" id="etunimi" pattern="[a-öA-Ö]{2,}$"required><br>
       <br><b>Sukunimi (vähintään 2 kirjainta)</b><input type="text" name="sukunimi" id="sukunimi" pattern="[a-öA-Ö]{2,}$"required><br>
       <br><b>Puhelinnumero (pelkkiä numeroita, vähintään 8)</b><input type="text" name="puhelinnumero" id="puhelinnumero" pattern="[0-9]{8,}$"required><br>
@@ -46,7 +46,7 @@
       }
       else{
 
-        header('Location: index.php?sivu=rekisteröintilomake.php?maitaeihaettuvirhe=true');
+        header('Location: ./index.php?sivu=rekisteröintilomake.php?maitaeihaettuvirhe=true');
       }
 
 ?>

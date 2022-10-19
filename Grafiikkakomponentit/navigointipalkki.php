@@ -40,7 +40,7 @@
             echo "<li class=\"loginandsignupbuttons\"><a href=".("./index.php?sivu=kirjautumislomake").">Kirjaudu sisään</a></li>";
           }
           else{
-            echo "<li class=\"loginandsignupbuttons\"><a href=\"Tapahtumankäsittelijät/käsitteleuloskirjautuminen.php?kirjauduulos=kyllä\">Kirjaudu ulos</a></li>";
+            echo "<li class=\"loginandsignupbuttons\"><a href=\"Tapahtumankäsittelijät/Käyttäjänhallinta/käsitteleuloskirjautuminen.php?kirjauduulos=kyllä\">Kirjaudu ulos</a></li>";
           }
 ?>
             <li class="loginandsignupbuttons"><a href="index.php?sivu=rekisteröintilomake">Rekisteröidy</a></li>

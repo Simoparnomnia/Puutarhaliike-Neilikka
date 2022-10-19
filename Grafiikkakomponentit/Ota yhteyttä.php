@@ -12,7 +12,7 @@
   </p>  
   
   <p>
-    <form method="post" action="./Omatmoduulit/Lähetäsähköposti.php?lomake=palaute?sähköpostipalvelu=mailtrap">
+    <form method="post" action=".\Tapahtumankäsittelijät\Lähetäsähköposti.php?lomake=palaute?sähköpostipalvelu=mailtrap">
     Nimi<input type="text" name="nimi" id="nimi">
     <br>Sähköpostiosoite<input type="email" name="sähköposti" id="sähköposti" pattern="^[\w._%+-]+@[\w.-]+\.[a-z]{2,}$"required>  <br>   
     <select name="palauteaihe" id="palauteaihe">

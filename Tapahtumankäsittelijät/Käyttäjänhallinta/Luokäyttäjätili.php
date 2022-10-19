@@ -1,5 +1,5 @@
 <?php
-require_once('Tietokantayhteys.php');
+require_once('../Tietokantayhteys.php');
 
 
 
@@ -38,7 +38,7 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
                 if($annettukäyttäjänimi==$kayttajanimi){
                 //Uudelleenohjataan epäonnistumisella jos tunnukset ovat jo olemassa
   
-                    header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=käyttäjäonjoolemassa');
+                    header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=käyttäjäonjoolemassa');
                     $käyttäjäonjoolemassa=true;
                     
                     break;
@@ -86,10 +86,10 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
                                 }
                                 try{
                                     if($kyselyntulos=$connection->query($luokäyttäjäkysely)){
-                                        header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=kyllä');
+                                        header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=kyllä');
                                     }
                                 }catch(Exception $e){
-                                    header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=ei');
+                                    header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=ei');
                                 }
                             }
                     }
@@ -101,17 +101,17 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
                 
                     try{
                         if($kyselyntulos=$connection->query($luokäyttäjäkysely)){
-                            header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=kyllä');
+                            header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=kyllä');
                         }
                     }catch(Exception $e){
-                        header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=ei');
+                        header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=ei');
                     }
                 }
             }
               
             else{
                 //Uudelleenohjataan epäonnistumisella jos käyttäjä on jo olemassa
-                header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=käyttäjäonjoolemassa');             
+                header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=käyttäjäonjoolemassa');             
             }          
         }       
         else {
@@ -120,12 +120,12 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
     }
     else {
         //salasana ja salasanan vahvistus eivät täsmää
-        header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=salasanateivättäsmää');
+        header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=salasanateivättäsmää');
     }
           
 }
 else{
-    header('Location: ../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=ei');
+    header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=ei');
 }
     
 ?>

@@ -115,9 +115,9 @@ https://kayttajanimi.azurewebsites.net
 
 
 ## TODO
-### navigointipalkin modularisointi 
-    -header ja footer omiin tiedostoihinsa
-    -jokaisella sivulla missä päin verkkosivustoa ollaan (breadcrumbs?) (ks. $SERVER['SCRIPT_FILENAME'])
+### navigointi ja navigointipalkin modularisointi 
+    -header ja footer omiin tiedostoihinsa->TEHTY
+    -jokaisella sivulla tieto siitä missä päin verkkosivustoa ollaan (breadcrumbs?) (ks. $SERVER['SCRIPT_FILENAME'])
 
 ### Käyttäjänhallinta
     -Käyttäjän rekisteröinti -> TEHTY
@@ -127,8 +127,9 @@ https://kayttajanimi.azurewebsites.net
     -Muista minut (autentikointi-token/eväste että säilyy kirjautuneena vaikaa selainikkuna suljetaan)
 ### TEHTÄVÄNANTO 22.09.2022: 
     sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
+        Mailtrap->TESTATTAVA UUDELLEEN
 ### TEHTÄVÄNANTO 23.09.2022: 
-    Kokeile sähköpostin lähetystä myös SendGridilla. 
+    Kokeile sähköpostin lähetystä myös SendGridilla.-> EI TEHTY
 
 ### TEHTÄVÄNANTO 26.09.2022:
     Yhdistä Github:n main-haara Azureen, vie tietokanta Azureen ja hae omassa tiedostossa $_SERVER-supermuuttujalla tunnukset pilvessä

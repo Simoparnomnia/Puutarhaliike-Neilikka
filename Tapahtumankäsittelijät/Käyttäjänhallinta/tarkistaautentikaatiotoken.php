@@ -1,5 +1,5 @@
 <?php
-require_once('Tietokantayhteys.php');
+require_once('../Tietokantayhteys.php');
 
 
 /* check the remember_me in cookie
@@ -29,17 +29,20 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])
                     session_start();
                     $_SESSION["käyttäjänimi"]=$käyttäjänimi;
                     //Uudelleenohjataan jos oikeat tunnukset löytyivät   
-                    header('Location: ../index.php?sivu=etusivu$autentikaatioonnistui=kyllä');
+                    header('Location: ../../index.php?sivu=etusivu$autentikaatioonnistui=kyllä');
                     exit();
                 }
+                header('Location: ../../index.php?sivu=etusivu$autentikaatioonnistui=ei');
             }
         }
+
     }catch(Exception $e){
         //Tietokantavirhe
-        header('Location: ../index.php?sivu=etusivu&tietokantavirhe=kyllä');
+        header('Location: ../../index.php?sivu=etusivu&tietokantavirhe=kyllä');
     }
 
 }
+elseif
 
 
 

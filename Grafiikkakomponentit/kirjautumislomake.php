@@ -1,11 +1,12 @@
 
 <div id="pagecontent">
-<form method="post" action=".\Tapahtumankäsittelijät\Käsittelesisäänkirjautuminen.php">
+<form method="post" action=".\Tapahtumankäsittelijät\Käyttäjänhallinta\Käsittelesisäänkirjautuminen.php">
         <input type="text" name="käyttäjänimi" required/>
         <label><b>Käyttäjänimi</b></label>
         <input type="password" name="salasana" required/>
         <label><b>Salasana</b></label>
-        <input type="checkbox" name="muistaminut" value="muistaminut"/>
+        <INPUT type="checkbox" name="muistaminut" value="kyllä"/>
+        <label><b>Muista minut</b></label>
         <input type="submit" name="kirjaudusisaan" value="Kirjaudu sisään"/>
         
 

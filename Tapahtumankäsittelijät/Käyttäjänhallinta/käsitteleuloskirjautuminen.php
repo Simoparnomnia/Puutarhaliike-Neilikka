@@ -15,13 +15,13 @@ if(isset($_GET["kirjauduulos"]) == "kyllä"){
     unset($_SESSION["kayttajanimi"]);
     //Ohjataan takaisin etusivulle
     //TODO: samalle sivulle?
-    header('Location: ../index.php?sivu=etusivu&uloskirjautuminenonnistui=kyllä');
+    header('Location: ../../index.php?sivu=etusivu&uloskirjautuminenonnistui=kyllä');
     
 }
 else{
     //Ohjataan takaisin etusivulle
     //TODO: samalle sivulle?
-    header('Location: ../index.php?sivu=etusivu&uloskirjautuminenonnistui=ei');
+    header('Location: ../../index.php?sivu=etusivu&uloskirjautuminenonnistui=ei');
 }
 
 ?>
