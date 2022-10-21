@@ -11,6 +11,8 @@ if(isset($_GET["kirjauduulos"]) == "kyllä"){
         setcookie('muistaminut', null, -1);
     }
     
+    
+    
     session_destroy();
     unset($_SESSION["kayttajanimi"]);
     //Ohjataan takaisin etusivulle

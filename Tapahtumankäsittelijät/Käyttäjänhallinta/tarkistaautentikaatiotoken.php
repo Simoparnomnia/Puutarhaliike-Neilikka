@@ -1,5 +1,5 @@
 <?php
-require_once('../Tietokantayhteys.php');
+require_once('Tapahtumankäsittelijät/Tietokantayhteys.php');
 
 
 /* check the remember_me in cookie
@@ -28,13 +28,27 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])
                 if(password_verify($validaattori,$validaattorihash)==true){
                     session_start();
                     $_SESSION["käyttäjänimi"]=$käyttäjänimi;
-                    //Uudelleenohjataan jos oikeat tunnukset löytyivät   
+                    require_once('Tapahtumankäsittelijät/Käyttäjänhallinta/käsitteleautomaattinensisäänkirjautuminen.php');
+                    //Uudelleenohjataan jos oikea token löytyi   
                     header('Location: ../../index.php?sivu=etusivu$automaattinensisäänkirjautuminenonnistui=kyllä');
                     exit();
                 }
-                header('Location: ../../index.php?sivu=etusivu$automaattinensisäänkirjautuminenonnistui=ei');
             }
+            //TODO: Jos voimassaolevaa autentikaatiotokenia ei löytynyt tietokannasta, tulee vähintään poistaa evästeet selainpuolelta (myös käyttäjän vanhentunut token tietokannasta?)
+            if(isset($_COOKIE['muistaminut'])){
+                unset($_COOKIE['muistaminut']);
+                setcookie('muistaminut', null, -1);
+            }
+            if(isset($_COOKIE['autentikaatiotoken'])){
+                unset($_COOKIE['autentikaatiotoken']);
+                setcookie('autentikaatiotoken', null, -1);
+            }
+            header('Location: ../../index.php?sivu=etusivu$automaattinensisäänkirjautuminenonnistui=ei');
         }
+
+            
+             
+        
 
     }catch(Exception $e){
         //Tietokantavirhe

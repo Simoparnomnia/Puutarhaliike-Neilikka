@@ -1,3 +1,11 @@
+<?php 
+    require_once('Tapahtumankäsittelijät/Tietokantayhteys.php');
+    
+    //muista minut- eväste
+    if(isset($_COOKIE["muistaminut"])){
+        require_once('Tapahtumankäsittelijät/Käyttäjänhallinta/tarkistaautentikaatiotoken.php');
+    }
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -5,25 +13,12 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
 <?php
-    
-    require_once('Tapahtumankäsittelijät/Tietokantayhteys.php');
-    
-    //muista minut- eväste
-    if(isset($_COOKIE["muistaminut"])){
-        require_once('Tapahtumankäsittelijät/Käyttäjänhallinta/tarkistaautentikaatiotoken.php');
-    }
-
-    echo "<h1> COOKIE-muuttujat:</h1>";
-                    foreach($_COOKIE as $avain => $arvo){
-                        echo "<br><h2>$avain : $arvo</h2>";
-                    }
-    
+                     
     require_once('Grafiikkakomponentit/header.php');
     
     //echo '<b>'.$_SERVER['PHP_SELF'].'</b>';
     //$currentdate=date_create();
-    //echo (string)date_format($currentdate, 'Y-m-d H:i:s');
-    
+    //echo (string)date_format($currentdate, 'Y-m-d H:i:s');    
 ?>
 
 <body>
@@ -32,6 +27,19 @@
         <![endif]-->
         <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>-->
 <?php
+
+
+    if(isset($_COOKIE['muistaminut'])){
+        echo "Tarkistetaan autentikaatiotoken";
+    }
+    echo "<h3> COOKIE-muuttujat:</h3>";
+    foreach($_COOKIE as $avain => $arvo){
+        echo "<br><h5>$avain : $arvo</h5>";
+    }
+    echo "<h3> SESSION-muuttujat:</h3>";
+    foreach($_SESSION as $avain => $arvo){
+        echo "<br><h5>$avain : $arvo</h5>";
+    }
     
     require_once('Grafiikkakomponentit/navigointipalkki.php');
     if(isset($_GET['sivu'])){

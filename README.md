@@ -13,17 +13,34 @@ ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia'
 Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Mailtrap](https://mailtrap.io)-palvelua (SMTP) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
 
 ## Toimintaperiaate
+### Kredentiaalit
+Tietokantakirjautumista ja sähköpostien lähettämistä varten täytyy luoda credentials.php-tiedosto projektin juureen,
+katso tiedoston rakenteen kuvaus asennusohjeista. 
+### Navigointi
+Sivulla ei ikinä poistuta index.php-tiedostosta, näytettävä grafiikka luodaan require-lauseilla ja linkin kyselymuuttujien perusteella.
+Sivun navigointipalkki näyttää nykyisen sivun värittämällä kyseisen linkin eriväriseksi.
+### Käyttäjänhallinta
+Sivulla vierailija voi luoda uuden käyttäjän. Kaikkien käyttäjänimien täytyy olla erilaisia.
+
+Viesti unohtuneesta salasanasta välitetään
+Jos kirjautuessa Sivu luo autentikaatio-tokenin joka tallennetaan tietokantaan
+### Tietokannan rakenne
 Useammalla käyttäjällä voi olla sama osoite.
 ## Hakemistot
 
 ### index.php
-Grafiikkakompnenttien ja varoitusviestien generointi
+Sivun grafiikkakomponentit generoidaan ja tietyt tapahtumakäsittelijät kutsutaan täältä käsin.
 ### Composer
 [PHP-riippuvuuksienhallintaan](https://getcomposer.org/)
-### Omat moduulit
-Itsetehdyt moduulit, grafiikkakomponentit, tapahtumankäsittelijät (tietokantayhteys/rekisteröinti/kirjautuminen/sähköpostin lähetys), tietokannanluontilauseet (tietokannan esimerkkimateriaali)
+
+### Grafiikkakomponentit
+index.php:ssä renderöitävät komponentit ja varoitusviestit
+### Tapahtumankäsittelijät
+Tapahtumankäsittelijät (tietokantayhteys/rekisteröinti/kirjautuminen/sähköpostin lähetys), 
+### Tietokannanluontilauseet 
+Tietokannan esimerkkimateriaali, käyttäjät täytyy luoda itse omilla INSERT-lauseilla.
 ### Vendor
-Valmiskirjastot
+Ladatut valmiskirjastot
 #### Sähköposti
     (PHPMailer.php/SMTP.php/Exception.php
     sendgrid-php
@@ -117,7 +134,7 @@ https://kayttajanimi.azurewebsites.net
 ## TODO
 ### navigointi ja navigointipalkin modularisointi 
     -header ja footer omiin tiedostoihinsa->TEHTY
-    -jokaisella sivulla tieto siitä missä päin verkkosivustoa ollaan (navigointipalkin kohta tietyn värinen yms.) (ks. $SERVER['SCRIPT_FILENAME'] / $SERVER['QUERY_STRING'])
+    -jokaisella sivulla tieto siitä missä päin verkkosivustoa ollaan (navigointipalkin kohta tietyn värinen yms.) (ks. $SERVER['SCRIPT_FILENAME'] / $SERVER['QUERY_STRING']) -> TEHTY
 
 ### Käyttäjänhallinta
     -Käyttäjän rekisteröinti -> TEHTY
@@ -125,6 +142,9 @@ https://kayttajanimi.azurewebsites.net
     -Salasanat tallennettu hash-muodossa -> TEHTY
     -Unohtunut salasana -> TEHTY
     -Muista minut (autentikointi-token/eväste että säilyy kirjautuneena vaikaa selainikkuna suljetaan)
+
+### Tietokanta
+    -SQL-injektioiden ehkäisy (Prepared statements) 
 ### TEHTÄVÄNANTO 22.09.2022: 
     sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
         Mailtrap->TESTATTAVA UUDELLEEN
