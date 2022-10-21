@@ -1,8 +1,8 @@
 
 /* Definitions are in the following order:
-  1)general selectors and pseudo-classes
+  1)elements and pseudo-classes
   2)classes
-  3)elements
+  3)ids
 */
 
 
@@ -20,6 +20,7 @@
       max-width: 90%;
       max-height:75%;
       --navigationbackgroundcolor:aquamarine;
+      --navigationcurrentpagecolor:rgb(47, 255, 218);
   }
 
 
@@ -34,6 +35,16 @@
       
   }
 
+  a:visited
+  {
+  
+    color:green;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+
   a:hover{
     background-color:lightgreen;
     font-size:125%;
@@ -44,15 +55,7 @@
 
   }
 
-  a:visited
-  {
   
-    color:green;
-    font-style: normal;
-    font-weight: bold;
-    text-decoration:none;
-    white-space:nowrap;
-  }
 
 
 
@@ -287,6 +290,12 @@
     white-space:nowrap;
   }
 
+  #here
+  {
+    background-color:var(--navigationcurrentpagecolor);
+    color:darkslateblue;
+  }
+
 
 
   #main-nav
@@ -376,6 +385,7 @@
       max-width: 90%;
       max-height:75%;
       --navigationbackgroundcolor:aquamarine;
+      --navigationcurrentpagecolor:rgb(47, 255, 218);
   }
 
 
@@ -390,16 +400,6 @@
       
   }
 
-  a:hover{
-    background-color:lightgreen;
-    font-size:125%;
-    font-weight: bold;
-    text-decoration:none;
-    white-space:nowrap;
-    
-
-  }
-
   a:visited
   {
   
@@ -411,7 +411,15 @@
   }
   
 
+  a:hover{
+    background-color:lightgreen;
+    font-size:125%;
+    font-weight: bold;
+    text-decoration:none;
+    white-space:nowrap;
+    
 
+  }
 
   body 
   {
@@ -608,6 +616,11 @@
   }
 
 
+  #here
+  {
+    background-color:var(--navigationcurrentpagecolor);
+    color:white;
+  }
   #main-nav
   {
     background-color:var(--navigationbackgroundcolor);

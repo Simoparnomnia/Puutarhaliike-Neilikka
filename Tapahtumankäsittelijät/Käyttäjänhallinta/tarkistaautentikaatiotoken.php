@@ -29,10 +29,10 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])
                     session_start();
                     $_SESSION["käyttäjänimi"]=$käyttäjänimi;
                     //Uudelleenohjataan jos oikeat tunnukset löytyivät   
-                    header('Location: ../../index.php?sivu=etusivu$autentikaatioonnistui=kyllä');
+                    header('Location: ../../index.php?sivu=etusivu$automaattinensisäänkirjautuminenonnistui=kyllä');
                     exit();
                 }
-                header('Location: ../../index.php?sivu=etusivu$autentikaatioonnistui=ei');
+                header('Location: ../../index.php?sivu=etusivu$automaattinensisäänkirjautuminenonnistui=ei');
             }
         }
 
@@ -42,7 +42,6 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])
     }
 
 }
-elseif
 
 
 

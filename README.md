@@ -117,7 +117,7 @@ https://kayttajanimi.azurewebsites.net
 ## TODO
 ### navigointi ja navigointipalkin modularisointi 
     -header ja footer omiin tiedostoihinsa->TEHTY
-    -jokaisella sivulla tieto siitä missä päin verkkosivustoa ollaan (breadcrumbs?) (ks. $SERVER['SCRIPT_FILENAME'])
+    -jokaisella sivulla tieto siitä missä päin verkkosivustoa ollaan (navigointipalkin kohta tietyn värinen yms.) (ks. $SERVER['SCRIPT_FILENAME'] / $SERVER['QUERY_STRING'])
 
 ### Käyttäjänhallinta
     -Käyttäjän rekisteröinti -> TEHTY

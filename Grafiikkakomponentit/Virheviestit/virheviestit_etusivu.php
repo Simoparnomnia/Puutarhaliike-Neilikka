@@ -32,7 +32,7 @@ if(isset($_GET['autentikaatiotokeninluontionnistui'])){
     }
 }
 if(isset($_GET['tietokantavirhe'])){
-    echo "<br><span class=\"errormessage\">Virhe käyttäjän muistamisen tarkistuksessa <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
+    echo "<br><span class=\"errormessage\">Tietokantavirhe käyttäjän muistamisen tarkistuksessa, käyttäjää ei saatu kirjattua <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
 }
 
 

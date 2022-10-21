@@ -23,7 +23,7 @@ if(isset($_SESSION["käyttäjänimi"])){
             header('Location: ../../index.php?sivu=etusivu&autentikaatiotokeninluontionnistui=ei');
                     exit();
         }
-        } 
+    } 
     catch(Exception $e){
         //Tietokantavirhe
         header('Location: ../../index.php?sivu=etusivu&tietokantavirhe=kyllä');
