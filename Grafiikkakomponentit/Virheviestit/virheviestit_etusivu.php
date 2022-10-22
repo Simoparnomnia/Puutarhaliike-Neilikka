@@ -5,6 +5,9 @@ if(isset($_GET["sisäänkirjautuminenonnistui"])){
         echo "<br><span class=\"successmessage\">Kirjautuminen onnistui <a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
     }
 }
+
+
+
 if(isset($_GET["automaattinensisäänkirjautuminenonnistui"])){  
     if($_GET["automaattinensisäänkirjautuminenonnistui"] =="kyllä"){
         echo "<br><span class=\"successmessage\">Muista minut-toiminto käytössä, käyttäjän automaattinen sisäänkirjautuminen onnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
@@ -31,8 +34,9 @@ if(isset($_GET['autentikaatiotokeninluontionnistui'])){
         echo "<br><span class=\"errormessage\">Muista minut- tokenin epäonnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
     }
 }
+
 if(isset($_GET['tietokantavirhe'])){
-    echo "<br><span class=\"errormessage\">Tietokantavirhe, automaattinen sisäänkirjautuminen epäonnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
+    echo "<br><span class=\"errormessage\">Tietokantavirhe, automaattinen sisäänkirjautuminen tai vanhentuneen autentikaation poisto epäonnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
 }
 
 

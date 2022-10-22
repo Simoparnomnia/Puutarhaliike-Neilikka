@@ -12,14 +12,15 @@ if(isset($_GET['käyttäjänimi'])){
 
 
 
-$onkosähköpostiolemassakysely="SELECT sahkoposti, kayttajanimi FROM kayttajatili";
-
-if($kyselyntulos=$connection->query($onkosähköpostiolemassakysely)){
+$tietokantakysely->prepare("SELECT sahkoposti, kayttajanimi FROM kayttajatili");
+if($tietokantakysely->execute()){
     //TODO: Session already started, varoitusta ei tule ilman tätä virheellisellä linkillä ja oikean linkin avaus toimii, ei siis tarvita täällä?
     //session_start();
-    while(list($sähköposti, $käyttäjänimi)=$kyselyntulos->fetch_row()){
-    
+    $tietokantakysely->bind_result($sähköposti, $käyttäjänimi);
+    while($tietokantakysely->fetch()){
+        
         if(password_verify($sähköposti,$linkinsähköpostihash) && password_verify($käyttäjänimi, $linkinkäyttäjänimihash)){
+            
             //viitataan nykyiseen kansioon, koska tapahtumankäsittelijää käytetään suoraan index.php:ssa eikä grafiikkakomponentin lomakkeen actionina
             //header('Location: ./index.php?sivu=asetauusisalasanalomake&vaihtolinkinavausonnistui=kyllä&käyttäjänimihash='.$linkinkäyttäjänimihash);
             $_SESSION["vaihtolinkinavausonnistui"]=true;
@@ -27,6 +28,7 @@ if($kyselyntulos=$connection->query($onkosähköpostiolemassakysely)){
             header('Location: ./index.php?sivu=asetauusisalasanalomake');
             exit();
         }
+       
         
     
     }

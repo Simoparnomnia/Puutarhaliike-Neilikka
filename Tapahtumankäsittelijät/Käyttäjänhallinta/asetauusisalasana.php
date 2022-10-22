@@ -2,37 +2,46 @@
 require_once('../Tietokantayhteys.php');
 //TODO: Session already started- varoitus, ei tarvita täällä?
 //session_start();
-$vanhasalasana=$_POST["vanhasalasana"];
+$annettuvanhasalasana=$_POST["vanhasalasana"];
 $uusisalasana=$_POST["uusisalasana"];
-$vahvistauusisalasana=$_POST["vahvistauusisalasana"];
+$annettusalasananvahvistus=$_POST["vahvistauusisalasana"];
 $sähköposti=$_SESSION["vaihdettavansalasanansähköposti"];
 
-$onkosalasanajoolemassakysely="SELECT salasanahash FROM kayttajatili";
+//Sisäkkäiset kyselyt on pakko valmistella ennen yhdenkään suoritusta
+$tietokantakysely1=$connection->prepare("SELECT salasanahash FROM kayttajatili");
+$tietokantakysely2=$connection->prepare("UPDATE kayttajatili SET salasanahash=? WHERE sahkoposti=?");
+
 
 try{
-    if($kyselyntulos=$connection->query($onkosalasanajoolemassakysely)){
-        while(list($salasanahash)=$kyselyntulos->fetch_row()){
-            if(password_verify($vanhasalasana, $salasanahash)){
-                if($uusisalasana == $vahvistauusisalasana){
+    if($tietokantakysely1->execute()){
+        $tietokantakysely1->store_result();
+        $tietokantakysely1->bind_result($salasanahash);
+        while($tietokantakysely1->fetch()){
+            if(password_verify($annettuvanhasalasana, $salasanahash)){
+                if($uusisalasana == $annettusalasananvahvistus){
                     $salasanahash=password_hash($uusisalasana, PASSWORD_DEFAULT);
-                    $päivitäsalasanakysely="UPDATE kayttajatili SET salasanahash='$salasanahash' WHERE LCASE(TRIM(sahkoposti))='".strtolower(trim($sähköposti))."'";
-                    if($kyselyntulos=$connection->query($päivitäsalasanakysely)){
+                    //päivitä jos sekä vanha salasana että uudet salasanat ovat oikein
+                    $tietokantakysely2->bind_param("ss",$salasanahash,$sähköposti);
+                    if($tietokantakysely2->execute()){
                         header('Location: ../../index.php?sivu=asetauusisalasanalomake&salasananvaihtoonnistui=kyllä&oikeavanhasalasana=kyllä');
                         exit();
                     }
                 }
                 else{
-                    //echo "virhe, uusi salasana ja uuden salasanan vahvistus eivät täsmää : ".$connection->$error;               
+                    //Jos uusi salasana ja uuden salasanan vahvistus eivät täsmää 
+
                     header('Location: ../../index.php?sivu=asetauusisalasanalomake&salasananvaihtoonnistui=ei&oikeavanhasalasana=kyllä');
                     exit();
                     
                 }
             }
-            else{
-                header('Location: ../../index.php?sivu=asetauusisalasanalomake&salasananvaihtoonnistui=ei&oikeavanhasalasana=ei');
-            }
         }
+        $tietokantakysely1->free_result();
+        
+            header('Location: ../../index.php?sivu=asetauusisalasanalomake&salasananvaihtoonnistui=ei&oikeavanhasalasana=ei');
     }
+        
+    
 }catch(Exception $e){
     echo "Tietokantavirhe: ".$e;  
     exit();             

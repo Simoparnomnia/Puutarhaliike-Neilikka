@@ -13,6 +13,7 @@ if(!isset($_SESSION)){
 
 // Luo tietokantayhteys
 $connection = new mysqli($servername, $username, $password, $db);
+$tietokantakysely = new mysqli_stmt($connection);
 // Tarkista tietokantayhteys
 if ($connection->connect_error) {
     die("Tietokantayhteys epäonnistui: " . $connection->connect_error);

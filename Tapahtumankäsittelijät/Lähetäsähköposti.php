@@ -8,10 +8,10 @@
 
   $lomake=$_POST["lomake"];
   if(isset($_POST["nimi"])){
-  $customername=$_POST["nimi"];
+  $sendername=$_POST["nimi"];
   }
   if(isset($_POST["sähköposti"])){
-  $customeremailaddress=$_POST["sähköposti"];
+  $senderemailaddress=strtolower(trim($_POST["sähköposti"]));
   }
   if(isset($_POST["palauteaihe"])){
   $feedbacktopic=$_POST["palauteaihe"];
@@ -47,7 +47,7 @@
       
       $mail->IsHTML(true);
       $mail->AddAddress("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
-      $mail->SetFrom($customeremailaddress, $customername);
+      $mail->SetFrom($senderemailaddress, $sendername);
       $mail->AddReplyTo("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
       $mail->AddCC("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
       $mail->Subject = $feedbacktopic;
@@ -71,7 +71,7 @@
 
 
       $email = new SendGrid\Mail\Mail();
-      $email->setFrom($customeremailaddress, $customername);
+      $email->setFrom($senderemailaddress, $sendername);
       $email->setSubject($feedbacktopic);
       $email->addTo("Simo.Parnanen@edu-omnia.fi", "Simo P");
       $email->addContent("text/plain", $feedbackmessage);
@@ -125,13 +125,13 @@
         if($kyselyntulos=$connection->query($haesähköpostikysely)){
           while(list($sähköposti, $käyttäjänimi, $etunimi, $sukunimi)=$kyselyntulos->fetch_row()){
             //echo $sähköposti.''.$käyttäjänimi;
-            if(strtolower(trim($customeremailaddress))==$sähköposti){
+            if($senderemailaddress==$sähköposti){
               //koodataan tietoturvallista uusintalinkkiä varten
               $haettusähköposti=$sähköposti;
               $customerusername=$käyttäjänimi;
               $haettuetunimi=$etunimi;
               $haettusukunimi=$sukunimi;
-              $codedcustomeremailaddress=password_hash($haettusähköposti, PASSWORD_DEFAULT);
+              $codedsenderemailaddress=password_hash($haettusähköposti, PASSWORD_DEFAULT);
               $codedcustomerusername=password_hash($käyttäjänimi, PASSWORD_DEFAULT);
               break;
             }
@@ -151,7 +151,7 @@
       $mail->AddReplyTo($mailtraphostdomain, "Puutarhaliike Neilikka");
       $mail->AddCC($mailtraphostdomain, "Puutarhaliike Neilikka");
       $mail->Subject = "Unohtuneen salasanan palautus";
-      $content = "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&sähköposti=$codedcustomeremailaddress&käyttäjänimi=$codedcustomerusername";
+      $content = "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&sähköposti=$codedsenderemailaddress&käyttäjänimi=$codedcustomerusername";
       
 
       $mail->MsgHTML($content); 
@@ -182,12 +182,12 @@
         if($kyselyntulos=$connection->query($haesähköpostikysely)){
           while(list($sähköposti, $käyttäjänimi, $etunimi, $sukunimi)=$kyselyntulos->fetch_row()){
             if($givenemailaddress==$sähköposti){
-              $customeremailaddress=$givenemailaddress;
+              $senderemailaddress=$givenemailaddress;
               $customerusername=$käyttäjänimi;
               $haettuetunimi=$etunimi;
               $haettusukunimi=$sukunimi;
               //koodataan tietoturvallista uusintalinkkiä varten
-              $codedcustomeremailaddress=password_hash($givenemailaddress, PASSWORD_DEFAULT);
+              $codedsenderemailaddress=password_hash($givenemailaddress, PASSWORD_DEFAULT);
               $codedcustomerusername=password_hash($customerusername, PASSWORD_DEFAULT);
               break;
             }
@@ -199,16 +199,16 @@
         }
 
       $email = new \SendGrid\Mail\Mail();
-      $email->setFrom($customeremailaddress, $haettuetunimi.' '.$haettusukunimi);
+      $email->setFrom($senderemailaddress, $haettuetunimi.' '.$haettusukunimi);
       $email->setSubject('Puutarhaliike Neilikka, käyttäjätilin salasanan uusintalinkki');
       $email->addTo("Simo.Parnanen@edu-omnia.fi", "Simo P");
-      $email->addContent("text/plain", "Tälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&salasananlähetysonnistui=kylla&sähköposti=".$codedcustomeremailaddress."&käyttäjänimi=".$codedcustomerusername);
+      $email->addContent("text/plain", "Tälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&salasananlähetysonnistui=kylla&sähköposti=".$codedsenderemailaddress."&käyttäjänimi=".$codedcustomerusername);
 
       $sendgrid = new \SendGrid($sendgridhostpassword);
 
       try {
           $response = $sendgrid->send($email);
-          //header("Location: ./index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=kyllä&sähköposti='$codedcustomeremailaddress'&käyttäjänimi='$codedcustomerusername");
+          //header("Location: ./index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=kyllä&sähköposti='$codedsenderemailaddress'&käyttäjänimi='$codedcustomerusername");
           //print $response->statusCode() . "\n";
           //print_r($response->headers());
           //print $response->body() . "\n";

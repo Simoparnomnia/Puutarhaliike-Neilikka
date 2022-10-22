@@ -14,7 +14,7 @@ if ($token && token_is_valid($token)) {
     }
 }*/
 
-if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])){
+if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["muistaminut"]) && isset($_COOKIE["autentikaatiotoken"])){
     $autentikaatiotoken=filter_input(INPUT_COOKIE,"autentikaatiotoken",FILTER_SANITIZE_STRING);
     $selektorijavalidaattori=explode(".",$autentikaatiotoken);
     $selektori=$selektorijavalidaattori[0];
@@ -30,11 +30,12 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])
                     $_SESSION["käyttäjänimi"]=$käyttäjänimi;
                     require_once('Tapahtumankäsittelijät/Käyttäjänhallinta/käsitteleautomaattinensisäänkirjautuminen.php');
                     //Uudelleenohjataan jos oikea token löytyi   
-                    header('Location: ../../index.php?sivu=etusivu$automaattinensisäänkirjautuminenonnistui=kyllä');
+                    header('Location: ../../index.php?sivu=etusivu&automaattinensisäänkirjautuminenonnistui=kyllä');
                     exit();
                 }
             }
-            //TODO: Jos voimassaolevaa autentikaatiotokenia ei löytynyt tietokannasta, tulee vähintään poistaa evästeet selainpuolelta (myös käyttäjän vanhentunut token tietokannasta?)
+            //Jos voimassaolevaa autentikaatiotokenia ei löytynyt tietokannasta vaikka tokeneväste on selainpuolella, 
+            // tulee vähintään poistaa evästeet selainpuolelta, tietokantapoiston voi hoitaa seuraavilla evästeettömillä sivuavauksilla
             if(isset($_COOKIE['muistaminut'])){
                 unset($_COOKIE['muistaminut']);
                 setcookie('muistaminut', null, -1);
@@ -43,11 +44,12 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])
                 unset($_COOKIE['autentikaatiotoken']);
                 setcookie('autentikaatiotoken', null, -1);
             }
-            header('Location: ../../index.php?sivu=etusivu$automaattinensisäänkirjautuminenonnistui=ei');
-        }
 
             
-             
+
+            header('Location: ../../index.php?sivu=etusivu&automaattinensisäänkirjautuminenonnistui=ei');
+        }
+       
         
 
     }catch(Exception $e){
@@ -56,6 +58,18 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])
     }
 
 }
+elseif(!isset($_SESSION["käyttäjänimi"]) && !isset($_COOKIE["muistaminut"]) && !isset($_COOKIE["autentikaatiotoken"])){
+    //Poistetaan vanhat tokenit tietokannasta
+    $poistavanhaautentikaatiotokenkysely="DELETE FROM kayttajantoken WHERE umpeutumisaika < NOW()";
+    try{
+        $connection->query($poistavanhaautentikaatiotokenkysely);
+            
+    }catch(Exception $e){
+        //Tietokantavirhe
+        header('Location: ../../index.php?sivu=etusivu&tietokantavirhe=kyllä');
+    }
+}
+
 
 
 

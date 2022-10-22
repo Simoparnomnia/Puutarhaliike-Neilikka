@@ -2,9 +2,9 @@
     require_once('Tapahtumankäsittelijät/Tietokantayhteys.php');
     
     //muista minut- eväste
-    if(isset($_COOKIE["muistaminut"])){
+    
         require_once('Tapahtumankäsittelijät/Käyttäjänhallinta/tarkistaautentikaatiotoken.php');
-    }
+    
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -163,10 +163,10 @@
                                 if(!isset($_GET['tietokantavirhe'])){
                                     if(isset($_GET['oikeavanhasalasana'])){
                                         if($_GET['oikeavanhasalasana']=="kyllä"){
-                                            echo "<br><span class=\"errormessage\">Salasanan vaihto epäonnistui, uusi salasana ja uuden salasanan vahvistus eivät täsmää <a href=\"./index.php?sivu=unohtunutsalasanalomake\">PÄIVITÄ SIVU</a></span>";         
+                                            echo "<br><span class=\"errormessage\">Salasanan vaihto epäonnistui, uusi salasana ja uuden salasanan vahvistus eivät täsmää, avaa vaihtolinkki uudestaan <a href=\"./index.php?sivu=unohtunutsalasanalomake\">PÄIVITÄ SIVU</a></span>";         
                                         }
                                         else{
-                                            echo "<br><span class=\"errormessage\">Salasanan vaihto epäonnistui, väärä vanha salasana <a href=\"./index.php?sivu=unohtunutsalasanalomake\">PÄIVITÄ SIVU</a></span>";                                   
+                                            echo "<br><span class=\"errormessage\">Salasanan vaihto epäonnistui, väärä vanha salasana, avaa vaihtolinkki uudestaan <a href=\"./index.php?sivu=unohtunutsalasanalomake\">PÄIVITÄ SIVU</a></span>";                                   
                                         }
                                         session_destroy();
                                     }

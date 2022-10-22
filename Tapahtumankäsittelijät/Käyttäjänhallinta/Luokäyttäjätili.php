@@ -12,7 +12,7 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
         $annettuetunimi=$_POST['etunimi'];
         $annettusukunimi=$_POST['sukunimi'];
         $annettupuhelinnumero=$_POST['puhelinnumero'];
-        $annettusähköposti=$_POST['sähköposti'];
+        $annettusähköposti=strtolower(trim($_POST['sähköposti']));
         $annettuosoite=$_POST['osoite'];
         $annettupostinumero=$_POST['postinumero'];
         $annettupostitoimipaikka=$_POST['postitoimipaikka'];

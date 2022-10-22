@@ -10,35 +10,38 @@ try{
         
         
         
-        $tunnuskysely="SELECT kayttajanimi, salasanahash FROM kayttajatili WHERE kayttajanimi='$annettukäyttäjänimi'";
-        
-            if ($kyselyntulos=$connection->query($tunnuskysely)){
-                while(list($käyttäjänimi, $salasanahash)=$kyselyntulos->fetch_row()){
-                    
-                
-                    $oikeasalasana=password_verify($annettusalasana, $salasanahash);
-                             
-                    
-                    if($annettukäyttäjänimi==$käyttäjänimi && $oikeasalasana==true){
-                        session_start();
-                        $_SESSION['käyttäjänimi']=$käyttäjänimi;
-                        
-                        if(isset($_POST["muistaminut"])){
-                            require_once('luoautentikaatiotoken.php');
-                        }
-                    
+        $tietokantakysely->prepare("SELECT kayttajanimi, salasanahash FROM kayttajatili WHERE kayttajanimi=?");
+        $tietokantakysely->bind_param("s",$annettukäyttäjänimi);
+        if ($tietokantakysely->execute()){
 
-                        //Uudelleenohjataan etusivulle jos oikeat tunnukset löytyivät           
-                        header('Location: ../../index.php?sivu=etusivu&sisäänkirjautuminenonnistui=kyllä');
-                        exit();
+            $tietokantakysely->bind_result($käyttäjänimi, $salasanahash);
+            while($tietokantakysely->fetch()){
+                //echo "Sisäänkirjautumisen tietokantakyselyn tulokset:".$käyttäjänimi." ". $salasanahash;
+                //exit();
+                $oikeasalasana=password_verify($annettusalasana, $salasanahash);
+                            
+                
+                if($annettukäyttäjänimi==$käyttäjänimi && $oikeasalasana==true){
+                    session_start();
+                    $_SESSION['käyttäjänimi']=$käyttäjänimi;
+                    
+                    if(isset($_POST["muistaminut"])){
+                        require_once('luoautentikaatiotoken.php');
                     }
+                
+
+                    //Uudelleenohjataan etusivulle jos oikeat tunnukset löytyivät           
+                    header('Location: ../../index.php?sivu=etusivu&sisäänkirjautuminenonnistui=kyllä');
+                    exit();
                 }
-                    
             }
-                    //Jos oikeita tunnuksia ei löytynyt, uudelleenohjataan takaisin
-                    header('Location: ../../index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=ei');
-                    
-            
+                
+        
+                //Jos oikeita tunnuksia ei löytynyt, uudelleenohjataan takaisin
+                header('Location: ../../index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=ei');
+                
+        
+        }
     }
                
 }catch(Exception $e){

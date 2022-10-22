@@ -5,11 +5,20 @@ if(isset($_GET["kirjauduulos"]) == "kyllä"){
     $_SESSION["kayttajanimi"]=$_POST["kayttajanimi"];
     $_SESSION["salasana"]=$_POST["salasana"];
     
-    // poista  muista minut- eväste
+    // poista  muista minut- ja autentikaatiotoken- evästeet
     if (isset($_COOKIE['muistaminut'])) {
         unset($_COOKIE['muistaminut']);
         setcookie('muistaminut', null, -1);
     }
+
+    // poista  muista minut- ja autentikaatiotoken- evästeet
+    if (isset($_COOKIE['autentikaatiotoken'])) {
+        unset($_COOKIE['autentikaatiotoken']);
+        setcookie('autentikaatiotoken', null, -1);
+    }
+    
+
+    
     
     
     

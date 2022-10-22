@@ -141,7 +141,7 @@ https://kayttajanimi.azurewebsites.net
     -Kirjaudu sisään ja ulos -> TEHTY
     -Salasanat tallennettu hash-muodossa -> TEHTY
     -Unohtunut salasana -> TEHTY
-    -Muista minut (autentikointi-token/eväste että säilyy kirjautuneena vaikaa selainikkuna suljetaan)
+    -Muista minut (autentikointi-token/eväste että säilyy kirjautuneena vaikka selainikkuna suljetaan) ->TEHTY, vielä ei saada näytettyä automaattisen kirjautumisen epäonnistumisen tapauksessa virheviestiä
 
 ### Tietokanta
     -SQL-injektioiden ehkäisy (Prepared statements) 
