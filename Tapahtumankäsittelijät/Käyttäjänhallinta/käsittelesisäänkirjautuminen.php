@@ -22,7 +22,8 @@ try{
                             
                 
                 if($annettukäyttäjänimi==$käyttäjänimi && $oikeasalasana==true){
-                    session_start();
+                    //TODO: tulee varoitusviesti että sessio on jo käynnissä, ei tarvita?
+                    //session_start();
                     $_SESSION['käyttäjänimi']=$käyttäjänimi;
                     
                     if(isset($_POST["muistaminut"])){

@@ -9,10 +9,10 @@ if(isset($_SESSION["käyttäjänimi"])){
     //echo "$nykypäivämäärä";
     //echo "<br>$umpeutumisaika";
     //exit();
-    $luoautentikaatiotokenkysely="INSERT INTO kayttajantoken (selektori,validaattorihash,kayttajanimi,umpeutumisaika) VALUES ('$selektori','$validaattorihash','$käyttäjänimi', NOW()+ INTERVAL 2 MINUTE)";
-    
+    $tietokantakysely->prepare("INSERT INTO kayttajantoken (selektori,validaattorihash,kayttajanimi,umpeutumisaika) VALUES (?,?,?, NOW()+ INTERVAL 2 MINUTE)");
+    $tietokantakysely->bind_param("sss",$selektori,$validaattorihash,$käyttäjänimi);
     try{
-        if($kyselyntulos=$connection->query($luoautentikaatiotokenkysely)){
+        if($tietokantakysely->execute($luoautentikaatiotokenkysely)){
                     //Uudelleenohjataan jos autentikaatiotokenin tallennus onnistui
                     setcookie("muistaminut","muistaminut",time()+120,"/");
                     setcookie("autentikaatiotoken",$selektori.".".$validaattori,time()+120,"/");

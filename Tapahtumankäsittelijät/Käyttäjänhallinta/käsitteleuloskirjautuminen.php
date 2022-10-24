@@ -8,13 +8,13 @@ if(isset($_GET["kirjauduulos"]) == "kyllä"){
     // poista  muista minut- ja autentikaatiotoken- evästeet
     if (isset($_COOKIE['muistaminut'])) {
         unset($_COOKIE['muistaminut']);
-        setcookie('muistaminut', null, -1);
+        setcookie('muistaminut', null, -1000);
     }
 
     // poista  muista minut- ja autentikaatiotoken- evästeet
     if (isset($_COOKIE['autentikaatiotoken'])) {
         unset($_COOKIE['autentikaatiotoken']);
-        setcookie('autentikaatiotoken', null, -1);
+        setcookie('autentikaatiotoken', null, -1000);
     }
     
 

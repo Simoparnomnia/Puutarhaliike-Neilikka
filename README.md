@@ -20,10 +20,19 @@ katso tiedoston rakenteen kuvaus asennusohjeista.
 Sivulla ei ikinä poistuta index.php-tiedostosta, näytettävä grafiikka luodaan require-lauseilla ja linkin kyselymuuttujien perusteella.
 Sivun navigointipalkki näyttää nykyisen sivun värittämällä kyseisen linkin eriväriseksi.
 ### Käyttäjänhallinta
-Sivulla vierailija voi luoda uuden käyttäjän. Kaikkien käyttäjänimien täytyy olla erilaisia.
-
-Viesti unohtuneesta salasanasta välitetään
-Jos kirjautuessa Sivu luo autentikaatio-tokenin joka tallennetaan tietokantaan
+Sivulla vierailija voi luoda uuden käyttäjän. Kaikkien käyttäjänimien täytyy olla erilaisia. Salasanat on tallennettu
+tietokantaan hash-muodossa.
+#### Unohtuneen salasanan palautus
+Viesti unohtuneesta salasanasta välitetään Mailgrid-palveluun. Salasanan uudelleenasetuslomaketta ei saada avattua ilman
+sähköpostiviestissä lähetetyn linkin sähköposti- ja käyttäjänimihasheja ja silloinkin on tiedettävä vanha salasana kun
+päästään salasanan uudelleenasetuslomakkeelle.
+#### Muista minut
+Jos muista minut-toiminto on käytössä, sivu luo autentikaatio-tokenin evästeen joka myös tallennetaan joka tallennetaan tietokantaan.
+Umpeutuneet tokenit poistetaan tietokannasta jos sivu avataan kirjautumattomana ja avaajan koneella ei ole voimassaolevaa evästettä.
+### Virheviestit
+-Virheviesti jos yritetään avata kirjautumislomaketta ja käyttäjä on jo kirjautunut sisään
+-Virheviesti jos yritetään avata salasanan vaihtolomaketta sisäänkirjautuneena
+-Virheviesti jos yritetään avata salasanan vaihtolomaketta ilman oikeaa sähköpostiin lähetettyä linkkiä
 ### Tietokannan rakenne
 Useammalla käyttäjällä voi olla sama osoite.
 ## Hakemistot
@@ -133,18 +142,21 @@ https://kayttajanimi.azurewebsites.net
 
 ## TODO
 ### navigointi ja navigointipalkin modularisointi 
-    -header ja footer omiin tiedostoihinsa->TEHTY
-    -jokaisella sivulla tieto siitä missä päin verkkosivustoa ollaan (navigointipalkin kohta tietyn värinen yms.) (ks. $SERVER['SCRIPT_FILENAME'] / $SERVER['QUERY_STRING']) -> TEHTY
+    -Saadaanko kaikki virheviestit pois index.php:stä hajottamatta sivun toimintalogiikkaa?
 
 ### Käyttäjänhallinta
-    -Käyttäjän rekisteröinti -> TEHTY
-    -Kirjaudu sisään ja ulos -> TEHTY
-    -Salasanat tallennettu hash-muodossa -> TEHTY
-    -Unohtunut salasana -> TEHTY
-    -Muista minut (autentikointi-token/eväste että säilyy kirjautuneena vaikka selainikkuna suljetaan) ->TEHTY, vielä ei saada näytettyä automaattisen kirjautumisen epäonnistumisen tapauksessa virheviestiä
+    -Muista minut (autentikointi-token/eväste että säilyy kirjautuneena vaikka selainikkuna suljetaan) ->
+        -vielä ei saada näytettyä automaattisen kirjautumisen epäonnistumisen tapauksessa virheviestiä
+        -Jos selaineväste on voimassa, kirjaudutaan sisään automaattisesti heti ulokirjautumisen jälkeen
+        - Jos tokenia ei löydy tietokannasta, uloskirjautuminen ohjaa XAMPP:n dashboardiin hypätään 
+        
+
+### Virheviestit
+    -Virheviesti jos yritetään avata kirjautumislomaketta ja käyttäjä on jo kirjautunut sisään -> EI NÄYTÄ VIRHEVIESTIÄ JOS ON KIRJAUDUTTU JA AUTENTIKAATIOTOKEN-EVÄSTE ON VIELÄ VOIMASSA
+    
 
 ### Tietokanta
-    -SQL-injektioiden ehkäisy (Prepared statements) 
+    -SQL-injektioiden ehkäisy (Prepared statements) -> TEHTY
 ### TEHTÄVÄNANTO 22.09.2022: 
     sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
         Mailtrap->TESTATTAVA UUDELLEEN

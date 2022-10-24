@@ -20,17 +20,19 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["muistaminut"]) && iss
     $selektori=$selektorijavalidaattori[0];
     $validaattori=$selektorijavalidaattori[1];
     
-    $tarkistaautentikaatiotokenkysely="SELECT kayttajanimi, selektori, validaattorihash, umpeutumisaika FROM kayttajantoken WHERE selektori = '$selektori' and umpeutumisaika > NOW()";
+    $tarkistaautentikaatiotokenkysely=$connection->prepare("SELECT kayttajanimi, selektori, validaattorihash, umpeutumisaika FROM kayttajantoken WHERE selektori = ? and umpeutumisaika > NOW()");
+    $tarkistaautentikaatiotokenkysely->bind_param("s",$selektori);
     try{
-        if($kyselyntulos=$connection->query($tarkistaautentikaatiotokenkysely)){
-            while(list($käyttäjänimi, $selektori, $validaattorihash, $umpeutumisaika)= $kyselyntulos->fetch_row()){
+        if($tarkistaautentikaatiotokenkysely->execute()){
+            $tarkistaautentikaatiotokenkysely->bind_result($käyttäjänimi,$selektori,$validaattorihash,$umpeutumisaika);
+            while($tarkistaautentikaatiotokenkysely->fetch()){
                 echo $käyttäjänimi;
                 if(password_verify($validaattori,$validaattorihash)==true){
                     session_start();
                     $_SESSION["käyttäjänimi"]=$käyttäjänimi;
                     require_once('Tapahtumankäsittelijät/Käyttäjänhallinta/käsitteleautomaattinensisäänkirjautuminen.php');
                     //Uudelleenohjataan jos oikea token löytyi   
-                    header('Location: ../../index.php?sivu=etusivu&automaattinensisäänkirjautuminenonnistui=kyllä');
+                    header('Location: ./index.php?sivu=etusivu&automaattinensisäänkirjautuminenonnistui=kyllä');
                     exit();
                 }
             }
@@ -60,9 +62,9 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["muistaminut"]) && iss
 }
 elseif(!isset($_SESSION["käyttäjänimi"]) && !isset($_COOKIE["muistaminut"]) && !isset($_COOKIE["autentikaatiotoken"])){
     //Poistetaan vanhat tokenit tietokannasta
-    $poistavanhaautentikaatiotokenkysely="DELETE FROM kayttajantoken WHERE umpeutumisaika < NOW()";
+    $poistavanhaautentikaatiotokenkysely=$connection->prepare("DELETE FROM kayttajantoken WHERE umpeutumisaika < NOW()");
     try{
-        $connection->query($poistavanhaautentikaatiotokenkysely);
+        $poistavanhaautentikaatiotokenkysely->execute();
             
     }catch(Exception $e){
         //Tietokantavirhe

@@ -7,9 +7,11 @@ try{
     if(isset($_COOKIE['muistaminut']) && isset($_COOKIE['autentikaatiotoken'])){
         $selektorijavalidaattori=explode('.',$_COOKIE['autentikaatiotoken']);
         $selektori=$selektorijavalidaattori[0];
-        $tokeninkäyttäjäkysely="SELECT kayttajanimi FROM kayttajatili WHERE kayttajanimi= (SELECT kayttajanimi FROM kayttajantoken WHERE selektori='$selektori')";
-        if ($kyselyntulos=$connection->query($tokeninkäyttäjäkysely)){
-            while(list($käyttäjänimi)=$kyselyntulos->fetch_row()){
+        $tokeninkäyttäjäkysely=$connection->prepare("SELECT kayttajanimi FROM kayttajatili WHERE kayttajanimi= (SELECT kayttajanimi FROM kayttajantoken WHERE selektori=?)");
+        $tokeninkäyttäjäkysely->bind_param("s",$selektori);
+        if ($tokeninkäyttäjäkysely->execute()){
+            $tokeninkäyttäjäkysely->bind_result($käyttäjänimi);
+            while($tokeninkäyttäjäkysely->fetch()){
                 if($käyttäjänimi){
                     session_start();
                     $_SESSION['käyttäjänimi']=$käyttäjänimi;

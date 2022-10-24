@@ -2,7 +2,7 @@
 
 if(isset($_GET["sisäänkirjautuminenonnistui"])){  
     if($_GET["sisäänkirjautuminenonnistui"] =="kyllä"){
-        echo "<br><span class=\"successmessage\">Kirjautuminen onnistui <a href=\"./index.php?sivu=kirjautumislomake\">PÄIVITÄ SIVU</a></span>";
+        echo "<br><span class=\"successmessage\">Kirjautuminen onnistui <a href=\"./index.php?sivu=etusivu\">PÄIVITÄ SIVU</a></span>";
     }
 }
 

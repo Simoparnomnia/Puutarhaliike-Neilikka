@@ -7,7 +7,7 @@ $uusisalasana=$_POST["uusisalasana"];
 $annettusalasananvahvistus=$_POST["vahvistauusisalasana"];
 $sähköposti=$_SESSION["vaihdettavansalasanansähköposti"];
 
-//Sisäkkäiset kyselyt on pakko valmistella ennen yhdenkään suoritusta
+//TODO: Sisäkkäiset kyselyt (tarvitaanko prepared-lauseet tässä toistensä perään?)
 $tietokantakysely1=$connection->prepare("SELECT salasanahash FROM kayttajatili");
 $tietokantakysely2=$connection->prepare("UPDATE kayttajatili SET salasanahash=? WHERE sahkoposti=?");
 

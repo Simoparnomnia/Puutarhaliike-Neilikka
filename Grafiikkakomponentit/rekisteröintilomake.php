@@ -31,9 +31,9 @@
       <br><b>Sukunimi (vähintään 2 kirjainta)</b><input type="text" name="sukunimi" id="sukunimi" pattern="[a-öA-Ö]{2,}$"required><br>
       <br><b>Puhelinnumero (pelkkiä numeroita, vähintään 8)</b><input type="text" name="puhelinnumero" id="puhelinnumero" pattern="[0-9]{8,}$"required><br>
       <br><b>Sähköposti (oltava muotoa nimi@osoite.com)</b><input type="text" name="sähköposti" id="sähköposti" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"required><br>
-      <br><b>Osoite (vähintään 8 kirjainta)</b><input type="text" name="osoite" id="osoite" pattern="[a-öA-Ö]{8,}$"required><br>
+      <br><b>Osoite (vähintään 8 kirjainta, välilyönti ja 1-3 numeroa perässä)</b><input type="text" name="osoite" id="osoite" pattern="[a-öA-Ö]\w{8,}.[0-9]{1,3}$"required><br>
       <br><b>Postinumero (vähintään 5 numeroa)</b><input type="text" name="postinumero" id="postinumero" pattern="[0-9]{5,}$"required><br>
-      <br><b>Postitoimipaikka (iso alkukirjain ja vähintään 4 kirjainta)</b><input type="text" name="postitoimipaikka" id="postitoimipaikka" pattern="[A-Z]{1,1}.[a-zA-Z]{3,}$"required><br>
+      <br><b>Postitoimipaikka (iso alkukirjain ja vähintään 4 kirjainta, välilyönnit sallittu)</b><input type="text" name="postitoimipaikka" id="postitoimipaikka" pattern="[A-Z]{1,1}.[a-zA-Z\ ]{3,}$"required><br>
       <select name="maa">
 <?php
       $maakysely="SELECT nimi FROM maa";
@@ -51,9 +51,9 @@
 
 ?>
       </select>
-      <br><b>Maakunta (iso alkukirjain ja vähintään neljä kirjainta)</b><input type="text" name="maakunta" id="maakunta" pattern="[A-Z]{1,1}.[a-zA-Z]{3,}$"required><br>
+      <br><b>Maakunta (iso alkukirjain ja vähintään neljä kirjainta, välilyönnit sallittu)</b><input type="text" name="maakunta" id="maakunta" pattern="[A-Z]{1,1}.[a-zA-Z\ ]{3,}$"required><br>
       <br><b>Osavaltio (saa olla tyhjä)</b><input type="text" name="osavaltio" id="osavaltio"><br>
-      <br><b>Käyttäjänimi (sisällettävä vähintään 8 merkkiä)</b> <input type="text" name="käyttäjänimi" id="käyttäjänimi" pattern="[a-öA-Ö0-9]{8,}$"required>  <br>   
+      <br><b>Käyttäjänimi (sisällettävä vähintään 8 merkkiä)</b> <input type="text" name="käyttäjänimi" id="käyttäjänimi" pattern="[a-öA-Ö0-9-]{8,}$"required>  <br>   
       <br><b>Salasana (sisällettävä ainakin yksi numero ja yhteensä vähintään 8 merkkiä)</b> <input type="password" name="salasana" id="salasana" pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,}"required>
       <br><b>Vahvista salasana</b> <input type="password" name="vahvistasalasana" id="vahvistasalasana" pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,}"required>
       <input type="submit" name="luokäyttäjätili" id="luokäyttäjätili" value="Luo käyttäjä">
