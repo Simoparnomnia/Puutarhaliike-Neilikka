@@ -1,4 +1,5 @@
 <?php
+
 require_once('Tapahtumankäsittelijät/Tietokantayhteys.php');
 
 
@@ -14,7 +15,7 @@ if ($token && token_is_valid($token)) {
     }
 }*/
 
-if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["muistaminut"]) && isset($_COOKIE["autentikaatiotoken"])){
+if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["autentikaatiotoken"])){
     $autentikaatiotoken=filter_input(INPUT_COOKIE,"autentikaatiotoken",FILTER_SANITIZE_STRING);
     $selektorijavalidaattori=explode(".",$autentikaatiotoken);
     $selektori=$selektorijavalidaattori[0];
@@ -60,17 +61,7 @@ if(!isset($_SESSION["käyttäjänimi"]) && isset($_COOKIE["muistaminut"]) && iss
     }
 
 }
-elseif(!isset($_SESSION["käyttäjänimi"]) && !isset($_COOKIE["muistaminut"]) && !isset($_COOKIE["autentikaatiotoken"])){
-    //Poistetaan vanhat tokenit tietokannasta
-    $poistavanhaautentikaatiotokenkysely=$connection->prepare("DELETE FROM kayttajantoken WHERE umpeutumisaika < NOW()");
-    try{
-        $poistavanhaautentikaatiotokenkysely->execute();
-            
-    }catch(Exception $e){
-        //Tietokantavirhe
-        header('Location: ../../index.php?sivu=etusivu&tietokantavirhe=kyllä');
-    }
-}
+
 
 
 

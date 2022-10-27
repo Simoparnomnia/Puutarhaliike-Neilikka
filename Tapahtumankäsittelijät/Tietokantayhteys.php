@@ -1,10 +1,13 @@
 <?php
 
-require(dirname(__DIR__).'/credentials.php');
+
+
+
+
 
 $servername = "localhost";
-$username = $databaseusername;
-$password = $databasepassword;
+$username = $DOTENVDATA['DATABASEUSERNAME'];
+$password = $DOTENVDATA['DATABASEPASSWORD'];
 $db="puutarhaneilikka";
 
 if(!isset($_SESSION)){
@@ -26,8 +29,8 @@ if ($connection->connect_error) {
 ob_start();
 
 $servername = "localhost";
-$username = $databaseusername;
-$password = $databasepassword;
+$username = $DATABASEUSERNAME;
+$password = $DATABASEPASSWORD;
 $db="sakila";
 
 

@@ -1,4 +1,10 @@
 <?php
+
+
+require dirname(dirname((__DIR__))).'/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(dirname(__DIR__)));
+$DOTENVDATA=$dotenv->load();
+
 require_once('../Tietokantayhteys.php');
 
 
@@ -28,17 +34,17 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
         $osoiteonjoolemassa=false;
 
         
-        $tietokantakysely->prepare("SELECT kayttajanimi FROM kayttajatili WHERE kayttajanimi=?");
-        $tietokantakysely->bind_param("s",$annettukäyttäjänimi);
+        $käyttäjäjoolemassakysely=$connection->prepare("SELECT kayttajanimi, sahkoposti FROM kayttajatili WHERE kayttajanimi=? OR sahkoposti=?");
+        $käyttäjäjoolemassakysely->bind_param("ss",$annettukäyttäjänimi, $annettusähköposti);
 
-        if($tietokantakysely->execute()){
-            while($tietokantakysely->fetch()){
-                $tietokantakysely->bind_result($käyttäjänimi);
+        if($käyttäjäjoolemassakysely->execute()){
+            $käyttäjäjoolemassakysely->store_result();
+            while($käyttäjäjoolemassakysely->fetch()){
+                $käyttäjäjoolemassakysely->bind_result($käyttäjänimi,$sähköposti);
+                   
                 
-                
-                
-                if($annettukäyttäjänimi==$käyttäjänimi){
-                //Uudelleenohjataan epäonnistumisella jos tunnukset ovat jo olemassa
+                if($annettukäyttäjänimi==$käyttäjänimi || $annettusähöposti==$sähköposti){
+                //Uudelleenohjataan epäonnistumisella jos tunnukset tai sähköposti on jo olemassa
   
                     header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=käyttäjäonjoolemassa');
                     $käyttäjäonjoolemassa=true;
@@ -54,11 +60,11 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
                 
                 //Osoite on luotava ensin koska käyttäjässä on viiteavain osoitetauluun
                 //Tarkistetaan ensin annetun osoitteen olemassaolo
-                $tietokantakysely->prepare("SELECT osoite_id, osoite FROM osoite WHERE osoite=?");
-                $tietokantakysely->bind_param("s",$annettuosoite);
-                if($tietokantakysely->execute()){
-                    $tietokantakysely->bind_result($osoitteenid, $osoite);
-                    while($tietokantakysely->fetch()){
+                $osoitekysely=$connection->prepare("SELECT osoite_id, osoite FROM osoite WHERE osoite=?");
+                $osoitekysely->bind_param("s",$annettuosoite);
+                if($osoitekysely->execute()){
+                    $osoitekysely->bind_result($osoitteenid, $osoite);
+                    while($osoitekysely->fetch()){
                         
                         echo $osoitteenid.' '.$osoite;
                         if($osoite==$annettuosoite){
@@ -79,8 +85,7 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
                         $asetaosoitetietokantakysely=$connection->prepare("INSERT INTO osoite (osoite,postinumero,postitoimipaikka,maa,maakunta,osavaltio) VALUES(?,?,?,?,?,?)"); 
                         $asetaosoitetietokantakysely->bind_param("ssssss",$annettuosoite,$annettupostinumero,$annettupostitoimipaikka,$annettumaa,$annettumaakunta,$annettuosavaltio);
                     }
-                    if($asetaosoitetietokantakysely->execute()){
-                        
+                    if($asetaosoitetietokantakysely->execute()){                  
                             $asetaosoitetietokantakysely->store_result();
                             //Jos osoitteen luonti onnistui, haetaan uuden osoitteen id, luodaan käyttäjätili ja uudelleenohjataan onnistumisella
                             $haeosoitteenidkysely=$connection->prepare("SELECT MAX(osoite_id) FROM osoite");
@@ -113,7 +118,9 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
                     $luokäyttäjäkysely->bind_param("ssssssid",$annettukäyttäjänimi,$annettusalasanahash,$annettuetunimi,$annettusukunimi,$annettupuhelinnumero,$annettusähköposti,$osoitteenid,$nykypäivämäärä);
                     try{
                         if($luokäyttäjäkysely->execute()){
+                            
                             header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=kyllä');
+                            
                         }
                     }catch(Exception $e){
                         header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=ei');
@@ -125,6 +132,8 @@ if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"]) && isset($_POST
                 //Uudelleenohjataan epäonnistumisella jos käyttäjä on jo olemassa
                 header('Location: ../../index.php?sivu=rekisteröintilomake&rekisteröintionnistui=käyttäjäonjoolemassa');             
             }          
+        
+            $käyttäjäjoolemassakysely->free_result();
         }       
         else {
             echo "Tietokantavirhe: käyttäjänimen etsintäkysely epäonnistui ".$connection->error;

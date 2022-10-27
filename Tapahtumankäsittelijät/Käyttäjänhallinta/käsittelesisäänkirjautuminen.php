@@ -1,6 +1,18 @@
 <?php
+
+    
+require dirname(dirname((__DIR__))).'/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(dirname(__DIR__)));
+$DOTENVDATA=$dotenv->load();
+    
+//foreach($DOTENVDATA as $key => $value){
+//    echo $key.' '.$value;
+//}
+//exit();
+
 try{
-    //TODO: katso myös kirjautumislomake.php
+
+
     require_once('../Tietokantayhteys.php');
     //Jos kirjaudutaan normaalisti
     if(isset($_POST["käyttäjänimi"]) && isset($_POST["salasana"])){
@@ -47,7 +59,9 @@ try{
                
 }catch(Exception $e){
     //Tietokantavirhe
-    header('Location: ./index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=tuntematonvirhe');
+    //echo $e;
+    //exit();
+    header('Location: ../../index.php?sivu=kirjautumislomake&sisäänkirjautuminenonnistui=tuntematonvirhe');
 }
 
 

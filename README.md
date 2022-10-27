@@ -10,18 +10,18 @@
 
 ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia's web programming (Web-ohjelmointi) course (autumn 2022).
 
-Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Mailtrap](https://mailtrap.io)-palvelua (SMTP) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
+Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Twilio Sendgrid-](https:https://mailtrap.docs.apiary.io/#) tai [Mailtrap](https://mailtrap.io)-palvelua (SMTP, vanhentunut?) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
 
 ## Toimintaperiaate
 ### Kredentiaalit
-Tietokantakirjautumista ja sähköpostien lähettämistä varten täytyy luoda credentials.php-tiedosto projektin juureen,
+Tietokantakirjautumista ja sähköpostien lähettämistä varten täytyy luoda .env-tiedosto projektin juureen,
 katso tiedoston rakenteen kuvaus asennusohjeista. 
 ### Navigointi
 Sivulla ei ikinä poistuta index.php-tiedostosta, näytettävä grafiikka luodaan require-lauseilla ja linkin kyselymuuttujien perusteella.
 Sivun navigointipalkki näyttää nykyisen sivun värittämällä kyseisen linkin eriväriseksi.
 ### Käyttäjänhallinta
-Sivulla vierailija voi luoda uuden käyttäjän. Kaikkien käyttäjänimien täytyy olla erilaisia. Salasanat on tallennettu
-tietokantaan hash-muodossa.
+Sivulla vierailija voi luoda uuden käyttäjätilin. Käyttäjätilien käyttäjänimien täytyy olla ainutlaatuisia. Sovellus ei myöskään salli
+käyttäjän luontia jos annettu sähköposti on jo tietokannassa. Käyttäjillä saa olla sama osoite (perheenjäsenet yms.). Salasanat on tallennettu tietokantaan hash-muodossa.
 #### Unohtuneen salasanan palautus
 Viesti unohtuneesta salasanasta välitetään Mailgrid-palveluun. Salasanan uudelleenasetuslomaketta ei saada avattua ilman
 sähköpostiviestissä lähetetyn linkin sähköposti- ja käyttäjänimihasheja ja silloinkin on tiedettävä vanha salasana kun
@@ -50,6 +50,8 @@ Tapahtumankäsittelijät (tietokantayhteys/rekisteröinti/kirjautuminen/sähköp
 Tietokannan esimerkkimateriaali, käyttäjät täytyy luoda itse omilla INSERT-lauseilla.
 ### Vendor
 Ladatut valmiskirjastot
+#### Ympäristömuuttujat
+    vlucas/dotenv
 #### Sähköposti
     (PHPMailer.php/SMTP.php/Exception.php
     sendgrid-php
@@ -70,13 +72,17 @@ Varmista että [XAMPP](https://www.apachefriends.org/) on asennettu ja repositor
 Luo repositorion kloonauksen jälkeen seuraavat tiedostot kansioon Omat moduulit: Tietokantayhteys.php ja Sähköpostiyhteys.php
 
 ### Poisjääneet tiedostot
-Luo credentials.php projektin juuren ulkopuolelle seuraavalla sisällöllä.
+Luo .env-tiedosto projektin juuren ulkopuolelle seuraavalla sisällöllä.
 
-    $hostdomain='emailserverdomaintähän';
-    $hostusername='emailserverkäyttäjätähän';
-    $hostpassword='emailserversalasanatähän';
-    $databaseusername='tietokantakäyttäjänimitähän';
-    $databasepassword='tietokantasalasanannimitähän';
+    MAILSERVICE=käytettäsähköpostipalvelutähän
+    MAILTRAPHOSTDOMAIN=mailtrappalvelundomaintähän
+    MAILTRAPHOSTUSERNAME=mailtrapkäyttäjätähän
+    MAILTRAPHOSTPASSWORD=mailtrapsalasanatähän
+    SENDGRIDHOSTDOMAIN=sendgridpalvelundomaintähän
+    SENDGRIDHOSTUSERNAME=sendgridkäyttäjätähän
+    SENDGRIDHOSTPASSWORD=sendgridsalasanatähän
+    DATABASEUSERNAME=tietokannankäyttäjätähän
+    DATABASEPASSWORD=tietokannansalasanatähän
 
 ### Sähköpostipalvelun asetus
 
@@ -106,10 +112,10 @@ Sandbox->Inboxes->SMTP settings
 
 
 ### Tietokantayhteys.php
-Käytä credentials.php:n tunnuksia
+Käytä .env tunnuksia
 
 ### Lähetäsähköposti.php
-Käytä credentials.php:n tunnuksia
+Käytä .env tunnuksia
 
 ### Käyttöönotto Azuressa
 [Kirjaudu Azureen](https://portal.azure.com/) 
@@ -122,21 +128,29 @@ Configuration -> Always on
 #### Tietokannan tuonti
 Avaa Paikallisen projektin PHPMyAdmin -> Vie/Export
 App Service -> MySQL In App -> Manage-komento avaa pilviversion PHPMyAdmin:n selaimeen -> Tuo/Import
-#### Tietokannan konfiguraatio
+
+
+
+
+#### Tietokannan konfiguraatio Azuressa
 mysql\data\MYSQLCONNSTR_localdb.ini:
     Database=localdb; Data Source=127.0.0.1:portinnumero; User id=azure; Password=password
 #### Tiedostojen muokkaus Azuren App Servicessa
 App Service Editor
 #### Komentorivi Azuressa
 Advanced tools tai Development tools->console
-#### MYSQL-tietokannan konfiguraatio
-Configuration ->
-
-Luo testikäyttäjiä lisäämällä ne tiedostoon data.sql seuraavassa muodossa:
-    INSERT INTO kayttajatili VALUES('kayttajatahan','salasanahashtahan','etunimi','sukunimi','puhelinnumero','sähköposti',osoitteenid,onkotiliaktiivinenboolean,onkokayttajahenkilokuntaaboolean,'2022-01-01 12:00:00',NULL)
 
 #### Azure-version PHP-tiedot näkyviin
 https://kayttajanimi.azurewebsites.net
+
+#### MYSQL-tietokannan konfiguraatio
+Configuration ->
+
+Avaa PHPMyAdmin ja suorita seuraava SQL-komento: SET PASSWORD FOR 'root'@'localhost' = PASSWORD ('haluttusalasana')
+Salasana tämän jälkeen tiedostoon -> XAMPP Control Panel -> config.inc.php
+
+Luo testikäyttäjiä lisäämällä ne tiedostoon data.sql seuraavassa muodossa:
+    INSERT INTO kayttajatili VALUES('kayttajatahan','salasanahashtahan','etunimi','sukunimi','puhelinnumero','sähköposti',osoitteenid,onkotiliaktiivinenboolean,onkokayttajahenkilokuntaaboolean,'2022-01-01 12:00:00',NULL)
 
 
 
@@ -154,7 +168,8 @@ https://kayttajanimi.azurewebsites.net
 ### Virheviestit
     -Virheviesti jos yritetään avata kirjautumislomaketta ja käyttäjä on jo kirjautunut sisään -> EI NÄYTÄ VIRHEVIESTIÄ JOS ON KIRJAUDUTTU JA AUTENTIKAATIOTOKEN-EVÄSTE ON VIELÄ VOIMASSA
     
-
+### Sähköpostin lähetys
+    [Mailtrap V1.0 on poistunut käytöstä joskus 13.10.2022 jälkeen, vaihda V2.0:n tai muuta Sendgridiin](https://mailtrap.docs.apiary.io/#)
 ### Tietokanta
     -SQL-injektioiden ehkäisy (Prepared statements) -> TEHTY
 ### TEHTÄVÄNANTO 22.09.2022: 

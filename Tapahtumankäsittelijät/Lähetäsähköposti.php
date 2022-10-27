@@ -1,29 +1,36 @@
 <?php
   
-  
-  require('../credentials.php');
-  require '../vendor/autoload.php';
 
+
+   //Tarvitaan dotenv-, PHPmailer- ja Sendgrid-kirjastoille:
+  require '../vendor/autoload.php';
+  $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+  $DOTENVDATA=$dotenv->load();
+  
+  
   
 
   $lomake=$_POST["lomake"];
   if(isset($_POST["nimi"])){
-  $sendername=$_POST["nimi"];
+  $lähettäjännimi=$_POST["nimi"];
   }
   if(isset($_POST["sähköposti"])){
-  $senderemailaddress=strtolower(trim($_POST["sähköposti"]));
+  $lähettäjänsähköposti=strtolower(trim($_POST["sähköposti"]));
   }
   if(isset($_POST["palauteaihe"])){
-  $feedbacktopic=$_POST["palauteaihe"];
+  $palauteaihe=$_POST["palauteaihe"];
   }
   if(isset($_POST["palauteviesti"])){
-  $feedbackmessage=$_POST["palauteviesti"];
+  $palauteviesti=$_POST["palauteviesti"];
   }
+
+	$sähköpostilöydetty=false;
+
 //TODO: ei testattu
   if($lomake=="Lähetä palaute"){
     //credentials.php-tiedostosta:
-    if($mailservice=="mailtrap"){
-      require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
+    if($DOTENVDATA['MAILSERVICE']=="mailtrap"){
+    require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
       
 
       require_once('../vendor/phpmailer/src/Exception.php');
@@ -37,46 +44,47 @@
       $mail->charSet="UTF-8";
 
       $mail->SMTPDebug  = 0;  
-      $mail->Host = $mailtraphostdomain;
+      $mail->Host = $DOTENVDATA['MAILTRAPHOSTDOMAIN'];
       $mail->SMTPAuth = true;
       $mail->Port = 2525;
-      $mail->Username = $mailtraphostusername;
-      $mail->Password = $mailtraphostpassword;
+      $mail->Username = $DOTENVDATA['MAILTRAPHOSTUSERNAME'];
+      $mail->Password = $DOTENVDATA['MAILTRAPHOSTPASSWORD'];
 
-
+			
       
       $mail->IsHTML(true);
       $mail->AddAddress("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
-      $mail->SetFrom($senderemailaddress, $sendername);
+      $mail->SetFrom($lähettäjänsähköposti, $lähettäjännimi);
       $mail->AddReplyTo("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
       $mail->AddCC("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
-      $mail->Subject = $feedbacktopic;
-      $content = $feedbackmessage;
+      $mail->Subject = $palauteaihe;
+      $content = $palauteviesti;
 
       $mail->MsgHTML($content); 
       if(!$mail->Send()) {
-        header("Location: ../index.php?sivu=etusivu&palautteenlähetysonnistui=ei");
+        header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=ei");
         //echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
         //var_dump($mail);
       } else {
-        header("Location: ../index.php?sivu=etusivu&palautteenlähetysonnistui=kyllä");
+        header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=kyllä");
         //echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
       }
 
     }
 //TODO: ei testattu
-    elseif($mailservice=="sendgrid"){
+    elseif($DOTENVDATA['MAILSERVICE']=="sendgrid"){
+			
       require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
 
 
 
       $email = new SendGrid\Mail\Mail();
-      $email->setFrom($senderemailaddress, $sendername);
-      $email->setSubject($feedbacktopic);
+      $email->setFrom($lähettäjänsähköposti, urldecode($lähettäjännimi));
+      $email->setSubject($palauteaihe);
       $email->addTo("Simo.Parnanen@edu-omnia.fi", "Simo P");
-      $email->addContent("text/plain", $feedbackmessage);
+      $email->addContent("text/plain", $palauteviesti);
 
-      $sendgrid = new \SendGrid($sendgridhostpassword);
+      $sendgrid = new \SendGrid($DOTENVDATA['SENDGRIDHOSTPASSWORD']);
 
       try {
           $response = $sendgrid->send($email);
@@ -96,11 +104,11 @@
     require_once('Tietokantayhteys.php');
     
     
-    if($mailservice=="mailtrap"){
+    if($DOTENVDATA['MAILSERVICE']=="mailtrap"){
       require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
 
-      $givenemailaddress=$_POST["sähköposti"];
-      //$feedbackmessage=$_POST["palauteviesti"];
+      $lähettäjänsähköposti=strtolower(trim($_POST["sähköposti"]));
+      //$palauteviesti=$_POST["palauteviesti"];
 
       require_once('../vendor/phpmailer/phpmailer/src/Exception.php');
       require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
@@ -114,60 +122,68 @@
       $mail->Encoding="base64";
 
       $mail->SMTPDebug  = 0;  
-      $mail->Host = $mailtraphostdomain;
+      $mail->Host = $DOTENVDATA['MAILTRAPHOSTDOMAIN'];
       $mail->SMTPAuth = true;
       $mail->Port = 2525;
-      $mail->Username = $mailtraphostusername;
-      $mail->Password = $mailtraphostpassword;
+      $mail->Username = $DOTENVDATA['MAILTRAPHOSTUSERNAME'];
+      $mail->Password = $DOTENVDATA['MAILTRAPHOSTPASSWORD'];
 
       try{
-        $haesähköpostikysely="SELECT sahkoposti, kayttajanimi, etunimi, sukunimi FROM kayttajatili WHERE LCASE(TRIM(sahkoposti))='".strtolower(trim($givenemailaddress))."'";
-        if($kyselyntulos=$connection->query($haesähköpostikysely)){
-          while(list($sähköposti, $käyttäjänimi, $etunimi, $sukunimi)=$kyselyntulos->fetch_row()){
-            //echo $sähköposti.''.$käyttäjänimi;
-            if($senderemailaddress==$sähköposti){
-              //koodataan tietoturvallista uusintalinkkiä varten
-              $haettusähköposti=$sähköposti;
-              $customerusername=$käyttäjänimi;
-              $haettuetunimi=$etunimi;
-              $haettusukunimi=$sukunimi;
-              $codedsenderemailaddress=password_hash($haettusähköposti, PASSWORD_DEFAULT);
-              $codedcustomerusername=password_hash($käyttäjänimi, PASSWORD_DEFAULT);
-              break;
-            }
-          }
+        $haesähköpostikysely=$connection->prepare("SELECT sahkoposti, kayttajanimi, etunimi, sukunimi FROM kayttajatili WHERE LCASE(TRIM(sahkoposti))=?");
+        $haesähköpostikysely->bind_param("s",$lähettäjänsähköposti);
+        if($haesähköpostikysely->execute()){
+        	$haesähköpostikysely->bind_result($sähköposti, $käyttäjänimi, $etunimi, $sukunimi);
+        	while($haesähköpostikysely->fetch()){
+          	//echo $sähköposti.''.$käyttäjänimi;
+          	if($lähettäjänsähköposti==$sähköposti){
+							$sähköpostilöydetty=true;
+							$haettuetunimi=$etunimi;
+							$haettusukunimi=$sukunimi;
+            	//koodataan tietoturvallista uusintalinkkiä varten
+            	$koodattulähettäjänsähköposti=password_hash($sähköposti, PASSWORD_DEFAULT);
+            	$koodattucustomerusername=password_hash($käyttäjänimi, PASSWORD_DEFAULT);
+            	break;
+          	}
+        	}
           
-        }
+      	}
       }catch(Exception $e){
         //echo $e;
         header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=tietokantavirhe');
         exit();
       }
 
+			if($sähköpostilöydetty==true){
+        echo "Sähköposti löydetty mailtrapilla!";
+        exit();
+				$mail->IsHTML(true);
+				$mail->AddAddress($lähettäjänsähköposti, $haettuetunimi.' '.$haettusukunimi);
+				$mail->SetFrom($DOTENVDATA['MAILTRAPHOSTDOMAIN'], 'Puutarhaliike Neilikka ');
+				$mail->AddReplyTo($DOTENVDATA['MAILTRAPHOSTDOMAIN'], "Puutarhaliike Neilikka");
+				$mail->AddCC($DOTENVDATA['MAILTRAPHOSTDOMAIN'], "Puutarhaliike Neilikka");
+				$mail->Subject = "Unohtuneen salasanan palautus";
+				$content = "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&sähköposti=$koodattulähettäjänsähköposti&käyttäjänimi=$koodattucustomerusername";
+				
 
-      $mail->IsHTML(true);
-      $mail->AddAddress($haettusähköposti, $haettuetunimi.' '.$haettusukunimi);
-      $mail->SetFrom($mailtraphostdomain, 'Puutarhaliike Neilikka ');
-      $mail->AddReplyTo($mailtraphostdomain, "Puutarhaliike Neilikka");
-      $mail->AddCC($mailtraphostdomain, "Puutarhaliike Neilikka");
-      $mail->Subject = "Unohtuneen salasanan palautus";
-      $content = "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&sähköposti=$codedsenderemailaddress&käyttäjänimi=$codedcustomerusername";
-      
-
-      $mail->MsgHTML($content); 
-      if(!$mail->Send()) {
-        header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
-        //echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
-        //var_dump($mail);
-      } else {
-        header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä');
-        //echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
-      }
+				$mail->MsgHTML($content); 
+				if(!$mail->Send()) {
+					//header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
+					echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
+					var_dump($mail);
+					exit();
+				} else {
+					header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä');
+					//echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
+				}
+			}
+			else{
+				header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostiaeilöytynyt');
+			}
 
     }
 
-  //TODO: ei testattu, vertaa mailtrapin salasanan vaihto
-    elseif($mailservice=="sendgrid"){
+  //TODO: ei testattu
+    elseif($DOTENVDATA['MAILSERVICE']=="sendgrid"){
       require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
 
 
@@ -178,46 +194,59 @@
 
 
       try{
-        $haesähköpostikysely="'SELECT sahkoposti, kayttajanimi, etunimi, sukunimi FROM kayttajatili WHERE LCASE(TRIM(sahkoposti)='".strtolower(trim($givenemailaddress));
-        if($kyselyntulos=$connection->query($haesähköpostikysely)){
-          while(list($sähköposti, $käyttäjänimi, $etunimi, $sukunimi)=$kyselyntulos->fetch_row()){
-            if($givenemailaddress==$sähköposti){
-              $senderemailaddress=$givenemailaddress;
-              $customerusername=$käyttäjänimi;
+        $haesähköpostikysely=$connection->prepare("SELECT sahkoposti, kayttajanimi, etunimi, sukunimi FROM kayttajatili WHERE LCASE(TRIM(sahkoposti))=?");
+        $haesähköpostikysely->bind_param("s",$lähettäjänsähköposti);
+				if($haesähköpostikysely->execute()){
+					$haesähköpostikysely->bind_result($sähköposti, $käyttäjänimi, $etunimi, $sukunimi);
+          while($haesähköpostikysely->fetch()){
+            if($lähettäjänsähköposti==$sähköposti){
+              //$lähettäjänsähköposti=$givenemailaddress;
+              //$customerusername=$käyttäjänimi;
               $haettuetunimi=$etunimi;
               $haettusukunimi=$sukunimi;
+							$sähköpostilöydetty=true;
               //koodataan tietoturvallista uusintalinkkiä varten
-              $codedsenderemailaddress=password_hash($givenemailaddress, PASSWORD_DEFAULT);
-              $codedcustomerusername=password_hash($customerusername, PASSWORD_DEFAULT);
+              $koodattulähettäjänsähköposti=password_hash($lähettäjänsähköposti, PASSWORD_DEFAULT);
+              $koodattucustomerusername=password_hash($lähettäjänsähköposti, PASSWORD_DEFAULT);
               break;
             }
           }
+        
+					if($sähköpostilöydetty==true){
+						$email = new SendGrid\Mail\Mail();
+						$email->setFrom($lähettäjänsähköposti, urldecode($haettuetunimi).' '.urldecode($haettusukunimi));
+						$email->setSubject('Puutarhaliike Neilikka, käyttäjätilin salasanan uusintalinkki');
+						$email->addTo("Simo.Parnanen@edu-omnia.fi", "Simo P");
+						$email->addContent("text/plain", "Tälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&salasananlähetysonnistui=kylla&sähköposti=".$koodattulähettäjänsähköposti."&käyttäjänimi=".$koodattucustomerusername);
+		
+						$sendgrid = new \SendGrid($SENDGRIDHOSTPASSWORD);
+		
+						try {
+								$response = $sendgrid->send($email);
+								//header("Location: ./index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä&sähköposti='$koodattulähettäjänsähköposti'&käyttäjänimi='$koodattucustomerusername");
+								//print $response->statusCode() . "\n";
+								//print_r($response->headers());
+								//print $response->body() . "\n";
+							
+						} catch (Exception $e) {
+							header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
+							exit();
+							//echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
+						}
+					}
+					else{
+						header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostiaeilöytynyt');
+					}
+				
         }
-        }catch(Exception $e){
+			}catch(Exception $e){
+					echo $e;
+					exit();
           header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=tietokantavirhe');
           exit();
         }
-
-      $email = new \SendGrid\Mail\Mail();
-      $email->setFrom($senderemailaddress, $haettuetunimi.' '.$haettusukunimi);
-      $email->setSubject('Puutarhaliike Neilikka, käyttäjätilin salasanan uusintalinkki');
-      $email->addTo("Simo.Parnanen@edu-omnia.fi", "Simo P");
-      $email->addContent("text/plain", "Tälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&salasananlähetysonnistui=kylla&sähköposti=".$codedsenderemailaddress."&käyttäjänimi=".$codedcustomerusername);
-
-      $sendgrid = new \SendGrid($sendgridhostpassword);
-
-      try {
-          $response = $sendgrid->send($email);
-          //header("Location: ./index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=kyllä&sähköposti='$codedsenderemailaddress'&käyttäjänimi='$codedcustomerusername");
-          //print $response->statusCode() . "\n";
-          //print_r($response->headers());
-          //print $response->body() . "\n";
-          
-      } catch (Exception $e) {
-        header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
-        exit();
-        //echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
-      }
+		
     }
-  }
+	}
+  
 ?>
