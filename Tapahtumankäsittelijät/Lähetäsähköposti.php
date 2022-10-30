@@ -54,7 +54,7 @@
       
       $mail->IsHTML(true);
       $mail->AddAddress("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
-      $mail->SetFrom($lähettäjänsähköposti, $lähettäjännimi);
+      $mail->SetFrom($lähettäjänsähköposti, urldecode($lähettäjännimi));
       $mail->AddReplyTo("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
       $mail->AddCC("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
       $mail->Subject = $palauteaihe;
@@ -99,7 +99,7 @@
     }
 
   }
-  
+  //testattu
   elseif($lomake=="Lähetä uusintalinkki"){
     require_once('Tietokantayhteys.php');
     
@@ -107,7 +107,7 @@
     if($DOTENVDATA['MAILSERVICE']=="mailtrap"){
       require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
 
-      $lähettäjänsähköposti=strtolower(trim($_POST["sähköposti"]));
+      
       //$palauteviesti=$_POST["palauteviesti"];
 
       require_once('../vendor/phpmailer/phpmailer/src/Exception.php');
@@ -146,16 +146,17 @@
           	}
         	}
           
+          
       	}
       }catch(Exception $e){
         //echo $e;
-        header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=tietokantavirhe');
+        header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=tietokantavirhe');
         exit();
       }
 
 			if($sähköpostilöydetty==true){
-        echo "Sähköposti löydetty mailtrapilla!";
-        exit();
+        //echo "Sähköposti löydetty mailtrapilla!";
+        //exit();
 				$mail->IsHTML(true);
 				$mail->AddAddress($lähettäjänsähköposti, $haettuetunimi.' '.$haettusukunimi);
 				$mail->SetFrom($DOTENVDATA['MAILTRAPHOSTDOMAIN'], 'Puutarhaliike Neilikka ');
@@ -184,24 +185,16 @@
 
   //TODO: ei testattu
     elseif($DOTENVDATA['MAILSERVICE']=="sendgrid"){
-      require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
-
-
       
-      
-      
-
-
 
       try{
         $haesähköpostikysely=$connection->prepare("SELECT sahkoposti, kayttajanimi, etunimi, sukunimi FROM kayttajatili WHERE LCASE(TRIM(sahkoposti))=?");
         $haesähköpostikysely->bind_param("s",$lähettäjänsähköposti);
-				if($haesähköpostikysely->execute()){
+				if($haesähköpostikysely->execute()){     
 					$haesähköpostikysely->bind_result($sähköposti, $käyttäjänimi, $etunimi, $sukunimi);
           while($haesähköpostikysely->fetch()){
             if($lähettäjänsähköposti==$sähköposti){
-              //$lähettäjänsähköposti=$givenemailaddress;
-              //$customerusername=$käyttäjänimi;
+              
               $haettuetunimi=$etunimi;
               $haettusukunimi=$sukunimi;
 							$sähköpostilöydetty=true;
@@ -211,42 +204,52 @@
               break;
             }
           }
-        
-					if($sähköpostilöydetty==true){
-						$email = new SendGrid\Mail\Mail();
-						$email->setFrom($lähettäjänsähköposti, urldecode($haettuetunimi).' '.urldecode($haettusukunimi));
-						$email->setSubject('Puutarhaliike Neilikka, käyttäjätilin salasanan uusintalinkki');
-						$email->addTo("Simo.Parnanen@edu-omnia.fi", "Simo P");
-						$email->addContent("text/plain", "Tälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&salasananlähetysonnistui=kylla&sähköposti=".$koodattulähettäjänsähköposti."&käyttäjänimi=".$koodattucustomerusername);
-		
-						$sendgrid = new \SendGrid($SENDGRIDHOSTPASSWORD);
-		
-						try {
-								$response = $sendgrid->send($email);
-								//header("Location: ./index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä&sähköposti='$koodattulähettäjänsähköposti'&käyttäjänimi='$koodattucustomerusername");
-								//print $response->statusCode() . "\n";
-								//print_r($response->headers());
-								//print $response->body() . "\n";
-							
-						} catch (Exception $e) {
-							header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
-							exit();
-							//echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
-						}
-					}
-					else{
-						header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostiaeilöytynyt');
-					}
-				
+          
         }
-			}catch(Exception $e){
-					echo $e;
-					exit();
-          header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=tietokantavirhe');
+      }catch(Exception $e){
+					echo "Tietokantavirhe:".$e;
           exit();
+          header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=tietokantavirhe');
+          
         }
-		
+
+        if($sähköpostilöydetty==true){
+          try{
+            
+            $email = new \SendGrid\Mail\Mail();
+            $email->setFrom($DOTENVDATA['SENDGRIDSENDERIDENTITY'], 'Puutarhaliike Neilikka');
+            $email->setSubject('Puutarhaliike Neilikka, käyttäjätilin salasanan uusintalinkki');
+            $email->addTo($lähettäjänsähköposti, urldecode($haettuetunimi).' '.urldecode($haettusukunimi) );
+            $email->addContent("text/plain", "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&salasananlähetysonnistui=kylla&sähköposti=".$koodattulähettäjänsähköposti."&käyttäjänimi=".$koodattucustomerusername);
+            
+            $sendgrid = new \SendGrid($DOTENVDATA['SENDGRIDHOSTPASSWORD']);
+  
+          
+            $response = $sendgrid->send($email);
+            //header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä");
+            print $response->statusCode() . "\n";
+            print_r($response->headers());
+            print $response->body() . "\n";
+            exit();
+            
+          } catch (Exception $e) {
+            echo "Sähköpostivirhe: ".$e;
+            exit();
+            header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
+            
+            //echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
+          }
+        }
+        else{
+          echo "sähköpostia ei löytynyt";
+          exit();
+          header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostiaeilöytynyt');
+        }
+				
     }
-	}
+			
+		
+  }
+	
   
 ?>

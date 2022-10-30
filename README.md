@@ -10,7 +10,7 @@
 
 ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia's web programming (Web-ohjelmointi) course (autumn 2022).
 
-Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Twilio Sendgrid-](https:https://mailtrap.docs.apiary.io/#) tai [Mailtrap](https://mailtrap.io)-palvelua (SMTP, vanhentunut?) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
+Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Twilio Sendgrid-](https:https://mailtrap.docs.apiary.io/#) tai [Mailtrap](https://mailtrap.io)-palvelua yhteydenottopyyntöjen SMTP-sähköpostitukseen, SendGrid saa lähetettyä emailit oikealle SMTP-sähköpostipalvelimelle. Tietokantana MySQL/MariaDB.
 
 ## Toimintaperiaate
 ### Kredentiaalit
@@ -72,13 +72,14 @@ Varmista että [XAMPP](https://www.apachefriends.org/) on asennettu ja repositor
 Luo repositorion kloonauksen jälkeen seuraavat tiedostot kansioon Omat moduulit: Tietokantayhteys.php ja Sähköpostiyhteys.php
 
 ### Poisjääneet tiedostot
-Luo .env-tiedosto projektin juuren ulkopuolelle seuraavalla sisällöllä.
+Luo .env-tiedosto projektin juuren ulkopuolelle seuraavalla sisällöllä. MAILSERVICE joko mailtrap tai sendgrid.
 
-    MAILSERVICE=käytettäsähköpostipalvelutähän
-    MAILTRAPHOSTDOMAIN=mailtrappalvelundomaintähän
+    MAILSERVICE=käytettäväsähköpostipalvelutähän
+    MAILTRAPHOSTDOMAIN=mailtrappalvelunSMTPdomaintähän
     MAILTRAPHOSTUSERNAME=mailtrapkäyttäjätähän
     MAILTRAPHOSTPASSWORD=mailtrapsalasanatähän
-    SENDGRIDHOSTDOMAIN=sendgridpalvelundomaintähän
+    SENDGRIDUSERIDENTITY=sendgridlähettäjänidentiteettisähköpostitähän
+    SENDGRIDHOSTDOMAIN=sendgridpalvelunSMTPdomaintähän
     SENDGRIDHOSTUSERNAME=sendgridkäyttäjätähän
     SENDGRIDHOSTPASSWORD=sendgridsalasanatähän
     DATABASEUSERNAME=tietokannankäyttäjätähän
