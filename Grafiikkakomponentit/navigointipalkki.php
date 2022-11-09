@@ -31,6 +31,7 @@ function mb_basename($path) {
   }
   
 ?>
+      <div id="navbar">
         <div id="main-nav">
             <ul>
               <li><a href="./index.php?sivu=etusivu" <?php if($nykyinensivu == 'etusivu'){echo 'id="here"';}?>>Etusivu</a></li>
@@ -46,12 +47,13 @@ function mb_basename($path) {
               <li><a href="./index.php?sivu=tietoameistä" <?php if($nykyinensivu == 'tietoameistä'){echo 'id="here"';}?>>Tietoa meistä</a></li>
               <li><a href="./index.php?sivu=otayhteyttä" <?php if($nykyinensivu == 'otayhteyttä'){echo 'id="here"';}?>>Ota yhteyttä</a></li>
             </ul>
-          <div style="display:inline-block;">
+        </div>
+          <div id="loginandsignupbox">
           <ul>
 
 <?php          
           if(isset($_SESSION['käyttäjänimi'])){
-            echo "<li class=\"loginandsignupbuttons\">Käyttäjä: ".$_SESSION['käyttäjänimi']."</li>";
+            echo "<li>Käyttäjä: ".$_SESSION['käyttäjänimi']."</li>";
           }
           else{
             echo "<li style=\"color:grey; list-style-type:none\">Ei kirjauduttu sisään</li>";
@@ -60,34 +62,36 @@ function mb_basename($path) {
 <?php
           if(!isset($_SESSION['käyttäjänimi'])){
             if($nykyinensivu=="kirjautumislomake"){
-              echo "<li class=\"loginandsignupbuttons\"><a href=".("./index.php?sivu=kirjautumislomake")." id=\"here\">Kirjaudu sisään</a></li>";
+              echo "<li><a href=".("./index.php?sivu=kirjautumislomake")." id=\"here\">Kirjaudu sisään</a></li>";
             }
             else{
-              echo "<li class=\"loginandsignupbuttons\"><a href=".("./index.php?sivu=kirjautumislomake").">Kirjaudu sisään</a></li>";
+              echo "<li><a href=".("./index.php?sivu=kirjautumislomake").">Kirjaudu sisään</a></li>";
             }
           }
           else{
-            echo "<li class=\"loginandsignupbuttons\"><a href=\"Tapahtumankäsittelijät/Käyttäjänhallinta/käsitteleuloskirjautuminen.php?kirjauduulos=kyllä\">Kirjaudu ulos</a></li>";
+            echo "<li><a href=\"Tapahtumankäsittelijät/Käyttäjänhallinta/käsitteleuloskirjautuminen.php?kirjauduulos=kyllä\">Kirjaudu ulos</a></li>";
           }
           if($nykyinensivu=="rekisteröintilomake"){
-             echo "<li class=\"loginandsignupbuttons\"><a href=\"index.php?sivu=rekisteröintilomake\" id=\"here\">Rekisteröidy</a></li>";
+             echo "<li><a href=\"index.php?sivu=rekisteröintilomake\" id=\"here\">Rekisteröidy</a></li>";
           }
           else{
-           echo "<li class=\"loginandsignupbuttons\"><a href=\"index.php?sivu=rekisteröintilomake\">Rekisteröidy</a></li>";
+           echo "<li><a href=\"index.php?sivu=rekisteröintilomake\">Rekisteröidy</a></li>";
           }
 ?>
 <?php
 if(!isset($_SESSION['käyttäjänimi'])){
   if($nykyinensivu=="unohtunutsalasanalomake"){
-    echo "<li class=\"loginandsignupbuttons\"><a href=\"./index.php?sivu=unohtunutsalasanalomake\" id=\"here\"><b>Oletko unohtanut salasanasi?</b></a></li>";
+    echo "<li><a href=\"./index.php?sivu=unohtunutsalasanalomake\" id=\"here\"><b>Oletko unohtanut salasanasi?</b></a></li>";
   }
   else{
-    echo "<li class=\"loginandsignupbuttons\"><a href=\"./index.php?sivu=unohtunutsalasanalomake\"><b>Oletko unohtanut salasanasi?</b></a></li>";
+    echo "<li><a href=\"./index.php?sivu=unohtunutsalasanalomake\"><b>Oletko unohtanut salasanasi?</b></a></li>";
   }
 }
 ?>
-          </ul></div>
+          </ul>
           </div>
+      </div>
+        
   
 
     

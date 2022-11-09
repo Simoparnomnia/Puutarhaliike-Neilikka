@@ -10,7 +10,7 @@
 
 ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia's web programming (Web-ohjelmointi) course (autumn 2022).
 
-Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Twilio Sendgrid-](https:https://mailtrap.docs.apiary.io/#) tai [Mailtrap](https://mailtrap.io)-palvelua yhteydenottopyyntöjen SMTP-sähköpostitukseen, SendGrid saa lähetettyä emailit oikealle SMTP-sähköpostipalvelimelle. Tietokantana MySQL/MariaDB.
+Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Twilio Sendgrid-](https://app.sendgrid.com/) tai [Mailtrap](https://mailtrap.io)-palvelua yhteydenottopyyntöjen SMTP-sähköpostitukseen, SendGrid saa lähetettyä emailit oikealle SMTP-sähköpostipalvelimelle. Tietokantana MySQL/MariaDB.
 
 ## Toimintaperiaate
 ### Kredentiaalit
@@ -74,16 +74,17 @@ Luo repositorion kloonauksen jälkeen seuraavat tiedostot kansioon Omat moduulit
 ### Poisjääneet tiedostot
 Luo .env-tiedosto projektin juuren ulkopuolelle seuraavalla sisällöllä. MAILSERVICE joko mailtrap tai sendgrid.
 
-    MAILSERVICE=käytettäväsähköpostipalvelutähän
-    MAILTRAPHOSTDOMAIN=mailtrappalvelunSMTPdomaintähän
-    MAILTRAPHOSTUSERNAME=mailtrapkäyttäjätähän
-    MAILTRAPHOSTPASSWORD=mailtrapsalasanatähän
-    SENDGRIDUSERIDENTITY=sendgridlähettäjänidentiteettisähköpostitähän
-    SENDGRIDHOSTDOMAIN=sendgridpalvelunSMTPdomaintähän
-    SENDGRIDHOSTUSERNAME=sendgridkäyttäjätähän
-    SENDGRIDHOSTPASSWORD=sendgridsalasanatähän
-    DATABASEUSERNAME=tietokannankäyttäjätähän
-    DATABASEPASSWORD=tietokannansalasanatähän
+    MAILSERVICE=käytettävä_sähköpostipalvelu_tähän
+    MAILTRAPHOSTDOMAIN=mailtrap_palvelun_SMTP_domain_tähän
+    MAILTRAPHOSTUSERNAME=mailtrap_käyttäjä_tähän
+    MAILTRAPHOSTPASSWORD=mailtrap_salasana_tähän
+    SENDGRIDRECEIVERIDENTITY=sendgrid_verkkokaupan_sähköposti_tähän
+    SENDGRIDSENDERIDENTITY=sendgrid_lähettäjän_identiteetti_sähköposti_tähän
+    SENDGRIDHOSTDOMAIN=sendgrid_palvelun_SMTP_domain_tähän
+    SENDGRIDHOSTUSERNAME=sendgrid_käyttäjä_tähän
+    SENDGRIDHOSTPASSWORD=sendgrid_salasana_tähän
+    DATABASEUSERNAME=tietokannan_käyttäjä_tähän
+    DATABASEPASSWORD=tietokannan_salasana_tähän
 
 ### Sähköpostipalvelun asetus
 

@@ -56,7 +56,8 @@
       <br><b>Käyttäjänimi (sisällettävä vähintään 8 merkkiä)</b> <input type="text" name="käyttäjänimi" id="käyttäjänimi" pattern="[a-öA-Ö0-9-]{8,}$"required>  <br>   
       <br><b>Salasana (sisällettävä ainakin yksi numero ja yhteensä vähintään 8 merkkiä)</b> <input type="password" name="salasana" id="salasana" pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,}"required>
       <br><b>Vahvista salasana</b> <input type="password" name="vahvistasalasana" id="vahvistasalasana" pattern="(?=.*[0-9])(?=.*[a-zA-Z]).{8,}"required>
-      <input type="submit" name="luokäyttäjätili" id="luokäyttäjätili" value="Luo käyttäjä">
+      <input type="submit" name="luokäyttäjätili" id="luokäyttäjätili" value="Luo käyttäjä" onClick="buttonpressedtext=window.document.getElementById('buttonpressedtext'); buttonpressedtext.innerHTML='Odottakaa, käyttäjän rekisteröintiä käsitellään, tai korjatkaa virheet';">
+      <span id="buttonpressedtext"></span>
       </form>
   </p>
 

@@ -4,13 +4,17 @@
 
    //Tarvitaan dotenv-, PHPmailer- ja Sendgrid-kirjastoille:
   require '../vendor/autoload.php';
+  
+
+
+
   $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
   $DOTENVDATA=$dotenv->load();
   
   
   
 
-  $lomake=$_POST["lomake"];
+  
   if(isset($_POST["nimi"])){
   $lähettäjännimi=$_POST["nimi"];
   }
@@ -26,93 +30,21 @@
 
 	$sähköpostilöydetty=false;
 
-//TODO: ei testattu
-  if($lomake=="Lähetä palaute"){
-    //credentials.php-tiedostosta:
-    if($DOTENVDATA['MAILSERVICE']=="mailtrap"){
-    require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
-      
-
-      require_once('../vendor/phpmailer/src/Exception.php');
-      require_once('../vendor/phpmailer/src/PHPMailer.php');
-      require_once('../vendor/phpmailer/src/SMTP.php');
-
-      $mail = new PHPMailer\PHPMailer\PHPMailer();
-
-      $mail->IsSMTP();
-      $mail->Mailer = "smtp";
-      $mail->charSet="UTF-8";
-
-      $mail->SMTPDebug  = 0;  
-      $mail->Host = $DOTENVDATA['MAILTRAPHOSTDOMAIN'];
-      $mail->SMTPAuth = true;
-      $mail->Port = 2525;
-      $mail->Username = $DOTENVDATA['MAILTRAPHOSTUSERNAME'];
-      $mail->Password = $DOTENVDATA['MAILTRAPHOSTPASSWORD'];
-
-			
-      
-      $mail->IsHTML(true);
-      $mail->AddAddress("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
-      $mail->SetFrom($lähettäjänsähköposti, urldecode($lähettäjännimi));
-      $mail->AddReplyTo("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
-      $mail->AddCC("Simo.Parnanen@edu.omnia.fi", "Puutarhaliike Neilikka");
-      $mail->Subject = $palauteaihe;
-      $content = $palauteviesti;
-
-      $mail->MsgHTML($content); 
-      if(!$mail->Send()) {
-        header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=ei");
-        //echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
-        //var_dump($mail);
-      } else {
-        header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=kyllä");
-        //echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
-      }
-
-    }
-//TODO: ei testattu
-    elseif($DOTENVDATA['MAILSERVICE']=="sendgrid"){
-			
-      require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
-
-
-
-      $email = new SendGrid\Mail\Mail();
-      $email->setFrom($lähettäjänsähköposti, urldecode($lähettäjännimi));
-      $email->setSubject($palauteaihe);
-      $email->addTo("Simo.Parnanen@edu-omnia.fi", "Simo P");
-      $email->addContent("text/plain", $palauteviesti);
-
-      $sendgrid = new \SendGrid($DOTENVDATA['SENDGRIDHOSTPASSWORD']);
-
-      try {
-          $response = $sendgrid->send($email);
-          print $response->statusCode() . "\n";
-          print_r($response->headers());
-          print $response->body() . "\n";
-          header("Location: ../index.php?sivu=etusivu&palautteenlähetysonnistui=kyllä");
-      } catch (Exception $e) {
-          header("Location: ../index.php?sivu=etusivu&palautteenlähetysonnistui=ei");
-          //echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
-      }
-    }
-
-  }
-  //testattu
-  elseif($lomake=="Lähetä uusintalinkki"){
+  
+  
     require_once('Tietokantayhteys.php');
     
     
+    //testattu lähetys
     if($DOTENVDATA['MAILSERVICE']=="mailtrap"){
       require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
+      require_once('../vendor/phpmailer/phpmailer/src/Exception.php');
+      require_once('../vendor/phpmailer/phpmailer/src/SMTP.php');
 
       
       //$palauteviesti=$_POST["palauteviesti"];
 
-      require_once('../vendor/phpmailer/phpmailer/src/Exception.php');
-      require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
-      require_once('../vendor/phpmailer/phpmailer/src/SMTP.php');
+
 
       $mail = new PHPMailer\PHPMailer\PHPMailer();
 
@@ -158,20 +90,20 @@
         //echo "Sähköposti löydetty mailtrapilla!";
         //exit();
 				$mail->IsHTML(true);
-				$mail->AddAddress($lähettäjänsähköposti, $haettuetunimi.' '.$haettusukunimi);
+				$mail->AddAddress($lähettäjänsähköposti, urldecode($haettuetunimi).' '.urldecode($haettusukunimi));
 				$mail->SetFrom($DOTENVDATA['MAILTRAPHOSTDOMAIN'], 'Puutarhaliike Neilikka ');
 				$mail->AddReplyTo($DOTENVDATA['MAILTRAPHOSTDOMAIN'], "Puutarhaliike Neilikka");
 				$mail->AddCC($DOTENVDATA['MAILTRAPHOSTDOMAIN'], "Puutarhaliike Neilikka");
-				$mail->Subject = "Unohtuneen salasanan palautus";
+				$mail->Subject = "Käyttäjätilin unohtuneen salasanan uusintalinkki";
 				$content = "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&sähköposti=$koodattulähettäjänsähköposti&käyttäjänimi=$koodattucustomerusername";
 				
 
 				$mail->MsgHTML($content); 
 				if(!$mail->Send()) {
 					//header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
-					echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
-					var_dump($mail);
-					exit();
+					//echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
+					//var_dump($mail);
+          header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
 				} else {
 					header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä');
 					//echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
@@ -183,8 +115,9 @@
 
     }
 
-  //TODO: ei testattu
+  //testattu lähetys
     elseif($DOTENVDATA['MAILSERVICE']=="sendgrid"){
+      require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
       
 
       try{
@@ -218,7 +151,7 @@
             
             $email = new \SendGrid\Mail\Mail();
             $email->setFrom($DOTENVDATA['SENDGRIDSENDERIDENTITY'], 'Puutarhaliike Neilikka');
-            $email->setSubject('Puutarhaliike Neilikka, käyttäjätilin salasanan uusintalinkki');
+            $email->setSubject('Puutarhaliike Neilikka, käyttäjätilin unohtuneen salasanan uusintalinkki');
             $email->addTo($lähettäjänsähköposti, urldecode($haettuetunimi).' '.urldecode($haettusukunimi) );
             $email->addContent("text/plain", "Automaattinen viesti, älkää vastatko tähän viestiin. \nTälle sähköpostille on pyydetty salasanan uusintaa. Neilikan käyttäjän uusintalomakelinkki: http://localhost/Omnia-repositoryt/Puutarhaliike-Neilikka/index.php?sivu=asetauusisalasanalomake&salasananlähetysonnistui=kylla&sähköposti=".$koodattulähettäjänsähköposti."&käyttäjänimi=".$koodattucustomerusername);
             
@@ -230,26 +163,26 @@
             print $response->statusCode() . "\n";
             print_r($response->headers());
             print $response->body() . "\n";
-            exit();
+            //exit();
             
           } catch (Exception $e) {
-            echo "Sähköpostivirhe: ".$e;
-            exit();
+            //echo "Sähköpostivirhe sendGrid-kirjastolla: ".$e;
+            //exit();
             header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
             
             //echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
           }
         }
         else{
-          echo "sähköpostia ei löytynyt";
-          exit();
+          //echo "sähköpostia ei löytynyt";
+          //exit();
           header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostiaeilöytynyt');
         }
 				
     }
 			
 		
-  }
+  
 	
   
 ?>

@@ -50,14 +50,14 @@
     if(isset($_COOKIE['muistaminut'])){
         echo "Muista minut-eväste asetettu, tarkistetaan autentikaatiotoken";
     }
-    echo "<h3> COOKIE-muuttujat:</h3>";
+    /*echo "<h3> COOKIE-muuttujat:</h3>";
     foreach($_COOKIE as $avain => $arvo){
         echo "<br><h5>$avain : $arvo</h5>";
     }
     echo "<h3> SESSION-muuttujat:</h3>";
     foreach($_SESSION as $avain => $arvo){
         echo "<br><h5>$avain : $arvo</h5>";
-    }
+    }*/
     
     require_once('Grafiikkakomponentit/navigointipalkki.php');
     if(isset($_GET['sivu'])){
@@ -123,10 +123,10 @@
                 
                 if(!isset($_SESSION['käyttäjänimi'])){
                     require_once('Grafiikkakomponentit/unohtunutsalasanalomake.php');
-                    echo "<h1>unohtunutsalasanalomake, GET-muuttujat:</h1>";
+                    /*echo "<h1>unohtunutsalasanalomake, GET-muuttujat:</h1>";
                         foreach($_GET as $avain => $arvo){
                             echo "<br><h2>$avain : $arvo</h2>";
-                        }
+                        }*/
                 }
                 else{  
                      require_once('Grafiikkakomponentit/Ilmoitusviestit/unohtunutsalasanalomake/sisäänkirjauduttu.php');

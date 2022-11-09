@@ -1,4 +1,5 @@
 
+
 <div id="pagecontent">
   <p>
   Voit ottaa meihin yhteyttä
@@ -12,7 +13,7 @@
   </p>  
   
   <p>
-    <form method="post" action=".\Tapahtumankäsittelijät\Lähetäsähköposti.php?lomake=palaute?sähköpostipalvelu=mailtrap">
+    <form method="post" action=".\Tapahtumankäsittelijät\Lähetäpalautesähköposti.php">
     Nimi<input type="text" name="nimi" id="nimi">
     <br>Sähköpostiosoite<input type="email" name="sähköposti" id="sähköposti" pattern="^[\w._%+-]+@[\w.-]+\.[a-z]{2,}$"required>  <br>   
     <select name="palauteaihe" id="palauteaihe">
@@ -27,7 +28,9 @@
     <label for="newsletter-yes">Kyllä</label>
     <input type="radio" name="newsletter" id="newsletter-no" value="Ei" class="customradio">
     <label for="newsletter-no">Ei</label><br>
-    <input type="submit" name="lomake" id="lomake" value="Lähetä palaute">
+    <input type="submit" name="lomake" id="lomake" value="Lähetä palaute" onClick="buttonpressedtext=window.document.getElementById('buttonpressedtext'); 
+    buttonpressedtext.style.fontSize='larger'; buttonpressedtext.innerHTML='Palauteviestin lähetyspainiketta on painettu. Odottakaa tai korjatkaa virheet lomaketiedoissa';">
+    <span id="buttonpressedtext"></span>
     </form>
   </p>
 </div>

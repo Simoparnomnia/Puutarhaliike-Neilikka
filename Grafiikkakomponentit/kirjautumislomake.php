@@ -7,8 +7,10 @@
         <label><b>Salasana</b></label>
         <INPUT type="checkbox" name="muistaminut" value="kyllä"/>
         <label><b>Muista minut</b></label>
-        <input type="submit" name="kirjaudusisaan" value="Kirjaudu sisään"/>
-        
+        <input type="submit" name="kirjaudusisään" id="kirjaudusisään" value="Kirjaudu sisään" 
+        onClick="buttonpressedtext=window.document.getElementById('buttonpressedtext'); 
+        buttonpressedtext.style.fontSize='larger'; buttonpressedtext.innerHTML='Odottakaa, sisäänkirjautumista käsitellään, tai korjatkaa virheet';;">
+        <span id="buttonpressedtext"></span>
 
 </form>
 
