@@ -10,6 +10,7 @@
 
   $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
   $DOTENVDATA=$dotenv->load();
+  require_once('Tietokantayhteys.php');
   
   
   
@@ -30,13 +31,12 @@
 
 	$sähköpostilöydetty=false;
 
-  
-  
-    require_once('Tietokantayhteys.php');
+ 
     
     
     //testattu lähetys
     if($DOTENVDATA['MAILSERVICE']=="mailtrap"){
+
       require_once('../vendor/phpmailer/phpmailer/src/PHPMailer.php');
       require_once('../vendor/phpmailer/phpmailer/src/Exception.php');
       require_once('../vendor/phpmailer/phpmailer/src/SMTP.php');
@@ -82,7 +82,7 @@
       	}
       }catch(Exception $e){
         //echo $e;
-        header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=tietokantavirhe');
+        header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&virhe=tietokantavirhe");
         exit();
       }
 
@@ -100,26 +100,25 @@
 
 				$mail->MsgHTML($content); 
 				if(!$mail->Send()) {
-					//header('Location: ../index.php?sivu=unohtunutsalasanalomake?salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
 					//echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
 					//var_dump($mail);
-          header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
+          header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&virhe=sähköpostivirhe");
 				} else {
-					header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä');
+					header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']);
 					//echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
 				}
 			}
 			else{
-				header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostiaeilöytynyt');
+				header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&virhe=sähköpostiaeilöytynyt");
 			}
 
     }
 
   //testattu lähetys
     elseif($DOTENVDATA['MAILSERVICE']=="sendgrid"){
-      require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
-      
 
+      require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
+ 
       try{
         $haesähköpostikysely=$connection->prepare("SELECT sahkoposti, kayttajanimi, etunimi, sukunimi FROM kayttajatili WHERE LCASE(TRIM(sahkoposti))=?");
         $haesähköpostikysely->bind_param("s",$lähettäjänsähköposti);
@@ -141,8 +140,8 @@
         }
       }catch(Exception $e){
 					echo "Tietokantavirhe:".$e;
-          exit();
-          header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=tietokantavirhe');
+          //exit();
+          header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&virhe=tietokantavirhe");
           
         }
 
@@ -159,7 +158,7 @@
   
           
             $response = $sendgrid->send($email);
-            //header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä");
+            header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=kyllä&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']);
             print $response->statusCode() . "\n";
             print_r($response->headers());
             print $response->body() . "\n";
@@ -168,17 +167,21 @@
           } catch (Exception $e) {
             //echo "Sähköpostivirhe sendGrid-kirjastolla: ".$e;
             //exit();
-            header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostivirhe');
+            header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&virhe=sähköpostivirhe");
             
-            //echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
+            //echo "Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: ". $e->getMessage() ."\n";
           }
         }
         else{
           //echo "sähköpostia ei löytynyt";
           //exit();
-          header('Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&virhe=sähköpostiaeilöytynyt');
+          header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&virhe=sähköpostiaeilöytynyt");
         }
 				
+    }
+
+    else{
+      header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&virhe=sähköpostipalveluaeilöytynyt");
     }
 			
 		

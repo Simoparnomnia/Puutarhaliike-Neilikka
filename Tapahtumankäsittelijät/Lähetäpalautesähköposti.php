@@ -15,7 +15,7 @@
   
   
 
-  
+
   if(isset($_POST["nimi"])){
   $lähettäjännimi=$_POST["nimi"];
   }
@@ -72,17 +72,17 @@
         //echo "Virhe sähköpostin lähetyksessä Mailtrap-palvelun kautta.<br>{$mail->ErrorInfo}<br>";
         //var_dump($mail);
         //exit();
-        header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=ei");
+        header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']);
       } else {
         //echo "Palautesähköpostin lähetys Mailtrap-palvelun kautta onnistui.<br>";
         //var_dump($mail);
         //exit();
-        header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=kyllä");
+        header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=kyllä&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']);
         //echo "Sähköposti lähetetty onnistuneesti Mailtrap-palvelun kautta.";
       }
 
     }
-//TODO: ei testattu
+    //testattu, jos setFrom:n senderidentitya ei ole SendGridissa sähköpostille, sähköpostia ei lähetetä.
     elseif($DOTENVDATA['MAILSERVICE']=="sendgrid"){
 			
       require_once('../vendor/sendgrid/sendgrid/sendgrid-php.php');
@@ -102,17 +102,24 @@
           print $response->statusCode() . "\n";
           print_r($response->headers());
           print $response->body() . "\n";
+          if($response->statusCode()==202){
           //exit();
-          header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=kyllä");
+          header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=kyllä&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']);
+          }
+          else{
+            header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&sendgridsenderidentitypuuttuu=kylla");
+          }
       } catch (Exception $e) {
-          header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=ei");
+          header("Location: ../index.php?sivu=otayhteyttä&palautteenlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']);
           //echo 'Virhe lähetettäessä sähköpostia SendGrid-kirjastolla: '. $e->getMessage() ."\n";
           //exit();
       }
     }
 
   
-
+    else{
+      header("Location: ../index.php?sivu=unohtunutsalasanalomake&salasananlähetysonnistui=ei&sähköpostipalvelu=".$DOTENVDATA['MAILSERVICE']."&virhe=sähköpostipalveluaeilöytynyt");
+    }
 
 			
 		
