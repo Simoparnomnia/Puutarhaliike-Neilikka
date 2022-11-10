@@ -1,40 +1,94 @@
 ## SISÄLLYSLUETTELO
-Taustatietoa
-Hakemistot
-Asennusohjeet
-Todo
-Ongelmat
+### Taustatietoa
+### Toimintaperiaate
+### Hakemistot
+### Asennusohjeet
+### TODO
+### Ongelmat
 
-## TAUSTATIETOA
+## Taustatietoa
 
 ENGLISH: Experimental website for the fictional company Neilikka. Part of Omnia's web programming (Web-ohjelmointi) course (autumn 2022).
 
-Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Mailtrap](https://mailtrap.io)-palvelua (SMTP) yhteydenottopyyntöjen sähköpostitukseen. Tietokantana MySQL/MariaDB.
+Kokeellinen kotisivu kuvitteelliselle Neilikka-puutarhaliikkeelle. Osa Omnian Web-ohjelmointi kurssia (syksy 2022). Palvelinalustana [XAMPP](https://www.apachefriends.org/). Käyttää PHPMailer-kirjastoa ja [Twilio Sendgrid-](https://app.sendgrid.com/) tai [Mailtrap](https://mailtrap.io)-palvelua yhteydenottopyyntöjen SMTP-sähköpostitukseen, SendGrid saa lähetettyä emailit oikealle SMTP-sähköpostipalvelimelle. Tietokantana MySQL/MariaDB.
 
-## HAKEMISTOT
-Omatmoduulit: Itsetehdyt moduulit
-Kirjastot: Valmiskirjastot (PHPMailer.php ja SMTP.php ja Exception.php)
+## Toimintaperiaate
+### Kredentiaalit
+Tietokantakirjautumista ja sähköpostien lähettämistä varten täytyy luoda .env-tiedosto projektin juureen,
+katso tiedoston rakenteen kuvaus asennusohjeista. 
+### Navigointi
+Sivulla ei ikinä poistuta index.php-tiedostosta, näytettävä grafiikka luodaan require-lauseilla ja linkin kyselymuuttujien perusteella.
+Sivun navigointipalkki näyttää nykyisen sivun värittämällä kyseisen linkin eriväriseksi.
+### Käyttäjänhallinta
+Sivulla vierailija voi luoda uuden käyttäjätilin. Käyttäjätilien käyttäjänimien täytyy olla ainutlaatuisia. Sovellus ei myöskään salli
+käyttäjän luontia jos annettu sähköposti on jo tietokannassa. Käyttäjillä saa olla sama osoite (perheenjäsenet yms.). Salasanat on tallennettu tietokantaan hash-muodossa.
+#### Unohtuneen salasanan palautus
+Viesti unohtuneesta salasanasta välitetään Mailgrid-palveluun. Salasanan uudelleenasetuslomaketta ei saada avattua ilman
+sähköpostiviestissä lähetetyn linkin sähköposti- ja käyttäjänimihasheja ja silloinkin on tiedettävä vanha salasana kun
+päästään salasanan uudelleenasetuslomakkeelle.
+#### Muista minut
+Jos muista minut-toiminto on käytössä, sivu luo autentikaatio-tokenin evästeen joka myös tallennetaan joka tallennetaan tietokantaan.
+Umpeutuneet tokenit poistetaan tietokannasta jos sivu avataan kirjautumattomana ja avaajan koneella ei ole voimassaolevaa evästettä.
+### Virheviestit
+-Virheviesti jos yritetään avata kirjautumislomaketta ja käyttäjä on jo kirjautunut sisään
+-Virheviesti jos yritetään avata salasanan vaihtolomaketta sisäänkirjautuneena
+-Virheviesti jos yritetään avata salasanan vaihtolomaketta ilman oikeaa sähköpostiin lähetettyä linkkiä
+### Tietokannan rakenne
+Useammalla käyttäjällä voi olla sama osoite.
+## Hakemistot
+
+### index.php
+Sivun grafiikkakomponentit generoidaan ja tietyt tapahtumakäsittelijät kutsutaan täältä käsin.
+### Composer
+[PHP-riippuvuuksienhallintaan](https://getcomposer.org/)
+
+### Grafiikkakomponentit
+index.php:ssä renderöitävät komponentit ja varoitusviestit
+### Tapahtumankäsittelijät
+Tapahtumankäsittelijät (tietokantayhteys/rekisteröinti/kirjautuminen/sähköpostin lähetys), 
+### Tietokannanluontilauseet 
+Tietokannan esimerkkimateriaali, käyttäjät täytyy luoda itse omilla INSERT-lauseilla.
+### Vendor
+Ladatut valmiskirjastot
+#### Ympäristömuuttujat
+    vlucas/dotenv
+#### Sähköposti
+    (PHPMailer.php/SMTP.php/Exception.php
+    sendgrid-php
+#### Testaus
+    phpunit
+#### Lokitus
+    monolog
+### Tietokannanluontilauseet
+Esimerkkimateriaali tietokannan luontia varten
+### Tyylit
+CSS-tyylitiedostot
 
 
-## ASENNUSOHJEET
+
+## Asennusohjeet
 Varmista että [XAMPP](https://www.apachefriends.org/) on asennettu ja repositorio on kloonattu XAMPP:N htdocs-kansioon.
 
 Luo repositorion kloonauksen jälkeen seuraavat tiedostot kansioon Omat moduulit: Tietokantayhteys.php ja Sähköpostiyhteys.php
 
 ### Poisjääneet tiedostot
-Luo credentials.php projektin juuren ulkopuolelle seuraavalla sisällöllä.
+Luo .env-tiedosto projektin juuren ulkopuolelle seuraavalla sisällöllä. MAILSERVICE joko mailtrap tai sendgrid.
 
-    $hostdomain='emailserverdomaintähän';
-    $hostusername='emailserverkäyttäjätähän';
-    $hostpassword='emailserversalasanatähän';
-    $databaseusername='tietokantakäyttäjänimitähän';
-    $databasepassword='tietokantasalasanannimitähän';
+    MAILSERVICE=käytettävä_sähköpostipalvelu_tähän
+    MAILTRAPHOSTDOMAIN=mailtrap_palvelun_SMTP_domain_tähän
+    MAILTRAPHOSTUSERNAME=mailtrap_käyttäjä_tähän
+    MAILTRAPHOSTPASSWORD=mailtrap_salasana_tähän
+    SENDGRIDRECEIVERIDENTITY=sendgrid_verkkokaupan_sähköposti_tähän
+    SENDGRIDSENDERIDENTITY=sendgrid_lähettäjän_identiteetti_sähköposti_tähän
+    SENDGRIDHOSTDOMAIN=sendgrid_palvelun_SMTP_domain_tähän
+    SENDGRIDHOSTUSERNAME=sendgrid_käyttäjä_tähän
+    SENDGRIDHOSTPASSWORD=sendgrid_salasana_tähän
+    DATABASEUSERNAME=tietokannan_käyttäjä_tähän
+    DATABASEPASSWORD=tietokannan_salasana_tähän
 
 ### Sähköpostipalvelun asetus
 
 #### Gmail API
-
-
 
 #### SMTP, sähköpostiviestit ilman 2-vaiheista tunnistautumista
 [Sähköpostin asetusohjeet SMTP:llä 1](https://netcorecloud.com/tutorials/send-an-email-via-gmail-smtp-server-using-php/)
@@ -60,18 +114,80 @@ Sandbox->Inboxes->SMTP settings
 
 
 ### Tietokantayhteys.php
-Käytä credentials.php:n tunnuksia
+Käytä .env tunnuksia
+
 ### Lähetäsähköposti.php
-Käytä credentials.php:n tunnuksia
+Käytä .env tunnuksia
+
+### Käyttöönotto Azuressa
+[Kirjaudu Azureen](https://portal.azure.com/) 
+#### Repositorion asetus
+Dashboard -> App Service -> Deployment Center -> Source: Github -> Authorize
+#### PHP-version konfiguraatio
+App Service -> Settings -> Configuration -> PHP 7.4
+#### Unitilan ehkäisy
+Configuration -> Always on
+#### Tietokannan tuonti
+Avaa Paikallisen projektin PHPMyAdmin -> Vie/Export
+App Service -> MySQL In App -> Manage-komento avaa pilviversion PHPMyAdmin:n selaimeen -> Tuo/Import
+
+
+
+
+#### Tietokannan konfiguraatio Azuressa
+mysql\data\MYSQLCONNSTR_localdb.ini:
+    Database=localdb; Data Source=127.0.0.1:portinnumero; User id=azure; Password=password
+#### Tiedostojen muokkaus Azuren App Servicessa
+App Service Editor
+#### Komentorivi Azuressa
+Advanced tools tai Development tools->console
+
+#### Azure-version PHP-tiedot näkyviin
+https://kayttajanimi.azurewebsites.net
+
+#### MYSQL-tietokannan konfiguraatio
+Configuration ->
+
+Avaa PHPMyAdmin ja suorita seuraava SQL-komento: SET PASSWORD FOR 'root'@'localhost' = PASSWORD ('haluttusalasana')
+Salasana tämän jälkeen tiedostoon -> XAMPP Control Panel -> config.inc.php
+
+Luo testikäyttäjiä lisäämällä ne tiedostoon data.sql seuraavassa muodossa:
+    INSERT INTO kayttajatili VALUES('kayttajatahan','salasanahashtahan','etunimi','sukunimi','puhelinnumero','sähköposti',osoitteenid,onkotiliaktiivinenboolean,onkokayttajahenkilokuntaaboolean,'2022-01-01 12:00:00',NULL)
+
+
 
 ## TODO
--navigointipalkin modularisointi, indikointi jokaisella sivulla missä päin verkkosivustoa ollaan (breadcrumbs?) (ks. $SERVER['SCRIPT_FILENAME'])
--TEHTÄVÄNANTO 22.09.2022: sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
--TEHTÄVÄNANTO 23.09.2022: Kokeile sähköpostin lähetystä myös SendGridilla. Luo kehityshaara projektille. 
+### navigointi ja navigointipalkin modularisointi 
+    -Saadaanko kaikki virheviestit pois index.php:stä hajottamatta sivun toimintalogiikkaa?
+
+### Käyttäjänhallinta
+    -Muista minut (autentikointi-token/eväste että säilyy kirjautuneena vaikka selainikkuna suljetaan) ->
+        -vielä ei saada näytettyä automaattisen kirjautumisen epäonnistumisen tapauksessa virheviestiä
+        -Jos selaineväste on voimassa, kirjaudutaan sisään automaattisesti heti ulokirjautumisen jälkeen
+        - Jos tokenia ei löydy tietokannasta, uloskirjautuminen ohjaa XAMPP:n dashboardiin hypätään 
+        
+
+### Virheviestit
+    -Virheviesti jos yritetään avata kirjautumislomaketta ja käyttäjä on jo kirjautunut sisään -> EI NÄYTÄ VIRHEVIESTIÄ JOS ON KIRJAUDUTTU JA AUTENTIKAATIOTOKEN-EVÄSTE ON VIELÄ VOIMASSA
+    
+### Sähköpostin lähetys
+    [Mailtrap V1.0 on poistunut käytöstä joskus 13.10.2022 jälkeen, vaihda V2.0:n tai muuta Sendgridiin](https://mailtrap.docs.apiary.io/#)
+### Tietokanta
+    -SQL-injektioiden ehkäisy (Prepared statements) -> TEHTY
+### TEHTÄVÄNANTO 22.09.2022: 
+    sähköpostin lähetys ylläpitäjälle yhteydenottolomakkeelta (ks. kurssi2102 repo -> PHPmailer.php, SMTP.php sekä sähköpostipalvelu (gmail (SMTP tai OAuth)/SendGrid API/Mailtrap.io) sähköpostien välitykseen)
+        Mailtrap->TESTATTAVA UUDELLEEN
+### TEHTÄVÄNANTO 23.09.2022: 
+    Kokeile sähköpostin lähetystä myös SendGridilla.-> EI TEHTY
+
+### TEHTÄVÄNANTO 26.09.2022:
+    Yhdistä Github:n main-haara Azureen, vie tietokanta Azureen ja hae omassa tiedostossa $_SERVER-supermuuttujalla tunnukset pilvessä
+
+
     
 
 
-## ONGELMAT
+## Ongelmat
 Gmail API: 
 Google Cloud->APIs and Services->Credentials->Create Oauth Client Id-> Ei huoli localhostia: Invalid Redirect: must contain a domain. 
 
